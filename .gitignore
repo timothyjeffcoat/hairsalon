@@ -1,0 +1,17 @@
+/target
+
+# Development tracking files - never commit
+CLAUDE.md
+.env
+*.env
+
+# IDE files
+.DS_Store
+*.iml
+.idea/
+.eclipse/
+.vscode/
+
+# Log files
+*.log
+scheduleem-shop*.log
