@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" version="2.0">
+  <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+  <jsp:output omit-xml-declaration="yes"/>
+  <spring:message code="label_forgotpw_index" htmlEscape="false" var="title"/>
+<script type="text/javascript">
+	dojo.require("dojo.request.xhr");
+	dojo.require("dojo.json");
+
+	dojo.require("dojo.parser");
+	dojo.require("dojo.string");
+	dojo.require("dojo.html");
+
+	dojo.require("dojo.data.ItemFileReadStore");
+	dojo.require("dojo.data.ItemFileWriteStore");
+	dojo.require("dojox.grid.DataGrid");
+	dojo.require("dojox.grid.EnhancedGrid");
+	dojo.require("dijit.form.Form");
+	dojo.require("dijit.form.Button");
+	dojo.require("dijit.form.FilteringSelect");
+	dojo.require("dijit.form.ValidationTextBox");
+	dojo.require("dijit.form.TextBox");
+	dojo.require("dijit.form.DateTextBox");
+	dojo.require("dijit.form.CheckBox");
+	dojo.require("dijit.form.SimpleTextarea");
+
+	dojo.require("dijit.layout.ContentPane");
+	dojo.require("dijit.layout.TabContainer");
+
+	dojo.require("dojox.rpc.Client");
+	dojo.require("dojox.grid.enhanced.plugins.IndirectSelection");
+	
+	dojo.require("dojox/widget/Standby");
+	</script>  
+  <util:panel id="title" title="Password recovery">
+    
+    <h3>
+      Fill out form to recover password.
+    </h3>
+    <p>
+      ${successmessage}
+    </p>
+    
+    <div id="register_view" name="register_view" dojoType="dijit.form.Form" jsId="register_view" action="" method="POST"  modelAttribute="register" >
+		<p>
+			Enter your username below.
+		</p>
+		<div>
+			<label for="_username">Username:</label>
+		</div>
+		<div>
+			<div dojoType="dijit.form.ValidationTextBox" id="username" name="username"
+				required="true" invalidMessage="user name already exists. please select another one."/>
+		</div>
+		<br/>
+		<p>
+			In the fields below insert a new password. This new password will reset your login. This will not be activated until after you have clicked the link
+			that you will receive in the email that is associated with the username you provided above.
+		</p>
+		<div>
+		<label>Password:</label>
+		 <input type="password" dojoType="dijit.form.ValidationTextBox" required="true" name="password" intermediateChanges="false" id="password" invalidMessage="Please type a password"/>
+		 <br />
+		 <br />
+		 <label>Re-Enter Password:</label>
+		 <input type="password" dojoType="dijit.form.ValidationTextBox" required="true" name="userPassword" intermediateChanges="false" id="userPassword" constraints="{'other': 'password'}" validator="confirmPassword" invalidMessage="This password doesn't match your first password"/>
+		</div>
+		<br/>
+		<div class="submit">
+			<script type="text/javascript">Spring.addDecoration(new Spring.ValidateAllDecoration({elementId:'proceed', event:'onclick'}));</script>
+			<spring:message code="button_submit" var="submit_label" />
+			<input id="proceed" type="submit" value="Register"/>
+		</div>
+	</div>
+  </util:panel>
+
+	<script type="text/javascript">
+				 dojo.addOnLoad(function(){
+					
+					dojo.parser.parse();
+					<![CDATA[						
+						function confirmPassword(value, constraints)
+						{
+							var isValid = false;
+							if(constraints && constraints.other)  {
+								var otherInput =  dijit.byId(constraints.other);
+								if(otherInput) {
+										var otherValue = otherInput.value;
+										console.log("%s == %s ?", value, otherValue);
+										isValid = (value == otherValue);
+								}
+							}
+							return isValid;
+						}
+						function onsubmit()
+						{
+							var p1 = dijit.byId('password').value;
+							var p2 = dijit.byId('userPassword').value;
+							return p1 == p2;
+						}
+					 ]]>
+					dojo.parser.parse();
+				 });						
+	 </script>		 
+</div>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+    <definition extends="default" name="clientses/list">
+        <put-attribute name="body" value="/WEB-INF/views/clientses/list.jspx"/>
+    </definition>
+<definition extends="default" name="clientses/show">
+        <put-attribute name="body" value="/WEB-INF/views/clientses/show.jspx"/>
+    </definition>
+<definition extends="default" name="clientses/create">
+        <put-attribute name="body" value="/WEB-INF/views/clientses/create.jspx"/>
+    </definition>
+<definition extends="default" name="clientses/update">
+        <put-attribute name="body" value="/WEB-INF/views/clientses/update.jspx"/>
+    </definition>
+<definition extends="default" name="clientses/findClientsesByShop">
+        <put-attribute name="body" value="/WEB-INF/views/clientses/findClientsesByShop.jspx"/>
+    </definition>
+<definition extends="default" name="clientses/findClientsesById">
+        <put-attribute name="body" value="/WEB-INF/views/clientses/findClientsesById.jspx"/>
+    </definition>
+<definition extends="default" name="clientses/findClientsesByUsernameEquals">
+        <put-attribute name="body" value="/WEB-INF/views/clientses/findClientsesByUsernameEquals.jspx"/>
+    </definition>
+<definition extends="default" name="clientses/findClientsesByShopAndFirstNameEqualsAndLastNameEquals">
+        <put-attribute name="body" value="/WEB-INF/views/clientses/findClientsesByShopAndFirstNameEqualsAndLastNameEquals.jspx"/>
+    </definition>
+</tiles-definitions>

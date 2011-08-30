@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+    <definition extends="default" name="shopsettingses/list">
+        <put-attribute name="body" value="/WEB-INF/views/shopsettingses/list.jspx"/>
+    </definition>
+<definition extends="default" name="shopsettingses/show">
+        <put-attribute name="body" value="/WEB-INF/views/shopsettingses/show.jspx"/>
+    </definition>
+<definition extends="default" name="shopsettingses/create">
+        <put-attribute name="body" value="/WEB-INF/views/shopsettingses/create.jspx"/>
+    </definition>
+<definition extends="default" name="shopsettingses/update">
+        <put-attribute name="body" value="/WEB-INF/views/shopsettingses/update.jspx"/>
+    </definition>
+<definition extends="default" name="shopsettingses/findShopSettingsesByShop">
+        <put-attribute name="body" value="/WEB-INF/views/shopsettingses/findShopSettingsesByShop.jspx"/>
+    </definition>
+<definition extends="default" name="shopsettingses/findShopSettingsesById">
+        <put-attribute name="body" value="/WEB-INF/views/shopsettingses/findShopSettingsesById.jspx"/>
+    </definition>
+<definition extends="default" name="shopsettingses/findShopSettingsesByEmail_address">
+        <put-attribute name="body" value="/WEB-INF/views/shopsettingses/findShopSettingsesByEmail_address.jspx"/>
+    </definition>
+</tiles-definitions>

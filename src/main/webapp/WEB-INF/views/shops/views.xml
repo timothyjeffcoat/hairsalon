@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+    <definition extends="default" name="shops/list">
+        <put-attribute name="body" value="/WEB-INF/views/shops/list.jspx"/>
+    </definition>
+<definition extends="default" name="shops/show">
+        <put-attribute name="body" value="/WEB-INF/views/shops/show.jspx"/>
+    </definition>
+<definition extends="default" name="shops/create">
+        <put-attribute name="body" value="/WEB-INF/views/shops/create.jspx"/>
+    </definition>
+<definition extends="default" name="shops/update">
+        <put-attribute name="body" value="/WEB-INF/views/shops/update.jspx"/>
+    </definition>
+<definition extends="default" name="shops/findShopsByShop_name">
+        <put-attribute name="body" value="/WEB-INF/views/shops/findShopsByShop_name.jspx"/>
+    </definition>
+<definition extends="default" name="shops/findShopsByShop_nameEquals">
+        <put-attribute name="body" value="/WEB-INF/views/shops/findShopsByShop_nameEquals.jspx"/>
+    </definition>
+<definition extends="default" name="shops/findShopsByShop_nameIsNotNull">
+        <put-attribute name="body" value="/WEB-INF/views/shops/findShopsByShop_nameIsNotNull.jspx"/>
+    </definition>
+<definition extends="default" name="shops/findShopsByShop_nameIsNull">
+        <put-attribute name="body" value="/WEB-INF/views/shops/findShopsByShop_nameIsNull.jspx"/>
+    </definition>
+<definition extends="default" name="shops/findShopsByShop_nameLike">
+        <put-attribute name="body" value="/WEB-INF/views/shops/findShopsByShop_nameLike.jspx"/>
+    </definition>
+<definition extends="default" name="shops/findShopsByShop_nameNotEquals">
+        <put-attribute name="body" value="/WEB-INF/views/shops/findShopsByShop_nameNotEquals.jspx"/>
+    </definition>
+<definition extends="default" name="shops/findShopsByShopuuid">
+        <put-attribute name="body" value="/WEB-INF/views/shops/findShopsByShopuuid.jspx"/>
+    </definition>
+<definition extends="default" name="shops/findShopsById">
+        <put-attribute name="body" value="/WEB-INF/views/shops/findShopsById.jspx"/>
+    </definition>
+<definition extends="default" name="shops/findShopsByShop_urlEquals">
+        <put-attribute name="body" value="/WEB-INF/views/shops/findShopsByShop_urlEquals.jspx"/>
+    </definition>
+</tiles-definitions>

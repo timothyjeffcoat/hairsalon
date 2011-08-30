@@ -1,0 +1,116 @@
+<div xmlns:spring="http://www.springframework.org/tags" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+  <jsp:directive.page contentType="text/html;charset=UTF-8" />
+  <jsp:output omit-xml-declaration="yes" />
+  <spring:message code="security_login_title" var="title" />
+<div data-role="page" class="type-home">
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-40547165-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+<script type="text/javascript">
+function getBaseURL() {
+	console.log("entered getBaseURL");
+    var url = location.href;  // entire url including querystring - also: window.location.href;
+	console.log(""+url);
+	var firstslash = url.indexOf('/', 14);
+    var baseURL = url.substring(0, firstslash);
+	console.log("baseurl: " +baseURL);
+	var restofurl = url.substring(firstslash+1, url.length);
+	console.log("restofurl: " +restofurl);
+	var secondslash = restofurl.indexOf('/');
+	var webapp =  restofurl.substring(0, secondslash);
+	console.log("webapp: " +webapp);
+    if (baseURL.indexOf('http://localhost') != -1) {
+        // Base Url for localhost
+        var url = location.href;  // window.location.href;
+        var pathname = location.pathname;  // window.location.pathname;
+        var index1 = url.indexOf(pathname);
+        var index2 = url.indexOf("/", index1 + 1);
+        var baseLocalUrl = url.substr(0, index2);
+		console.log("exiting getBaseURL");
+        return baseLocalUrl + "/"+ webapp;
+    }
+    else {
+        // Root Url for domain name
+		console.log("exiting getBaseURL");
+        return baseURL + "/" + webapp;
+    }
+
+}
+function changepage(page){
+	console.log("entered changepage");
+	console.log("baseurl: "+getBaseURL());
+	window.location.href = getBaseURL() + page;
+}
+function changeaction(page){
+	console.log("entered changepage");
+	console.log("baseurl: "+getBaseURL());
+	document.f.action = getBaseURL() + page;
+}
+
+</script>		
+
+	<div data-role="header">
+		<h1>Scheduleem.com</h1>
+	</div>
+
+	<div data-role="content">	
+		<p>Shop Login</p>		
+    <spring:url value="/resources/j_spring_security_check" var="form_url" />
+    <br/>
+    Forgot your username or password?  
+      <spring:url value="/public/recovery" var="forgotdash"/>
+      <a href="${forgotdash}">
+        Click here.
+      </a>
+    <br/>
+    Need to sign-up? 
+     <spring:url value="/public/signup/msignup" var="signup"/>
+      <a href="${signup}">
+        Click here.
+      </a>
+      <br/>
+	<ul data-role="listview" data-inset="true" data-filter="false">
+		<li><a rel="external" onclick="changepage('/');">Click here if you get a Error on page load.</a></li>
+	</ul>
+      
+    <form name="f" action="${fn:escapeXml(form_url)}" onsubmit="return changeaction('/resources/j_spring_security_check');" method="POST" data-ajax="false">
+      <div>
+        <label for="j_username">
+          <spring:message code="security_login_form_name" />
+        </label>
+        <input id="j_username" type='text' name='j_username' style="width:150px" />
+        <spring:message code="security_login_form_name_message" var="name_msg" />
+      </div>
+      <br />
+      <div>
+        <label for="j_password">
+          <spring:message code="security_login_form_password" />
+        </label>
+        <input id="j_password" type='password' name='j_password' style="width:150px" />
+        <spring:message code="security_login_form_password_message" var="pwd_msg" />
+      </div>
+      <br />
+      <div class="submit">
+        <spring:message code="button_submit" var="submit_label" />
+        <input id="proceed" type="submit" value="${fn:escapeXml(submit_label)}" />
+        <spring:message code="button_reset" var="reset_label" />
+        <input id="reset" type="reset" value="${fn:escapeXml(reset_label)}" />
+      </div>
+    </form>		
+	</div>
+	<div data-role="footer" class="footer-docs" data-theme="c">
+			<p>  copy 2013 Scheduleem.com</p>
+	</div>	
+</div>
+</div>

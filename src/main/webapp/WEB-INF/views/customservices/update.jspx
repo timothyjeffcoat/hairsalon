@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <form:update id="fu_com_yourhairsalon_booking_domain_CustomService" modelAttribute="customService" path="/customservices" versionField="Version" z="G5PwLOEhqWQjNv7Cl9st9bX70as=">
+        <field:input field="cost" id="c_com_yourhairsalon_booking_domain_CustomService_cost" min="0" required="true" validationMessageCode="field_invalid_number" z="hgr7aqqJG+xlsdzsFBUPgir1gaY="/>
+        <field:input field="finishtime" id="c_com_yourhairsalon_booking_domain_CustomService_finishtime" min="0" required="true" validationMessageCode="field_invalid_integer" z="Yn0OiZWxJGLt+Vza26S0DWrxYJE="/>
+        <field:input field="length_time" id="c_com_yourhairsalon_booking_domain_CustomService_length_time" min="0" required="true" validationMessageCode="field_invalid_integer" z="rwLeYSon33byhX8esQ4Aw9wZg8I="/>
+        <field:input field="description" id="c_com_yourhairsalon_booking_domain_CustomService_description" max="30" min="3" required="true" z="TSpUSb4JEyyCqHeapgp1y/Aok2M="/>
+        <field:input field="processtime" id="c_com_yourhairsalon_booking_domain_CustomService_processtime" min="0" required="true" validationMessageCode="field_invalid_integer" z="OuD//7Xw3rFsoT3PguVADB59WR4="/>
+        <field:textarea field="info_note" id="c_com_yourhairsalon_booking_domain_CustomService_info_note" z="AczhbGWG3BLy86nmkt+SrHjzWQc="/>
+        <field:input field="amounttime" id="c_com_yourhairsalon_booking_domain_CustomService_amounttime" min="0" required="true" validationMessageCode="field_invalid_integer" z="lk3+UfdvGJCLgQfvZa/cn/JLLrg="/>
+        <field:input field="minsetup" id="c_com_yourhairsalon_booking_domain_CustomService_minsetup" min="0" required="true" validationMessageCode="field_invalid_integer" z="VhCIt0vKpMyeF89/svcb8so8Vf8="/>
+        <field:checkbox field="sendReminders" id="c_com_yourhairsalon_booking_domain_CustomService_sendReminders" z="EQAWjcGM+YnEEWTe+YxHJoZV5vg="/>
+        <field:select field="shop" id="c_com_yourhairsalon_booking_domain_CustomService_shop" itemValue="id" items="${shops}" path="/shops" required="true" z="CQLkmdAW6gaeqd8AjcoMd56UKRY="/>
+        <field:select field="client" id="c_com_yourhairsalon_booking_domain_CustomService_client" itemValue="id" items="${clientses}" path="/clientses" required="true" z="31AmVEuDgblarxFZk7HvSy+wbBM="/>
+        <field:input field="originalid" id="c_com_yourhairsalon_booking_domain_CustomService_originalid" required="true" validationMessageCode="field_invalid_integer" z="dwaNEWu89XolwTo1D+JGu9WpwMg="/>
+    </form:update>
+</div>

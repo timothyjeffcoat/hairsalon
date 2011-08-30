@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:spring="http://www.springframework.org/tags" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0" xmlns:formd="http://www.springframework.org/tags/form">
+	<div id="wrapper" style="padding-top:40px;">
+		<div id="page-wrapper">
+
+  <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+  <jsp:output omit-xml-declaration="yes"/>
+  <spring:message code="label_audit_index" htmlEscape="false" var="title"/>
+	<c:choose>
+		<c:when test="${not empty shopname}">
+			<spring:url value="/public/shop/${shopurl}" var="home" />
+		</c:when>
+		<c:otherwise>
+			<spring:url value="/" var="home" />
+		</c:otherwise>
+	</c:choose>
+
+	<ol class="breadcrumb">
+		<li><a href="${home}"><i class="icon-dashboard"></i>Home</a></li>
+		<li class="active"><i class="icon-file-alt"></i>History</li>
+	</ol>
+  
+<script>
+dojo.provide("dojox.io.xhrPlugins");
+dojo.require("dojo.AdapterRegistry");
+dojo.require("dojo._base.xhr");
+dojo.require("dojo.request.xhr");
+dojo.require("dojo.json");
+
+dojo.require("dojo.parser");
+dojo.require("dojo.string");
+dojo.require("dojo.html");
+
+dojo.require("dojo.data.ItemFileReadStore");
+dojo.require("dojo.data.ItemFileWriteStore");
+dojo.require("dojox.grid.DataGrid");
+dojo.require("dojox.grid.EnhancedGrid");
+dojo.require("dijit.form.Form");
+dojo.require("dijit.form.Button");
+dojo.require("dijit.form.FilteringSelect");
+dojo.require("dijit.form.ValidationTextBox");
+dojo.require("dijit.form.TextBox");
+dojo.require("dijit.form.DateTextBox");
+dojo.require("dijit.form.CheckBox");
+dojo.require("dijit.form.SimpleTextarea");
+dojo.require("dijit.layout.TabContainer"); 
+
+dojo.require("dijit.layout.ContentPane");
+dojo.require("dijit.layout.TabContainer");
+
+dojo.require("dojox.rpc.Client");
+dojo.require("dojox.grid.enhanced.plugins.IndirectSelection");
+
+</script>
+<c:choose>
+	<c:when test="${not empty sms_this_month}">
+		<spring:url value="/public/shop/${shopurl}" var="home" />
+	</c:when>
+	<c:otherwise>
+		<spring:url value="/" var="home" />
+	</c:otherwise>
+</c:choose>
+
+<spring:url value="/reports" var="reports_url" />
+<spring:url value="/audit/jsonsmshistorythismonth" var="sms_this_month_url" />
+<spring:url value="/audit" var="audit_url" />
+    <c:if test='${empty history}'>
+		<table id="agenda" width="100%" class="agenda">
+			<th id="agendadate">Recent history</th>
+			<c:forEach var="pending" items="${history}">
+				<fmt:formatDate var="formattedappt" value='${pending.ts}' pattern="MM-dd-yyyy mm:ss"/>
+				<tr>
+					<td width="100%" ><c:out value="${formattedappt} ${pending.description}"/></td>
+				</tr>
+			</c:forEach>
+		</table>	
+	</c:if>			
+<div id="firstTabClientListDiv">
+	<c:choose>
+		<c:when test="${not empty sms_this_month}">
+		  <a href="${audit_url}">Click here for ALL Messages</a>
+		</c:when>
+		<c:otherwise>
+		  <a href="${sms_this_month_url}">Click here for SMS Messages for this month</a>
+			
+		</c:otherwise>
+	</c:choose>
+
+  <div id="auditlistDiv"> </div>
+	<c:choose>
+		<c:when test="${not empty sms_this_month}">
+			<div class="label label-success lead">
+			
+			Total text messages sent this month: ${total_sms_this_month}
+			
+			</div>
+		</c:when>
+		<c:otherwise>
+			
+		</c:otherwise>
+	</c:choose>
+            
+</div>		
+	<script type="text/javascript">
+	function pad(number, length) {
+		   
+	    var str = ''+number;
+	    while (str.length &lt; length) {
+	        str = '0' + str;
+	    }
+	   
+	    return str;
+
+	}	
+		function TraxC(response){
+			var isJSON;
+			var data;
+			try {
+				console.log(response);
+				data = JSON.parse(response);
+				console.log(data);
+				isJSON = true;
+			}
+			catch (e) {
+				isJSON = false;
+			}
+	
+			if (isJSON) {
+				// data is already parsed, so just use it
+				// handle response codes
+				// do something with returned data
+				
+				if(data.constructor == Array){
+					
+					var cntr = 0;
+					var myClients=new Array(); // regular array (add an optional integer
+					for(var key in data) {
+						clientdata = new Object();
+						clientdata.id = data[key].id;
+						
+						
+						var date = new Date(parseInt(data[key].ts));
+						 var curr_date = date.getDate();
+						    var curr_month = date.getMonth() + 1; //Months are zero based
+						    var curr_year = date.getFullYear();
+						    
+						    var fulldate = curr_year + "-"+ pad(curr_month,2) + "-" + pad(curr_date,2);
+						    clientdata.ts = fulldate;
+						clientdata.description = data[key].description;
+						
+						myClients[cntr]=clientdata;       						
+						cntr = cntr + 1;
+					}
+					clientstore = new Object();
+					clientstore.items = myClients;
+					clientstore.identifier = 'id';
+					clientstore.label = 'group_name';
+					return clientstore;
+					
+				}else{
+					console.log(data.id);
+					console.log(data.value);
+					clientdata = new Object();
+					clientdata.id = data.id;
+					clientdata.firstName = data.firstName;
+					clientdata.lastName = data.lastName;
+					
+					
+					var myCars=new Array(); // regular array (add an optional integer
+					myCars[0]=clientdata;       						
+					
+					clientstore = new Object();
+					clientstore.items = myCars;
+					clientstore.identifier = 'id';
+					clientstore.label = 'description';
+					return clientstore;
+					
+					
+				}
+			}
+		 }    	
+		function formatDate(datum){
+		    // Format the value in store, so as to be displayed.
+		    //var d = dojo.date.stamp.fromISOString(datum);
+		    var d = dojo.date.stamp.fromISOString(datum);
+		    return dojo.date.locale.format(d, {selector: 'date', formatLength: 'long'});
+		}		
+		dojo.require("dojox.grid.DataGrid");
+        dojo.require("dojo.parser");
+        dojo.require("dojo.data.ItemFileReadStore");
+ </script>
+	<c:choose>
+		<c:when test="${not empty sms_this_month}">
+	<script type="text/javascript">
+		dojo.addOnLoad(function(){
+		 	var clientlist;
+    		
+			  // create widget, populating its options from the store
+		    var tdata = TraxC(JSON.stringify(${sms_this_month}));
+			var pstore = new dojo.data.ItemFileWriteStore({
+						   'data':tdata
+					  });
+			
+			console.log(tdata);
+			/*set up layout*/
+			var layout = [
+				[
+					{
+						'name': 'Time stamp',
+						'field': 'ts',
+						'width': '100px',
+						'datatype': "date"
+					},
+					{
+						'name': 'Description',
+						'field': 'description',
+						'width': '550px'
+					}
+			]];							
+			try{
+			if (!dijit.byId("auditlistDiv")) {
+				clientlist = new dojox.grid.EnhancedGrid({
+					id: 'auditlistDiv',
+					store: pstore,
+					editable: false,
+					structure: layout,
+					clientSort:"true",
+					autoWidth: "true",
+					autoHeight: "true",
+					selectionMode: "single",
+					autoWidth:true,
+					plugins: {
+						indirectSelection: {
+							name: " ",
+							width: "70px",
+							styles: "text-align: center;"
+						}					
+					}
+				},
+				document.createElement('div'));
+				dojo.byId("firstTabClientListDiv").appendChild(clientlist.domNode);
+				clientlist.update();
+				/*Call startup() to render the grid*/
+				//clientlist.layout.setColumnVisibility(1, false);							
+				clientlist.startup();
+	
+			}else{
+				clientlist = dijit.byId("auditlistDiv");
+				clientlist.store = pstore;
+				clientlist.layout.setColumnVisibility(1, false);							
+				clientlist._refresh();
+			}		
+			dijit.byId("auditlistDiv").setSortIndex(1, false);
+			dijit.byId("auditlistDiv").sort();
+			}catch(err){
+				console.log(err);
+			}        
+		});
+	</script>       
+
+		</c:when>
+		<c:otherwise>
+
+	<script type="text/javascript">
+       
+		dojo.addOnLoad(function(){
+			
+			var clientlist;
+		
+			  // create widget, populating its options from the store
+		    var tdata = TraxC(JSON.stringify(${jsonhistory}));
+			var pstore = new dojo.data.ItemFileWriteStore({
+						   'data':tdata
+					  });
+			
+			console.log(tdata);
+			/*set up layout*/
+			var layout = [
+				[
+					{
+						'name': 'Time stamp',
+						'field': 'ts',
+						'width': '100px',
+						'datatype': "date"
+					},
+					{
+						'name': 'Description',
+						'field': 'description',
+						'width': '550px'
+					}
+			]];							
+			try{
+			if (!dijit.byId("auditlistDiv")) {
+				clientlist = new dojox.grid.EnhancedGrid({
+					id: 'auditlistDiv',
+					store: pstore,
+					editable: false,
+					structure: layout,
+					clientSort:"true",
+					autoWidth: "true",
+					autoHeight: "true",
+					selectionMode: "single",
+					autoWidth:true,
+					plugins: {
+						indirectSelection: {
+							name: " ",
+							width: "70px",
+							styles: "text-align: center;"
+						}					
+					}
+				},
+				document.createElement('div'));
+				dojo.byId("firstTabClientListDiv").appendChild(clientlist.domNode);
+				clientlist.update();
+				/*Call startup() to render the grid*/
+				//clientlist.layout.setColumnVisibility(1, false);							
+				clientlist.startup();
+	
+			}else{
+				clientlist = dijit.byId("auditlistDiv");
+				clientlist.store = pstore;
+				clientlist.layout.setColumnVisibility(1, false);							
+				clientlist._refresh();
+			}		
+			dijit.byId("auditlistDiv").setSortIndex(1, false);
+			dijit.byId("auditlistDiv").sort();
+			}catch(err){
+				console.log(err);
+			}
+		});
+	</script>       
+
+		</c:otherwise>
+	</c:choose>
+
+         
+		</div>
+	</div>
+</div>

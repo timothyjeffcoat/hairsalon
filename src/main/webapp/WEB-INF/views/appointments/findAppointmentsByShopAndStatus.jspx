@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <form:find finderName="ByShopAndStatus" id="ff_com_yourhairsalon_booking_domain_Appointment" path="/appointments" z="qJ3Q3snM6GmE8bGAExhPv3+0AVA=">
+        <field:select disableFormBinding="true" field="shop" id="f_com_yourhairsalon_booking_domain_Appointment_shop" itemValue="id" items="${shops}" path="/shops" required="true" z="MdYM8L2Cp5Y+FjY2TpczaoNGqyw="/>
+        <field:select disableFormBinding="true" field="status" id="f_com_yourhairsalon_booking_domain_Appointment_status" items="${schedulestatuses}" path="/schedulestatuses" required="true" z="p5LZ6C4ygtLdmL8oFCnEXn92pOA="/>
+    </form:find>
+</div>

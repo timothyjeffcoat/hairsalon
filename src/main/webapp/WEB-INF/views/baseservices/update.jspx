@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <form:update id="fu_com_yourhairsalon_booking_domain_BaseService" modelAttribute="baseService" path="/baseservices" versionField="Version" z="HnOagQloe+TUeZPb85jN2liWoVU=">
+        <field:input field="cost" id="c_com_yourhairsalon_booking_domain_BaseService_cost" min="0" required="true" validationMessageCode="field_invalid_number" z="Qwb1l/nwO6wrRhrDjf2wyTjXeBY="/>
+        <field:input field="finishtime" id="c_com_yourhairsalon_booking_domain_BaseService_finishtime" min="0" required="true" validationMessageCode="field_invalid_integer" z="8BHJeP8QzJbJDjR85iJpDKDkMcQ="/>
+        <field:input field="length_time" id="c_com_yourhairsalon_booking_domain_BaseService_length_time" min="0" required="true" validationMessageCode="field_invalid_integer" z="cBlQMO3UPMBlPm5Qs2+xCFDvOZU="/>
+        <field:input field="description" id="c_com_yourhairsalon_booking_domain_BaseService_description" max="30" min="3" required="true" z="EfRpz3UCVv/3iQSEpXpDEeKHvAM="/>
+        <field:input field="processtime" id="c_com_yourhairsalon_booking_domain_BaseService_processtime" min="0" required="true" validationMessageCode="field_invalid_integer" z="zvHRQvmFch/8ypIF0kl56i1pwH8="/>
+        <field:textarea field="info_note" id="c_com_yourhairsalon_booking_domain_BaseService_info_note" z="2vGeHAsNbMkNhZHZKRM3hqSxweI="/>
+        <field:input field="amounttime" id="c_com_yourhairsalon_booking_domain_BaseService_amounttime" min="0" required="true" validationMessageCode="field_invalid_integer" z="k8JCtq59gHBadxhgQ/xLXsl/gDw="/>
+        <field:input field="minsetup" id="c_com_yourhairsalon_booking_domain_BaseService_minsetup" min="0" required="true" validationMessageCode="field_invalid_integer" z="Ip+n4Jk7UR/rb65PHmUxl6mkjj8="/>
+        <field:checkbox field="sendReminders" id="c_com_yourhairsalon_booking_domain_BaseService_sendReminders" z="15sUmW19kUFp1fs9yigc990k0As="/>
+        <field:select field="shop" id="c_com_yourhairsalon_booking_domain_BaseService_shop" itemValue="id" items="${shops}" path="/shops" required="true" z="h+/IlSZ/QIgFCAe0KNnn2iJnbNE="/>
+    </form:update>
+</div>

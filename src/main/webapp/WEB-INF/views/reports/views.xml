@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+    <definition extends="default" name="reports">
+        <put-attribute name="body" value="/WEB-INF/views/reports/index.jspx"/>
+    </definition>
+    <definition extends="default" name="reports/payhistory">
+        <put-attribute name="body" value="/WEB-INF/views/reports/payhistory.jspx"/>
+    </definition>
+    <definition extends="report" name="reports/active">
+        <put-attribute name="body" value="/WEB-INF/views/reports/active.jspx"/>
+    </definition>
+    <definition extends="report" name="reports/thistoday">
+        <put-attribute name="body" value="/WEB-INF/views/reports/thistoday.jspx"/>
+    </definition>
+    <definition extends="report" name="reports/thisweek">
+        <put-attribute name="body" value="/WEB-INF/views/reports/thisweek.jspx"/>
+    </definition>
+    <definition extends="report" name="reports/lastweek">
+        <put-attribute name="body" value="/WEB-INF/views/reports/lastweek.jspx"/>
+    </definition>
+    <definition extends="report" name="reports/thismonth">
+        <put-attribute name="body" value="/WEB-INF/views/reports/thismonth.jspx"/>
+    </definition>
+    <definition extends="report" name="reports/lastmonth">
+        <put-attribute name="body" value="/WEB-INF/views/reports/lastmonth.jspx"/>
+    </definition>
+    <definition extends="report" name="reports/thisyear">
+        <put-attribute name="body" value="/WEB-INF/views/reports/thisyear.jspx"/>
+    </definition>
+    <definition extends="report" name="reports/lastyear">
+        <put-attribute name="body" value="/WEB-INF/views/reports/lastyear.jspx"/>
+    </definition>
+    <definition extends="report" name="reports/clientlist">
+        <put-attribute name="body" value="/WEB-INF/views/reports/clientlist.jspx"/>
+    </definition>
+</tiles-definitions>

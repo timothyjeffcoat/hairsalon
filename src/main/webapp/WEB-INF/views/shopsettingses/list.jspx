@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_com_yourhairsalon_booking_domain_ShopSettings" items="${shopsettingses}" z="qdNLAzVS78bdJDwJ9bIkBP+XAlE=">
+        <table:table data="${shopsettingses}" id="l_com_yourhairsalon_booking_domain_ShopSettings" path="/shopsettingses" z="XKB/5RzhteSrVUYFCMq1hwcmTYE=">
+            <table:column id="c_com_yourhairsalon_booking_domain_ShopSettings_email_subject" property="email_subject" z="50YZ2Z+xFmuXe815XfbxvO/RYEQ="/>
+            <table:column id="c_com_yourhairsalon_booking_domain_ShopSettings_email_message" property="email_message" z="NECQISmfldJxMaT9oJBWdA7R6D4="/>
+            <table:column id="c_com_yourhairsalon_booking_domain_ShopSettings_username" property="username" z="dI+tqIlLAi4nytKBO+JlDECy/I0="/>
+            <table:column id="c_com_yourhairsalon_booking_domain_ShopSettings_receiveConfirmations" property="receiveConfirmations" z="pBnsfh2gn6LukLmyPGGTyXUSLPw="/>
+            <table:column id="c_com_yourhairsalon_booking_domain_ShopSettings_email_signature" property="email_signature" z="UO4kL27J4/VgL7aP5j6wgXO4GK0="/>
+            <table:column id="c_com_yourhairsalon_booking_domain_ShopSettings_user_password" property="user_password" z="cbGWKzIwLkDh3Uv7StVJzL5fSJ4="/>
+        </table:table>
+    </page:list>
+</div>

@@ -1,0 +1,14 @@
+<div id="header" xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	 xmlns:menu="urn:jsptagdir:/WEB-INF/tags/menu"
+	xmlns:spring="http://www.springframework.org/tags" version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
+	<spring:url var="home" value="/" />
+	<spring:message code="button_home" var="home_label" />
+	
+ 	<a href="${home}" name="${fn:escapeXml(home_label)}"
+		title="${fn:escapeXml(home_label)}"> <div class="logo col_7 col" style="font-family: 'Rosario', sans-serif;color: 'dark grey';display: block;font-size: 54px;padding: 2px 0 8px;text-decoration: none;text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);">Schedule'<i>em</i></div> </a>
+ 
+</div>

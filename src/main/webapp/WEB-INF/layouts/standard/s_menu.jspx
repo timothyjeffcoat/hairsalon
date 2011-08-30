@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:spring="http://www.springframework.org/tags" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:menu="urn:jsptagdir:/WEB-INF/tags/menu" xmlns:sec="http://www.springframework.org/security/tags" id="menu" version="2.0">
+		<c:choose>
+		<c:when test="${not empty shopname}">
+			<spring:url value="/public/shop/${shopname}" var="home" />
+		</c:when>
+		<c:otherwise>
+			<spring:url value="/" var="home" />
+		</c:otherwise>
+	</c:choose>
+	<spring:url value="/static/j_spring_security_logout" var="logout" />
+
+	<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+	<jsp:output omit-xml-declaration="yes"/>
+<menu:menu id="_s_menu">
+<sec:authorize ifAnyGranted="ROLE_ADMIN,ROLE_CUSTOMERADMIN">
+			<nav class="navbar navbar-default navbar-static-top-fixed"
+				role="navigation">
+				<div class="container">
+            <div class="navbar-header">
+              <a class="navbar-brand" style="color:#428BCA;" href="/">SCHEDULE'em</a>
+            </div>
+			<div class="navbar-right">
+              <ul class="nav navbar-nav">
+            				
+				<menu:category label=" " id="c_shop">
+					<menu:item id="i_shop_schedule" messageCode="global_menu_schedule"
+						url="/myschedule" />
+					<menu:item id="i_shop_clients" messageCode="global_menu_clients"
+						url="/clients" />
+					<menu:item id="i_shop_staff" messageCode="global_menu_staff"
+						url="/mystaff" />
+					<menu:item id="i_shop_services" messageCode="global_menu_services"
+						url="/services" />
+					<menu:item id="i_shop_settings" messageCode="global_menu_settings"
+						url="/settings" />
+					<menu:item id="i_shop_reports" messageCode="global_menu_reports"
+						url="/reports" />
+					<menu:item id="i_shop_audit" messageCode="global_menu_audit"
+						url="/audit" />
+					<menu:item id="security_logout" label="Logout" url="/static/j_spring_security_logout"/>
+				</menu:category>
+				</ul>
+				</div>
+
+				</div>
+			</nav>
+		</sec:authorize>
+<sec:authorize ifAnyGranted="ROLE_CUSTOMERSTAFF">
+    	<!-- <menu:category id="c_shop" label=" " >
+            <menu:item id="i_shop_schedule" messageCode="global_menu_schedule" url="/myschedule"/>
+        	<menu:item id="i_shop_clients" messageCode="global_menu_clients" url="/clients"/>
+        	<menu:item id="i_shop_staff" messageCode="global_menu_staff" url="/mystaff/lonestaff"/>
+        	<menu:item id="i_shop_services" messageCode="global_menu_services" url="/services"/>
+        	<menu:item id="i_shop_reports" messageCode="global_menu_reports" url="/reports"/>
+        	<menu:item id="i_shop_audit" messageCode="global_menu_audit" url="/audit"/>
+        	<menu:item id="security_logout" label="Logout" url="/static/j_spring_security_logout"/>
+        </menu:category> -->
+	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+	        <div class="navbar-header">
+	          <a class="navbar-brand" href="index.html">Schedule'em admin</a>
+	        </div>
+	        <spring:url value="/static/j_spring_security_logout" var="logout_url" />
+	        
+	        <spring:url value="/myschedule" var="schedule_url" />
+	        <spring:url value="/clients" var="clients_url" />
+	        <spring:url value="/mystaff/lonestaff" var="staff_url" />
+	        <spring:url value="/services" var="services_url" />
+	        <spring:url value="/settings" var="settings_url" />
+	        <spring:url value="/reports" var="reports_url" />
+	        <spring:url value="/audit" var="history_url" />
+	        
+	        <ul class="nav navbar-nav navbar-right navbar-user">
+	        	<li><a href="${logout_url}">Logout</a></li>
+	        </ul>
+	        <div class="collapse navbar-collapse navbar-ex1-collapse">
+			   	<ul class="nav navbar-nav side-nav">
+				   	<li><a href="${home}">Home</a></li>
+		            <li><a href="${schedule_url}">Schedule</a></li>
+		            <li><a href="${clients_url}">Clients</a></li>
+		            <li><a href="${staff_url}">Staff</a></li>
+		            <li><a href="${services_url}">Services</a></li>
+		            <li><a href="${settings_url}">Settings</a></li>
+		            <li><a href="${reports_url}">Reports</a></li>
+		            <li><a href="${history_url}">History</a></li>
+	          	</ul>
+          	</div>	        
+        </nav>          
+</sec:authorize>
+<sec:authorize ifAnyGranted="ROLE_CUSTOMERSCUSTOMER">
+	        <spring:url value="/static/j_spring_security_logout" var="logout_url" />
+	        <spring:url value="public/shop/${shopurl}/login" var="login_url" />
+	        <spring:url value="public/shop/${shopurl}/register" var="register_url" />
+
+				<nav class="navbar navbar-default navbar-static-top-fixed"
+					role="navigation">
+					<div class="container">
+						<div class="navbar-header">
+							<a class="navbar-brand" style="color: #428BCA;" href="${home}">Schedule'em request an appointment </a>
+						</div>
+					<div class="navbar-right">
+						<ul class="nav navbar-nav">
+
+							<menu:category label=" " id="c_shop">
+								<c:if test="${not empty shopname}">
+									<sec:authorize ifAnyGranted="ROLE_CUSTOMERSCUSTOMER">
+										<menu:item id="i_shop_requestappointment"
+											messageCode="global_menu_requestappointment"
+											url="/public/shop/${shopurl}/requestappointment" />
+									</sec:authorize>
+
+
+								</c:if>
+								<menu:item id="security_logout" label="Logout"
+									url="${logout_url}" />
+							</menu:category>
+						</ul>
+					</div>
+
+				</div>
+				</nav>    	
+        
+</sec:authorize>                
+<sec:authorize ifAnyGranted="ROLE_ANONYMOUS">
+	
+	        <spring:url value="/static/j_spring_security_logout" var="logout_url" />
+	        <spring:url value="${shopurl}/login" var="login_url" />
+	        <spring:url value="${shopurl}/register" var="register_url" />
+
+				<nav class="navbar navbar-default navbar-static-top-fixed"
+					role="navigation">
+					<div class="container">
+						<div class="navbar-header">
+							<a class="navbar-brand" style="color: #428BCA;" href="${home}">Schedule'em request an appointment </a>
+						</div>
+						<div class="navbar-right">
+							<ul class="nav navbar-nav">
+
+								<menu:category label=" " id="c_shop">
+									<menu:item id="security_login" label="Login"
+										url="${login_url}" />
+									<menu:item id="security_register" label="Register"
+										url="${register_url}" />
+								</menu:category>
+							</ul>
+						</div>
+
+					</div>
+				</nav>
+
+			
+</sec:authorize>
+
+        </menu:menu>
+
+</div>

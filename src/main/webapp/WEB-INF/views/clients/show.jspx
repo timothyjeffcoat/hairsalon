@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:c="http://java.sun.com/jsp/jstl/core"  xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_com_yourhairsalon_booking_form_FullClientForm" object="${clients}" path="/clients" >
+        <input id="itemId" name="itemId" type="hidden" value="${itemId}"/>
+        <field:display field="firstName" id="c_com_yourhairsalon_booking_form_FullClientForm_firstName" object="${clients}" />
+        <field:display field="lastName" id="c_com_yourhairsalon_booking_form_FullClientForm_lastName"  object="${clients}" />
+        <field:display dateTimePattern="${clients_birthday_date_format}" field="birthDay" id="c_com_yourhairsalon_booking_form_FullClientForm_birthDay" object="${clients}" />
+        <field:display field="address1" id="c_com_yourhairsalon_booking_form_FullClientForm_address1" object="${clients}" />
+        <field:display field="address2" id="c_com_yourhairsalon_booking_form_FullClientForm_address2" object="${clients}" />
+        <field:display field="citycode" id="c_com_yourhairsalon_booking_form_FullClientForm_citycode" object="${clients}" />
+        <field:display field="statecode" id="c_com_yourhairsalon_booking_form_FullClientForm_statecode" object="${clients}" />
+        <field:display field="zipcode" id="c_com_yourhairsalon_booking_form_FullClientForm_zipcode" object="${clients}" />
+        <field:display field="home_phone" id="c_com_yourhairsalon_booking_form_FullClientForm_home_phone" object="${clients}" />
+		<field:display field="work_phone" id="c_com_yourhairsalon_booking_form_FullClientForm_work_phone" object="${clients}" />
+		<field:display field="cell_phone" id="c_com_yourhairsalon_booking_form_FullClientForm_cell_phone" object="${clients}" />
+		<field:display field="email" id="c_com_yourhairsalon_booking_form_FullClientForm_email" object="${clients}" />
+
+    </page:show>
+	<div class="t">
+		<table id="history" width="100%">
+			<th id="historyid">Appointment History</th>
+			<c:forEach var="appointment" items="${clienthistory}">
+			<fmt:formatNumber var="formattedValue1" value='${appointment.service1cost}' currencySymbol='$' type='currency'/>
+			<fmt:formatDate var="formattedDate" pattern="MMMMM dd yyyy" value='${appointment.appointmentDate}'/>
+			
+				<tr status="${appointment.status}">
+					<td id="appointment${appointment.id}" width="100%" onMouseOver="this.className='highlight'" onMouseOut="this.className='normal'" onclick="doAjax(${appointment.id},'editApptDialog');"><c:out value="${formattedDate} STATUS: ${appointment.status} ${appointment.client.firstName} ${appointment.client.lastName} Begin ${appointment.s_beginDateTime} End ${appointment.s_endDateTime} ${appointment.servicename1} ${formattedValue1}"/></td>
+				</tr>
+			</c:forEach>
+		</table>
+	</div>
+    
+</div>

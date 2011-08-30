@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+    <definition extends="default" name="paymentses/list">
+        <put-attribute name="body" value="/WEB-INF/views/paymentses/list.jspx"/>
+    </definition>
+<definition extends="default" name="paymentses/show">
+        <put-attribute name="body" value="/WEB-INF/views/paymentses/show.jspx"/>
+    </definition>
+<definition extends="default" name="paymentses/create">
+        <put-attribute name="body" value="/WEB-INF/views/paymentses/create.jspx"/>
+    </definition>
+<definition extends="default" name="paymentses/update">
+        <put-attribute name="body" value="/WEB-INF/views/paymentses/update.jspx"/>
+    </definition>
+<definition extends="default" name="paymentses/findPaymentsesById">
+        <put-attribute name="body" value="/WEB-INF/views/paymentses/findPaymentsesById.jspx"/>
+    </definition>
+<definition extends="default" name="paymentses/findPaymentsesByShopAndDatecreatedBetween">
+        <put-attribute name="body" value="/WEB-INF/views/paymentses/findPaymentsesByShopAndDatecreatedBetween.jspx"/>
+    </definition>
+<definition extends="default" name="paymentses/findPaymentsesByShopAndDatecreatedBetweenAndStaffEquals">
+        <put-attribute name="body" value="/WEB-INF/views/paymentses/findPaymentsesByShopAndDatecreatedBetweenAndStaffEquals.jspx"/>
+    </definition>
+</tiles-definitions>

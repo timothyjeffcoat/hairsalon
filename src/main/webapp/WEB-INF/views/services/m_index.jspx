@@ -1,0 +1,60 @@
+<div id="header" xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags" version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
+
+	<div data-role="page" class="type-home">
+		<span>
+			<spring:url value="/resources/j_spring_security_logout" var="logout"/>
+			<div class="ui-grid-a">
+				<div class="ui-block-a">
+				  <a href="${logout}">
+					<spring:message code="security_logout"/>
+				  </a>
+				</div>
+				<div class="ui-block-b">
+				<spring:url value="m_index" var="back"/>
+				<a rel="external" href="${back}" data-icon="back" data-rel="back">Back</a>
+				</div>
+			</div><!-- /grid-a -->
+		</span>
+
+		<div data-role="header">
+			<h1>Scheduleem.com</h1>
+		</div>
+		<div data-role="header" data-theme="f">
+			<spring:url value="/" var="home"/>
+			<a rel="external" href="${home}" data-icon="home" data-iconpos="notext" data-direction="reverse" class="ui-btn-right jqm-home">Schedule</a>
+		</div><!-- /header -->
+		
+		<div data-role="content">	
+			<div data-role="content">	
+				<div class="content-primary">
+					<h2>Services</h2>
+				</div><!--/content-primary -->		
+				<div class="content-secondary">
+					
+					<div data-role="collapsible" data-collapsed="false" data-theme="b" data-content-theme="d">
+							<h3>Create, edit, view your services</h3>
+							<ul data-role="listview"  data-theme="c" data-dividertheme="d">
+								<li data-role="list-divider">Overview</li>
+								<spring:url value="/services/mcreateservice" var="mcreateservice"/>
+								<spring:url value="/services/mcreatecategory" var="mcreatecategory"/>
+								<spring:url value="/services/mdisplayservice" var="mdisplayservice"/>
+								<spring:url value="/services/mdisplaycategory" var="mdisplaycategory"/>
+								<li><a rel="external" href="${mcreateservice}">Create a service</a></li>
+								<li><a rel="external" href="${mdisplayservice}">Display / edit service list</a></li>
+								<li><a rel="external" href="${mcreatecategory}">Create a category</a></li>
+								<li><a rel="external" href="${mdisplaycategory}">Display / edit category list</a></li>
+							</ul>
+					</div>
+				</div>			
+			</div>
+		</div>
+		<div data-role="footer" class="footer-docs" data-theme="c">
+				<p>  copy 2013 Scheduleem.com</p>
+		</div>	
+	</div>
+</div>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_com_yourhairsalon_booking_domain_Clients" object="${clients}" path="/clientses" z="yYgssIyQEC7K4XLCNx9xu5ABs1Q=">
+        <field:display field="firstName" id="s_com_yourhairsalon_booking_domain_Clients_firstName" object="${clients}" z="1XDfLL1V9We9U5CtE1pRtoj/SVE="/>
+        <field:display field="lastName" id="s_com_yourhairsalon_booking_domain_Clients_lastName" object="${clients}" z="etgXeWkhzN0fpDxLIalY//kWqYI="/>
+        <field:display date="true" dateTimePattern="${clients_birthday_date_format}" field="birthDay" id="s_com_yourhairsalon_booking_domain_Clients_birthDay" object="${clients}" z="rRPLeNIMoQxHFQK457KNJUol5/Q="/>
+        <field:display field="client_group" id="s_com_yourhairsalon_booking_domain_Clients_client_group" object="${clients}" z="5D/AA3M876W5odAPI8tNCBENZiM="/>
+        <field:display field="shop" id="s_com_yourhairsalon_booking_domain_Clients_shop" object="${clients}" z="+MCktKAkonsWO+bIIMSE/G5Dibk="/>
+        <field:display field="username" id="s_com_yourhairsalon_booking_domain_Clients_username" object="${clients}" z="hmOoXQztB0oJrl0lCbZFh8WssMc="/>
+        <field:display field="accepts_notifications" id="s_com_yourhairsalon_booking_domain_Clients_accepts_notifications" object="${clients}" z="lF5/7iJ0DSNNlz2KtmfILxovPm0="/>
+        <field:display field="accepts_receipts" id="s_com_yourhairsalon_booking_domain_Clients_accepts_receipts" object="${clients}" z="QhjNJYvhZt1r2ykX1gfyx6SGTuQ="/>
+        <field:display field="accepts_initial" id="s_com_yourhairsalon_booking_domain_Clients_accepts_initial" object="${clients}" z="ppKq91THkOQpod+zkd5+WS0frGU="/>
+    </page:show>
+</div>

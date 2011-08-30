@@ -1,0 +1,67 @@
+<div id="header" xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags" version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-40547165-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+	<div data-role="page" class="type-home">
+		<span>
+			<spring:url value="/resources/j_spring_security_logout" var="logout"/>
+			<div class="ui-grid-a">
+				<div class="ui-block-a">
+				  <a href="${logout}">
+					<spring:message code="security_logout"/>
+				  </a>
+				</div>
+				<div class="ui-block-b">
+				<a rel="external" href="../" data-icon="back" data-rel="back">Back</a>
+				</div>
+			</div><!-- /grid-a -->
+		</span>
+
+		<div data-role="header">
+			<h1>Scheduleem.com</h1>
+		</div>
+		<div data-role="header" data-theme="f">
+			<spring:url value="/" var="home"/>
+			<a rel="external" href="${home}" data-icon="home" data-iconpos="notext" data-direction="reverse" class="ui-btn-right jqm-home">Schedule</a>
+		</div><!-- /header -->
+		
+		<div data-role="content">	
+			<div data-role="content">	
+				<div class="content-primary">
+					<h2>Username and password recovery</h2>
+					Forgot password? 
+				     <spring:url value="./forgotpw/mforgotpw" var="forgotpw"/>
+				      <a href="${forgotpw}">
+				        Click here.
+				      </a>
+				      <br/>
+					Forgot username? 
+				     <spring:url value="./username/musername" var="username"/>
+				      <a href="${username}">
+				        Click here.
+				      </a>
+					
+				</div><!--/content-primary -->		
+			</div>
+		</div>
+		<div data-role="footer" class="footer-docs" data-theme="c">
+				<p>  copy 2013 Scheduleem.com</p>
+		</div>	
+	</div>
+</div>

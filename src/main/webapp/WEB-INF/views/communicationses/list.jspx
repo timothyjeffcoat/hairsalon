@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_com_yourhairsalon_booking_domain_Communications" items="${communicationses}" z="E2LzKoJDwqxdEWpKWD3kf5z8P0k=">
+        <table:table data="${communicationses}" id="l_com_yourhairsalon_booking_domain_Communications" path="/communicationses" z="9FCPovTcHWrcj/zbiYg+5JxVHSs=">
+            <table:column id="c_com_yourhairsalon_booking_domain_Communications_communication_type" property="communication_type" z="tx59aP13Da77nT3QI5Z2rQWHTBM="/>
+            <table:column id="c_com_yourhairsalon_booking_domain_Communications_communication_value" property="communication_value" z="05KirBvbf7k3zAQuz5UDRSwfBKY="/>
+            <table:column id="c_com_yourhairsalon_booking_domain_Communications_person" property="person" z="3felMyA+caJ9aSBtP/ouZdzDfjk="/>
+            <table:column id="c_com_yourhairsalon_booking_domain_Communications_shop" property="shop" z="L0+BYOK3Y2Q1swMwVz5EIM0huGg="/>
+        
+        </table:table>
+    </page:list>
+</div>

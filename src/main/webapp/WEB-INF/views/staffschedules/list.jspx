@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_com_yourhairsalon_booking_domain_StaffSchedule" items="${staffschedules}" z="WTvUp3TUEPPOf7LNi4+L/GcqBNU=">
+        <table:table data="${staffschedules}" id="l_com_yourhairsalon_booking_domain_StaffSchedule" path="/staffschedules" z="laVk7UKvNy93Ub/UnLFf+4Qu6ok=">
+            <table:column date="true" dateTimePattern="${staffSchedule_schedule_date_date_format}" id="c_com_yourhairsalon_booking_domain_StaffSchedule_schedule_date" property="schedule_date" z="SM4gMfDy1UKSj0En1dQO0sVKZKY="/>
+            <table:column date="true" dateTimePattern="${staffSchedule_start_time_date_format}" id="c_com_yourhairsalon_booking_domain_StaffSchedule_start_time" property="start_time" z="QNsYf8/pWN4Ltr3BimlZFl5Z2JM="/>
+            <table:column date="true" dateTimePattern="${staffSchedule_end_time_date_format}" id="c_com_yourhairsalon_booking_domain_StaffSchedule_end_time" property="end_time" z="e3yVDMdKNY2CxL9JmXeZgIlKPus="/>
+            <table:column id="c_com_yourhairsalon_booking_domain_StaffSchedule_schedule_status" property="schedule_status" z="up5Io8PB5IbWDBgihxozX0NvFxM="/>
+            <table:column id="c_com_yourhairsalon_booking_domain_StaffSchedule_shop" property="shop" z="YC/ojAuZuz0pM0dwENYiGvzKYE4="/>
+        </table:table>
+    </page:list>
+</div>

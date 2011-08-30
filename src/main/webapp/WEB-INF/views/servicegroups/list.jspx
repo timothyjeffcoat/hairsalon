@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_com_yourhairsalon_booking_domain_ServiceGroup" items="${servicegroups}" z="YlpZjORmEw3DNiRGnpmA4YiP/Hk=">
+        <table:table data="${servicegroups}" id="l_com_yourhairsalon_booking_domain_ServiceGroup" path="/servicegroups" z="Oq0Yp7jB6Kf/FlrvpEQy1fKsmPM=">
+            <table:column id="c_com_yourhairsalon_booking_domain_ServiceGroup_group_name" property="group_name" z="YqVA9wLpCVLHfwpmRiPQYnXHMcQ="/>
+            <table:column id="c_com_yourhairsalon_booking_domain_ServiceGroup_group_notes" property="group_notes" z="0l30xKD/i1aoC1Qv+fIv9n+8Bjs="/>
+            <table:column date="true" dateTimePattern="${serviceGroup_createddate_date_format}" id="c_com_yourhairsalon_booking_domain_ServiceGroup_createddate" property="createddate" z="oQdJ1w0TrgFdUsWsdIy9MUlmtNs="/>
+            <table:column id="c_com_yourhairsalon_booking_domain_ServiceGroup_number_services" property="number_services" z="/QCfsHv4brCeXMLy5AP4Q3ce4s4="/>
+            <table:column id="c_com_yourhairsalon_booking_domain_ServiceGroup_shop" property="shop" z="2G9SQdmRsvQOU1ASsCXggmydHSY="/>
+            <table:column id="c_com_yourhairsalon_booking_domain_ServiceGroup_services" property="services" z="YayRebELUHWQqSa23pYYf9qshgU="/>
+        </table:table>
+    </page:list>
+</div>

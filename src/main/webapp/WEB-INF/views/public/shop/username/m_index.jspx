@@ -1,0 +1,116 @@
+<div id="header" xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags" version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-40547165-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+	<div data-role="page" class="type-home">
+		<span>
+			<spring:url value="/resources/j_spring_security_logout" var="logout"/>
+			<div class="ui-grid-a">
+				<div class="ui-block-a">
+				  <a href="${logout}">
+					<spring:message code="security_logout"/>
+				  </a>
+				</div>
+				<div class="ui-block-b">
+				<a rel="external" href="../" data-icon="back" data-rel="back">Back</a>
+				</div>
+			</div><!-- /grid-a -->
+		</span>
+
+		<div data-role="header">
+			<h1>Scheduleem.com</h1>
+		</div>
+		<div data-role="header" data-theme="f">
+			<spring:url value="/" var="home"/>
+			<a rel="external" href="${home}" data-icon="home" data-iconpos="notext" data-direction="reverse" class="ui-btn-right jqm-home">Schedule</a>
+		</div><!-- /header -->
+		
+		<div data-role="content">
+<script type="text/javascript">
+function getBaseURL() {
+	console.log("entered getBaseURL");
+    var url = location.href;  // entire url including querystring - also: window.location.href;
+	console.log(""+url);
+	var firstslash = url.indexOf('/', 14);
+    var baseURL = url.substring(0, firstslash);
+	console.log("baseurl: " +baseURL);
+	var restofurl = url.substring(firstslash+1, url.length);
+	console.log("restofurl: " +restofurl);
+	var secondslash = restofurl.indexOf('/');
+	var webapp =  restofurl.substring(0, secondslash);
+	console.log("webapp: " +webapp);
+    if (baseURL.indexOf('http://localhost') != -1) {
+        // Base Url for localhost
+        var url = location.href;  // window.location.href;
+        var pathname = location.pathname;  // window.location.pathname;
+        var index1 = url.indexOf(pathname);
+        var index2 = url.indexOf("/", index1 + 1);
+        var baseLocalUrl = url.substr(0, index2);
+		console.log("exiting getBaseURL");
+        return baseLocalUrl + "/"+ webapp;
+    }
+    else {
+        // Root Url for domain name
+		console.log("exiting getBaseURL");
+        return baseURL + "/" + webapp;
+    }
+
+}
+function changepage(page){
+	console.log("entered changepage");
+	console.log("baseurl: "+getBaseURL());
+	document.myform.action = getBaseURL() + page;
+}
+</script>			
+			<div data-role="content">	
+				<div class="content-primary">
+					<h2>Username recovery.</h2>
+				    <p>
+				      ${successmessage}
+				    </p>
+				</div><!--/content-primary -->		
+				<div class="content-secondary">
+					
+					<div data-role="collapsible" data-collapsed="false" data-theme="b" data-content-theme="d">
+							<form name ="myform" action="username/m-retrieve-username');" method="post">
+								<p>
+									Insert your email address to recover your username.
+								</p>
+								<div data-role="fieldcontain">
+						         <label for="_email">E-mail:</label>
+						         <input type="text" name="email" id="email" value="${register.email}"  /> 
+								</div>
+								<div class="ui-body ui-body-b">
+									<fieldset class="ui-grid-a">
+											<div class="ui-block-a"><button type="button" onClick="parent.location='../'" data-theme="d">Cancel</button></div>
+											<div class="ui-block-b"><button type="submit" data-theme="a">Submit</button></div>
+								    </fieldset>
+								</div>
+							
+							</form>						
+							
+					</div>
+				</div>			
+			</div>
+		</div>
+		<div data-role="footer" class="footer-docs" data-theme="c">
+				<p>  copy 2013 Scheduleem.com</p>
+		</div>	
+	</div>
+</div>

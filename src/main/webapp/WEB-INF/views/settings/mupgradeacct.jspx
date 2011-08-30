@@ -1,0 +1,78 @@
+<div id="header" xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" 
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags" version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-40547165-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+	<script>
+		//reset type=date inputs to text
+		$( document ).bind( "mobileinit", function(){
+			$.mobile.page.prototype.options.degradeInputs.birthDay = true;
+		});	
+	</script>
+	
+	<div data-role="page" class="type-home">
+		<span>
+			<spring:url value="/resources/j_spring_security_logout" var="logout"/>
+			<div class="ui-grid-a">
+				<div class="ui-block-a">
+				  <a href="${logout}">
+					<spring:message code="security_logout"/>
+				  </a>
+				</div>
+				<div class="ui-block-b">
+				<spring:url value="/settings/msettings" var="back"/>
+				<a rel="external" href="${back}" data-icon="back" data-rel="back">Back</a>
+				</div>
+			</div><!-- /grid-a -->
+		</span>
+		<div data-role="header">
+			<h1>Scheduleem.com</h1>
+		</div>
+		<div data-role="header" data-theme="f">
+			<spring:url value="/" var="home"/>
+			<a rel="external" href="${home}" data-icon="home" data-iconpos="notext" data-direction="reverse" class="ui-btn-right jqm-home">Schedule</a>
+		</div><!-- /header -->
+		
+		<div data-role="content">	
+			<div class="content-primary">
+				<h2>Upgrade account</h2>
+			</div><!--/content-primary -->		
+			
+			<div class="content-secondary">
+				<div data-role="collapsible" data-collapsed="false" data-theme="b" data-content-theme="d">
+						<p>
+							<spring:url value="/settings/setexpresscheckout" var="form_url2" />
+							<form name="f2" action="${fn:escapeXml(form_url2)}" method="POST" data-ajax="false">
+								<input type="image" name="submit" src="https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif" />
+								<br/> 
+								<input type="hidden" name="paymentType" value="USD"/>
+								<br/> 1 month ($14.95)
+								<input name="process"  id="proceed1" type="submit" value="Pay 1 Month" />
+								<br/> 12 months ($161.46, save 10%)
+								<input name="process" id="proceed12" type="submit" value="Pay 12 Months" />
+							</form>
+						</p>
+				</div>
+			</div>			
+		</div>
+		<div data-role="footer" class="footer-docs" data-theme="c">
+				<p>  copy 2013 Scheduleem.com</p>
+		</div>	
+	</div>
+</div>

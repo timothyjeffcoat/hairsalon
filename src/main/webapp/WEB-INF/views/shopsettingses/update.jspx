@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <form:update id="fu_com_yourhairsalon_booking_domain_ShopSettings" modelAttribute="shopSettings" path="/shopsettingses" versionField="Version" z="zqxTayIjWZdmkQHDpvk55pLyYzw=">
+        <field:input field="default_appt_length" id="c_com_yourhairsalon_booking_domain_ShopSettings_default_appt_length" max="16" min="1" required="true" z="y/pFR46UHlIzO08De/rpBQ1pO5U="/>
+        <field:input field="store_phone" id="c_com_yourhairsalon_booking_domain_ShopSettings_store_phone" max="16" min="1" required="true" z="+3r3QlmuWI0iKudOVx0iF7rBs+g="/>
+        <field:select field="clientdisplay" id="c_com_yourhairsalon_booking_domain_ShopSettings_clientdisplay" items="${clientdisplays}" path="clientdisplays" required="true" z="SueHYpxlfBc19oRbhP2RuZF3XqI="/>
+        <field:textarea field="username" id="c_com_yourhairsalon_booking_domain_ShopSettings_username" z="7dZrYI5KMBTxEx6skOTe08+71BQ="/>
+        <field:textarea field="email_message" id="c_com_yourhairsalon_booking_domain_ShopSettings_email_message" validationMessageCode="field_invalid_email" z="6yTWmPXudW0nIatckpeAM9uLKZM="/>
+        <field:textarea field="email_subject" id="c_com_yourhairsalon_booking_domain_ShopSettings_email_subject" validationMessageCode="field_invalid_email" z="aNxI8KZLNk0XC+rVEAd0RNKkN5Y="/>
+        <field:textarea field="email_signature" id="c_com_yourhairsalon_booking_domain_ShopSettings_email_signature" validationMessageCode="field_invalid_email" z="I7znz1lTicayBmvmMXwieTdo4Vg="/>
+        <field:checkbox field="receiveConfirmations" id="c_com_yourhairsalon_booking_domain_ShopSettings_receiveConfirmations" z="XjgnPb3G8utcpgVQLDl3IGZzbdY="/>
+        <field:textarea field="user_password" id="c_com_yourhairsalon_booking_domain_ShopSettings_user_password" z="phPAt9rYd86Uw1dvN0izOcsEXds="/>
+        <field:select field="shop" id="c_com_yourhairsalon_booking_domain_ShopSettings_shop" itemValue="id" items="${shops}" path="/shops" required="true" z="dyx6bHR4x/m8VKSlx5rM7WF8pgM="/>
+        <field:input field="image_file_logo" id="c_com_yourhairsalon_booking_domain_ShopSettings_image_file_logo" max="16" min="1" required="true" z="w+vxt/tvJMRHIcvkB/9TyXqQBoo="/>
+        <field:textarea field="locale" id="c_com_yourhairsalon_booking_domain_ShopSettings_locale" z="AZ2jLgYHEyinqNd9Ykge5Nq/6jk="/>
+        <field:textarea field="email_address" id="c_com_yourhairsalon_booking_domain_ShopSettings_email_address" validationMessageCode="field_invalid_email" z="Tgjcb8PvCczIIuNrgfmZW5wnT2c="/>
+        <field:textarea field="timezone" id="c_com_yourhairsalon_booking_domain_ShopSettings_timezone" z="n0KrHyKcjUn2HaD7czGAjdZksN8="/>
+        <field:input field="number_days_notify" id="c_com_yourhairsalon_booking_domain_ShopSettings_number_days_notify" min="0" required="true" validationMessageCode="field_invalid_integer" z="3JGcJEV3bT1umHscdgfWnjb0aGs="/>
+        <field:checkbox field="use_gcalendar_for_shop" id="c_com_yourhairsalon_booking_domain_ShopSettings_use_gcalendar_for_shop" z="FzLzF4Ql8ZX59TZJAB3Z9VlRpGQ="/>
+        <field:checkbox field="allow_staff_gcalendar" id="c_com_yourhairsalon_booking_domain_ShopSettings_allow_staff_gcalendar" z="fM30K+nYvHeYKZiMwyp0KYCmTgg="/>
+        <field:textarea field="iemail_subject" id="c_com_yourhairsalon_booking_domain_ShopSettings_iemail_subject" validationMessageCode="field_invalid_email" z="dmx/ukSW1cJfv0DoJOF91UbS0UM="/>
+        <field:textarea field="iemail_message" id="c_com_yourhairsalon_booking_domain_ShopSettings_iemail_message" validationMessageCode="field_invalid_email" z="4i1XfCe3OfBLhT/4JuKNT1o7638="/>
+        <field:textarea field="iemail_signature" id="c_com_yourhairsalon_booking_domain_ShopSettings_iemail_signature" validationMessageCode="field_invalid_email" z="Y3WDTDgbLbwKPVea38glzloHzrM="/>
+        <field:textarea field="iemail_address" id="c_com_yourhairsalon_booking_domain_ShopSettings_iemail_address" validationMessageCode="field_invalid_email" z="fjDVOJWYw7drhm11LlxLaBNLZrI="/>
+        <field:textarea field="remail_subject" id="c_com_yourhairsalon_booking_domain_ShopSettings_remail_subject" validationMessageCode="field_invalid_email" z="/GctOBqkProz5D9zUS1B7QrsTYw="/>
+        <field:textarea field="remail_message" id="c_com_yourhairsalon_booking_domain_ShopSettings_remail_message" validationMessageCode="field_invalid_email" z="PVwR0ioDjFJuvL4mSQ0JXuwRP68="/>
+        <field:textarea field="remail_signature" id="c_com_yourhairsalon_booking_domain_ShopSettings_remail_signature" validationMessageCode="field_invalid_email" z="951iBrimju5gTB5Pm6TtOjRrI2w="/>
+        <field:textarea field="remail_address" id="c_com_yourhairsalon_booking_domain_ShopSettings_remail_address" validationMessageCode="field_invalid_email" z="R4/hsz4G4J/ZTlED/HYnS7Gdogg="/>
+        <field:textarea field="email_big_message" id="c_com_yourhairsalon_booking_domain_ShopSettings_email_big_message" validationMessageCode="field_invalid_email" z="hKUnx/ACMoCewQO5BkFiogU5rFg="/>
+    </form:update>
+</div>

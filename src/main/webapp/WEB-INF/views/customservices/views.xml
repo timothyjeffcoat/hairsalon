@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+    <definition extends="default" name="customservices/list">
+        <put-attribute name="body" value="/WEB-INF/views/customservices/list.jspx"/>
+    </definition>
+<definition extends="default" name="customservices/show">
+        <put-attribute name="body" value="/WEB-INF/views/customservices/show.jspx"/>
+    </definition>
+<definition extends="default" name="customservices/create">
+        <put-attribute name="body" value="/WEB-INF/views/customservices/create.jspx"/>
+    </definition>
+<definition extends="default" name="customservices/update">
+        <put-attribute name="body" value="/WEB-INF/views/customservices/update.jspx"/>
+    </definition>
+<definition extends="default" name="customservices/findCustomServicesByShopAndClient">
+        <put-attribute name="body" value="/WEB-INF/views/customservices/findCustomServicesByShopAndClient.jspx"/>
+    </definition>
+<definition extends="default" name="customservices/findCustomServicesByShopAndClientAndOriginalid">
+        <put-attribute name="body" value="/WEB-INF/views/customservices/findCustomServicesByShopAndClientAndOriginalid.jspx"/>
+    </definition>
+<definition extends="default" name="customservices/findCustomServicesByClient">
+        <put-attribute name="body" value="/WEB-INF/views/customservices/findCustomServicesByClient.jspx"/>
+    </definition>
+<definition extends="default" name="customservices/findCustomServicesByShop">
+        <put-attribute name="body" value="/WEB-INF/views/customservices/findCustomServicesByShop.jspx"/>
+    </definition>
+</tiles-definitions>

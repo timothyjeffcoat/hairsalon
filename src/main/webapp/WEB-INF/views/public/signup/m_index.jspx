@@ -1,0 +1,145 @@
+<div id="header" xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags" version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-40547165-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+	<div data-role="page" class="type-home">
+		<span>
+			<spring:url value="/resources/j_spring_security_logout" var="logout"/>
+			<div class="ui-grid-a">
+				<div class="ui-block-a">
+				  <a href="${logout}">
+					<spring:message code="security_logout"/>
+				  </a>
+				</div>
+				<div class="ui-block-b">
+				<a rel="external" href="../" data-icon="back" data-rel="back">Back</a>
+				</div>
+			</div><!-- /grid-a -->
+		</span>
+
+		<div data-role="header">
+			<h1>Scheduleem.com</h1>
+		</div>
+		<div data-role="header" data-theme="f">
+			<spring:url value="/" var="home"/>
+			<a rel="external" href="${home}" data-icon="home" data-iconpos="notext" data-direction="reverse" class="ui-btn-right jqm-home">Schedule</a>
+		</div><!-- /header -->
+		
+		<div data-role="content">
+<script type="text/javascript">
+function getBaseURL() {
+	console.log("entered getBaseURL");
+    var url = location.href;  // entire url including querystring - also: window.location.href;
+	console.log(""+url);
+	var firstslash = url.indexOf('/', 14);
+    var baseURL = url.substring(0, firstslash);
+	console.log("baseurl: " +baseURL);
+	var restofurl = url.substring(firstslash+1, url.length);
+	console.log("restofurl: " +restofurl);
+	var secondslash = restofurl.indexOf('/');
+	var webapp =  restofurl.substring(0, secondslash);
+	console.log("webapp: " +webapp);
+    if (baseURL.indexOf('http://localhost') != -1) {
+        // Base Url for localhost
+        var url = location.href;  // window.location.href;
+        var pathname = location.pathname;  // window.location.pathname;
+        var index1 = url.indexOf(pathname);
+        var index2 = url.indexOf("/", index1 + 1);
+        var baseLocalUrl = url.substr(0, index2);
+		console.log("exiting getBaseURL");
+        return baseLocalUrl + "/"+ webapp;
+    }
+    else {
+        // Root Url for domain name
+		console.log("exiting getBaseURL");
+        return baseURL + "/" + webapp;
+    }
+
+}
+function changepage(page){
+	console.log("entered changepage");
+	console.log("baseurl: "+getBaseURL());
+	document.myform.action = getBaseURL() + page;
+}
+</script>			
+			<div data-role="content">	
+				<div class="content-primary">
+					<h2>Sign-up</h2>
+				</div><!--/content-primary -->		
+				<div class="content-secondary">
+					
+					<div data-role="collapsible" data-collapsed="false" data-theme="b" data-content-theme="d">
+				  		Welcome to the Schedule'em Scheduling Software secure sign up form.
+				  		<br/> 
+				  		Fill out the form below to begin your free account.
+				  		<p>
+							Fill in :
+							<li>your first name</li>
+							<li>your last name</li>
+							<li>your desired username. The form automatically checks to see if the username you type is available. Your username will also temporarily be used as your store name. Once you log in you can change it.</li>
+							<li>your email address</li>
+							<li>your password (twice, for verification purposes)</li>
+							</p>
+				  		Once you submit the form an email will be sent to you. Click on the included link to activate your account.
+				  		<br/> 
+				  		All information is securely encrypted before being sent to our servers.
+				  		<br/>
+							<form name ="myform" onsubmit="return changepage('/public/signup/msignup-submit');" method="post">
+								<div data-role="fieldcontain">
+						         <label for="_firstname">First name:</label>
+						         <input type="text" name="firstname" id="firstname" value="${register.firstname}"  />
+								</div>
+								<div data-role="fieldcontain">
+						         <label for="_lastname">Last name:</label>
+						         <input type="text" name="lastname" id="lastname" value="${register.lastname}"  />
+								</div>
+								<div data-role="fieldcontain">
+						         <label for="_username">User name:</label>
+						         <input type="text" name="username" id="username" value="${register.username}"  /> ${usernameerrormessage}
+								</div>
+								<div data-role="fieldcontain">
+						         <label for="_email">E-mail:</label>
+						         <input type="text" name="email" id="email" value="${register.email}"  /> 
+								</div>
+								<div data-role="fieldcontain">
+						         <label for="_password">Password:</label>
+						         <input type="password" name="password" id="password" value=""  /> ${passworderrormessage}
+								</div>
+								<div data-role="fieldcontain">
+						         <label for="_userpassword">Password:</label>
+						         <input type="password" name="userpassword" id="userpassword" value=""  /> ${passworderrormessage}
+								</div>
+								<div class="ui-body ui-body-b">
+									<fieldset class="ui-grid-a">
+											<div class="ui-block-a"><button type="button" onClick="parent.location='../'" data-theme="d">Cancel</button></div>
+											<div class="ui-block-b"><button type="submit" data-theme="a">Submit</button></div>
+								    </fieldset>
+								</div>
+							
+							</form>						
+							
+					</div>
+				</div>			
+			</div>
+		</div>
+		<div data-role="footer" class="footer-docs" data-theme="c">
+				<p>  copy 2013 Scheduleem.com</p>
+		</div>	
+	</div>
+</div>

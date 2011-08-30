@@ -1,0 +1,165 @@
+<div id="header" xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" 
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags" version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-40547165-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+  function validate_form(thisform){
+	  if($("#password").val()){
+		  if($("#password").val() != $("#password2").val()){
+			  alert("passwords do not match. retry. ");
+			  $("#password").focus();
+			  return false;
+		  }
+	  }
+  }
+</script>
+
+	<script>
+		//reset type=date inputs to text
+		$( document ).bind( "mobileinit", function(){
+			$.mobile.page.prototype.options.degradeInputs.birthDay = true;
+		});	
+	</script>
+	
+	<div data-role="page" class="type-home">
+		<span>
+			<spring:url value="/resources/j_spring_security_logout" var="logout"/>
+			<div class="ui-grid-a">
+				<div class="ui-block-a">
+				  <a href="${logout}">
+					<spring:message code="security_logout"/>
+				  </a>
+				</div>
+				<div class="ui-block-b">
+				<spring:url value="/mystaff/m_index" var="back"/>
+				<a rel="external" href="${back}" data-icon="back" data-rel="back">Back</a>
+				</div>
+			</div><!-- /grid-a -->
+		</span>
+		<div data-role="header">
+			<h1>Scheduleem.com</h1>
+		</div>
+		<div data-role="header" data-theme="f">
+			<spring:url value="/" var="home"/>
+			<a rel="external" href="${home}" data-icon="home" data-iconpos="notext" data-direction="reverse" class="ui-btn-right jqm-home">Schedule</a>
+		</div><!-- /header -->
+		
+		<div data-role="content">	
+			<div class="content-primary">
+				<h2>Edit staff</h2>
+				<p>Edit staff</p>
+			</div><!--/content-primary -->		
+			
+			<div class="content-secondary">
+				<div data-role="collapsible" data-collapsed="false" data-theme="b" data-content-theme="d">
+						<h3>Edit staff</h3>
+						<p>
+							<spring:url value="/mystaff/updatestaffmobile" var="mupdatestaff"/>
+							<spring:url value="/mystaff/m-list" var="gotourl"/>
+							<form action="${mupdatestaff}" onsubmit="return validate_form(this)" method="post" data-ajax="false">
+								<input type="hidden" name="staffid" id="staffid" value="${staff.id}"/>
+								<input type="hidden" name="gotourl" id="gotourl" value="${gotourl}"/>
+								<div data-role="fieldcontain">
+						         <label for="firstname">First name:</label>
+						         <input type="text" name="firstname" id="firstname" value="${staff.firstName}"  />
+								</div>
+								<div data-role="fieldcontain">
+						         <label for="lastname">Last name:</label>
+						         <input type="text" name="lastname" id="lastname" value="${staff.lastName}"  />
+								</div>
+								<div data-role="fieldcontain">
+								<fmt:formatDate var="formattedDate" pattern="yyyy-MM-dd " value='${staff.birthDay}'/>
+								<c:set var="text" value="${formattedDate}"/>
+								<c:set var="trimText" value="${fn:trim(text)}"/>
+						         <label for="birthDay">birthDay:</label>
+						         <input type="date" name="birthDay" id="birthDay" value="${trimText}"  />
+								</div>
+								<div data-role="fieldcontain">
+						         <label for="address1">Address1:</label>
+						         <input type="text" name="address1" id="address1" value="${address.address1}"  />
+								</div>
+								<div data-role="fieldcontain">
+						         <label for="address2">Address2:</label>
+						         <input type="text" name="address2" id="address2" value="${address.address2}"  />
+								</div>
+								<div data-role="fieldcontain">
+						         <label for="citycode">city:</label>
+						         <input type="text" name="citycode" id="citycode" value="${address.citycode}"  />
+								</div>
+								<div data-role="fieldcontain">
+						         <label for="statecode">State:</label>
+						         <input type="text" name="statecode" id="statecode" value="${address.statecode}"  />
+								</div>
+								<div data-role="fieldcontain">
+						         <label for="zipcode">Zip:</label>
+						         <input type="text" name="zipcode" id="zipcode" value="${address.zipcode}"  />
+								</div>
+								<div data-role="fieldcontain">
+						         <label for="homephone">Home phone:</label>
+						         <input type="text" name="homephone" id="homephone" value="${homephone.communication_value}"  />
+								</div>
+								<div data-role="fieldcontain">
+						         <label for="workphone">Work phone:</label>
+						         <input type="text" name="workphone" id="workphone" value="${workphone.communication_value}"  />
+								</div>
+								<div data-role="fieldcontain">
+						         <label for="cell">Cell phone:</label>
+						         <input type="text" name="cell" id="cell" value="${cell.communication_value}"  />
+								</div>
+								<div data-role="fieldcontain">
+						         	<label for="email">Email:</label>
+						         	<input type="text" name="email" id="email" value="${email.communication_value}"  />
+								</div>
+								<div data-role="fieldcontain">
+									<label for="allowgcal">Allow google calendar</label>
+									<c:if test="${staff.use_gcalendar == 'false'}">
+										<input type="checkbox" name="allowgcal" id="allowgcal" />
+									</c:if>
+									<c:if test="${staff.use_gcalendar == 'true'}">
+										<input type="checkbox" name="allowgcal" id="allowgcal" checked="true"/>
+									</c:if>
+								</div>
+								<div data-role="fieldcontain">
+						         	<c:if test="${staff.username==null}">
+							         	<label for="username">Username:</label>
+							         	<input type="text" name="username" id="username" value="${staff.username}"  />
+						         	</c:if>
+						         	<label for="password">Password:</label>
+						         	<input type="password" name="password" id="password" value="${email.communication_value}"  />
+						         	<label for="password">Repeat password:</label>
+						         	<input type="password" name="password2" id="password2" value="${email.communication_value}"  />
+								</div>
+							
+								<div class="ui-body ui-body-b">
+									<fieldset class="ui-grid-a">
+											<spring:url value="/mystaff/m_index" var="mindex"/>
+											<div class="ui-block-a"><button type="button" onClick="parent.location='${mindex}'" data-theme="d">Cancel</button></div>
+											<spring:url value="/mystaff/mdeletestaff?id=${staff.id}" var="delete"/>
+											<div class="ui-block-a"><button type="button" onclick="parent.location='${delete}'" data-theme="d">Delete </button></div>
+											<div class="ui-block-b"><button type="submit" data-theme="a">Submit</button></div>
+								    </fieldset>
+								</div>
+							
+							</form>						
+						</p>
+				</div>
+			</div>			
+		</div>
+		<div data-role="footer" class="footer-docs" data-theme="c">
+				<p>  copy 2013 Scheduleem.com</p>
+		</div>	
+	</div>
+</div>

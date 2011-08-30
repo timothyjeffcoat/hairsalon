@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+	<div>
+		<table id="clients" width="100%">
+			<th id="firstname">First name</th>
+			<th id="lastname">Last name</th>
+			<th id="comm">Communication</th>
+			<th id="bday">Birth day</th>
+			<c:forEach var="client" items="${clientses}">
+				<tr id="${client.id}" onMouseOver="this.className='highlight'" onMouseOut="this.className='normal'">
+					<td width="25%"><c:out value="${client.firstName} " /></td>
+					<td width="25%"><c:out value="${client.lastName}" /></td>
+					<td width="25%">
+						<ul>
+						<c:forEach var="comm" items="${client.communication}">
+							<li><c:out value="${comm.communication_type}" /> : <c:out value="${comm.communication_value}" /></li>
+						</c:forEach>
+						</ul>
+					</td>
+					
+					<td width="25%">
+						<fmt:formatDate var="bday" value='${client.birthDay}' pattern="yyyy-MM-dd"/>
+						<c:out value="${bday}" />
+					</td>
+				</tr>
+			</c:forEach>
+		</table>
+	</div>
+
+</div>

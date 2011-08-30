@@ -1,0 +1,18 @@
+<div id="header" xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags" version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=8;IE=9" />
+	<jsp:output omit-xml-declaration="yes" />
+  <c:if test="${pageContext['request'].userPrincipal != null}">
+    <c:out value="  "/>
+    <span>
+      <spring:url value="/" var="logout"/>
+      <a href="${logout}">
+        You are logged out. Refresh page to login back in.
+      </a>
+    </span>
+  </c:if>
+		
+</div>

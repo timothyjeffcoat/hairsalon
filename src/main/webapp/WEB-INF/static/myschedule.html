@@ -1,0 +1,590 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE HTML SYSTEM "about:legacy-compat">
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+<meta content="IE=8" http-equiv="X-UA-Compatible" />
+<link href="/shop/resources/styles/standard.css" media="screen"
+	type="text/css" rel="stylesheet"></link>
+<link href="/shop/resources/dijit/themes/tundra/tundra.css"
+	type="text/css" rel="stylesheet"></link>
+<link href="/shop/resources/images/favicon.ico" rel="SHORTCUT ICON" />
+<script type="text/javascript">
+	var djConfig = {
+		parseOnLoad : false,
+		isDebug : false,
+		locale : 'en_us'
+	};
+</script>
+<script type="text/javascript" src="/shop/resources/dojo/dojo.js"></script>
+<script type="text/javascript" src="/shop/resources/spring/Spring.js"></script>
+<script type="text/javascript"
+	src="/shop/resources/spring/Spring-Dojo.js"></script>
+<script type="text/javascript" language="JavaScript">
+	dojo.require("dojo.parser");
+</script>
+<title>Welcome to Scheduleem shop</title>
+</head>
+<body class="tundra spring">
+	<div id="wrapper">
+		<div version="2.0" id="header">
+			<a title="Home" name="Home" href="/shop/"><img
+				src="/shop/resources/images/banner_75b.png" />
+			</a>
+		</div>
+		<div version="2.0" id="menu">
+			<ul id="_s_menu">
+				<li id="c_shop"><h2>Shop</h2>
+					<ul>
+						<li id="i_shop_schedule"><a title="Schedule"
+							href="/shop/myschedule">Schedule</a>
+						</li>
+						<li id="i_shop_clients"><a title="Clients"
+							href="/shop/clients">Clients</a>
+						</li>
+						<li id="i_shop_services"><a title="Services"
+							href="/shop/services">Services</a>
+						</li>
+						<li id="i_shop_settings"><a title="Settings"
+							href="/shop/settings">Settings</a>
+						</li>
+						<li id="i_shop_reports"><a title="Reports"
+							href="/shop/reports">Reports</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+		<div id="main">
+			<div version="2.0">
+				<link href="/shop/scripts/jquery-ui-1.8.7.custom.min.js"
+					type="text/css" rel="stylesheet"></link>
+				<link href="/shop/styles/datatables/demo_table.css" type="text/css"
+					rel="stylesheet"></link>
+				<link href="/shop/styles/datatables/demo_page.css" type="text/css"
+					rel="stylesheet"></link>
+				<link href="/shop/styles/jquery.weekcalendar.css" type="text/css"
+					rel="stylesheet"></link>
+				<link href="/shop/styles/demo.css" type="text/css" rel="stylesheet"></link>
+				<link href="/shop/styles/reset.css" type="text/css" rel="stylesheet"></link>
+				<link href="/shop/styles/css/smoothness/jquery-ui-1.8.11.custom.css"
+					type="text/css" rel="stylesheet"></link>
+				<link href="/shop/styles/skins/default.css" type="text/css"
+					rel="stylesheet"></link>
+				<script src="/shop/scripts/jquery-1.4.4.min.js"
+					type="text/javascript"></script>
+				<script src="/shop/scripts/jquery-ui-1.8.7.custom.min.js"
+					type="text/javascript"></script>
+				<script src="/shop/scripts/datatables/jquery.dataTables.js"
+					type="text/javascript"></script>
+				<script src="/shop/scripts/jquery.weekcalendar.js"
+					type="text/javascript"></script>
+				<script src="/shop/scripts/demo.js" type="text/javascript"></script>
+				<script src="/shop/scripts/themeswitcher.js" type="text/javascript"></script>
+				<script src="/shop/scripts/date.js" type="text/javascript"></script>
+				<script src="/shop/scripts/jquery-ui-1.8.11.custom.min.js"
+					type="text/javascript"></script>
+				<style type="text/css">
+body {
+	font-family: "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
+	margin: 0;
+}
+
+h1 {
+	margin: 0 0 1em;
+	padding: 0.5em;
+}
+
+p.description {
+	font-size: 0.8em;
+	padding: 1em;
+	position: absolute;
+	top: 3.2em;
+	margin-right: 400px;
+}
+
+#message {
+	font-size: 0.7em;
+	position: absolute;
+	top: 1em;
+	right: 1em;
+	width: 350px;
+	display: none;
+	padding: 1em;
+	background: #ffc;
+	border: 1px solid #dda;
+}
+</style>
+				<script type="text/javascript">
+					function showWeek() {
+						jQuery('#switcher').themeswitcher();
+					}
+
+					function doAjax(id) {
+						// var d = jQuery('#agenda').attr('width');
+						alert(id);
+					}
+				</script>
+				<fieldset title="Schedule" style="width: 95%;">
+					<legend>Schedule</legend>
+					<div style="height: 800px; width: 100%;" id="myTabContainer">
+						<div style="width: 100%" id="createTab">
+							<table>
+								<tr>
+									<td width="50%"><script type="text/javascript">
+										dojo.require('dijit.TitlePane');
+									</script>
+										<div
+											id="_title_fc_com_scheduleem_shop_form_AddAppointmentForm_id">
+											<script type="text/javascript">
+												Spring
+														.addDecoration(new Spring.ElementDecoration(
+																{
+																	elementId : '_title_fc_com_scheduleem_shop_form_AddAppointmentForm_id',
+																	widgetType : 'dijit.TitlePane',
+																	widgetAttrs : {
+																		title : 'Create new Add Appointment',
+																		open : true
+																	}
+																}));
+											</script>
+											<form id="addappointment" action="/shop/myschedule"
+												method="POST">
+												<input type="hidden" name="hSelectDate" id="hSelectDate" />
+												<table>
+													<tr>
+														<td><div>
+																<label for="_selectdate_id">Select Date:</label>
+															</div>
+															<div>
+																<input value="" name="c_selectdate" id="c_selectdate" />
+															</div>
+															<script type="text/javascript">
+																Spring
+																		.addDecoration(new Spring.ElementDecoration(
+																				{
+																					elementId : "c_selectdate",
+																					widgetType : "dijit.Calendar",
+																					widgetAttrs : {
+																						value : new Date(),
+																						required : true,
+																						onValueSelected : function(
+																								newValue) {
+
+																							document
+																									.getElementById("hSelectDate").value = dojo.date.locale
+																									.format(
+																											newValue,
+																											{
+																												datePattern : "yyyy-MM-dd",
+																												selector : "date"
+																											});
+																							var deferred = dojo
+																									.xhrGet({
+																										url : "myschedule/agenda?date="
+																												+ document
+																														.getElementById("hSelectDate").value,
+																										handle : function(
+																												response,
+																												newValue) {
+																											// handle response codes
+																											// do something with returned data
+
+																											var isJSON;
+																											var data;
+																											try {
+																												data = JSON
+																														.parse(response);
+																												isJSON = true;
+																											} catch (e) {
+																												isJSON = false;
+																											}
+
+																											if (isJSON) {
+																												// data is already parsed, so just use it
+																												// handle response codes
+																												// do something with returned data
+
+																												var mytable = document
+																														.getElementById("agenda");
+
+																												var oldagendaheader = document
+																														.getElementById("agendadate");
+																												oldagendaheader.innerHTML = "Today's agenda "
+																														+ document
+																																.getElementById("hSelectDate").value;
+
+																												for ( var i = document
+																														.getElementById("agenda").rows.length; i > 1; i--) {
+																													document
+																															.getElementById(
+																																	"agenda")
+																															.deleteRow(
+																																	i - 1);
+																												}
+																												var mycurrent_row, mycurrent_cell;
+																												mytable = document
+																														.getElementById("agenda");
+																												if (data.constructor == Array) {
+
+																													for ( var key in data) {
+																														var myTime = new Date(
+																																data[key].beginDateTime.timeInMillis);
+																														var myEndTime = new Date(
+																																data[key].endDateTime.timeInMillis);
+																														var endhh = myEndTime
+																																.getHours();
+																														var endmm = myEndTime
+																																.getMinutes();
+
+																														var hh = myTime
+																																.getHours();
+																														var mm = myTime
+																																.getMinutes();
+																														var ss = myTime
+																																.getSeconds();
+																														var ms = myTime
+																																.getMilliseconds();
+																														var ap = "AM";
+																														var endap = "AM";
+
+																														if (hh > 11) {
+																															ap = "PM";
+																														}
+																														if (hh > 12) {
+																															hh = hh - 12;
+																														}
+																														if (hh == 0) {
+																															hh = 12;
+																														}
+
+																														if (endhh > 11) {
+																															endap = "PM";
+																														}
+																														if (endhh > 12) {
+																															endhh = endhh - 12;
+																														}
+																														if (endhh == 0) {
+																															endhh = 12;
+																														}
+
+																														var timetext = "Begin: "
+																																+ hh
+																																+ ":"
+																																+ mm
+																																+ " "
+																																+ ap;
+																														var endtimetext = "End: "
+																																+ endhh
+																																+ ":"
+																																+ endmm
+																																+ " "
+																																+ endap;
+
+																														mycurrent_row = document
+																																.createElement("tr");
+																														mycurrent_row
+																																.setAttribute(
+																																		"onClick",
+																																		"alert("
+																																				+ data[key].id
+																																				+ ");");
+																														mycurrent_cell = document
+																																.createElement("td");
+																														var svc = data[key].servicename1
+																																+ " $"
+																																+ data[key].service1cost;
+																														sometext = data[key].client.firstName
+																																+ " "
+																																+ data[key].client.lastName
+																																+ " "
+																																+ timetext
+																																+ " "
+																																+ endtimetext
+																																+ " "
+																																+ svc;
+																														var datatext = document
+																																.createTextNode(" "
+																																		+ sometext);
+
+																														mycurrent_cell
+																																.appendChild(datatext);
+																														mycurrent_row
+																																.appendChild(mycurrent_cell);
+																														mytable
+																																.appendChild(mycurrent_row);
+
+																													}
+
+																												} else {
+																													sometext = data[0].description;
+																													alert(sometext);
+
+																												}
+																											} else {
+																												// try treating it as XML
+																											}
+
+																											return response;
+																										}
+																									});
+																						}
+																					}
+																				}));
+																Spring
+																		.addDecoration(new Spring.AjaxEventDecoration(
+																				{
+																					elementId : "selectdate",
+																					formId : "dateForm",
+																					event : "onchange",
+																					params : {
+																						_eventId : "updateEntries"
+																					}
+																				}));
+															</script>
+														</td>
+													</tr>
+													<tr>
+														<td><div
+																id="_c_com_scheduleem_shop_form_AddAppointmentForm_client_id">
+																<label for="_client_id">Select Client : </label><select
+																	id="_client_id" name="client"><option
+																		value="2">Jane Doe 2011-07-17 03:51:11.61</option>
+																</select><br />
+																<script type="text/javascript">
+																	Spring
+																			.addDecoration(new Spring.ElementDecoration(
+																					{
+																						elementId : '_client_id',
+																						widgetType : 'dijit.form.FilteringSelect',
+																						widgetAttrs : {
+																							hasDownArrow : true
+																						}
+																					}));
+																</script>
+															</div>
+															<br />
+														</td>
+													</tr>
+													<tr>
+														<td><div
+																id="_c_com_scheduleem_shop_form_AddAppointmentForm_service1_id">
+																<label for="_service1_id">Select Service : </label><select
+																	id="_service1_id" name="service1"><option
+																		value="1">Haircut 0 0 0</option>
+																	<option value="2">Custom Haircut 0 0 0</option>
+																</select><br />
+																<script type="text/javascript">
+																	Spring
+																			.addDecoration(new Spring.ElementDecoration(
+																					{
+																						elementId : '_service1_id',
+																						widgetType : 'dijit.form.FilteringSelect',
+																						widgetAttrs : {
+																							hasDownArrow : true
+																						}
+																					}));
+																</script>
+															</div>
+															<br />
+														</td>
+													</tr>
+													<tr>
+														<td><label for="_selecttime_id">Select Time:</label><select
+															name="hour" id="hour"><option value="1">1</option>
+																<option value="2">2</option>
+																<option value="3">3</option>
+																<option value="4">4</option>
+																<option value="5">5</option>
+																<option value="6">6</option>
+																<option value="7">7</option>
+																<option value="8">8</option>
+																<option value="9">9</option>
+																<option value="10">10</option>
+																<option value="11">11</option>
+																<option value="12">12</option>
+														</select><select id="minute" name="minute"><option
+																	value="00">00</option>
+																<option value="15">15</option>
+																<option value="30">30</option>
+																<option value="45">45</option>
+														</select><select name="ampm" id="ampm"><option value="am">am</option>
+																<option value="pm">pm</option>
+														</select>
+														</td>
+													</tr>
+													<tr>
+														<td><script type="text/javascript">
+															dojo
+																	.require("dijit.form.SimpleTextarea");
+														</script>
+															<div
+																id="_c_com_scheduleem_shop_form_AddAppointmentForm_notes_id">
+																<label for="_notes_id">Notes : </label>
+																<textarea id="_notes_id" name="notes"></textarea>
+																<br />
+																<script type="text/javascript">
+																	Spring
+																			.addDecoration(new Spring.ElementDecoration(
+																					{
+																						elementId : '_notes_id',
+																						widgetType : 'dijit.form.SimpleTextarea',
+																						widgetAttrs : {
+																							disabled : false
+																						}
+																					}));
+																</script>
+															</div>
+															<br />
+														</td>
+													</tr>
+												</table>
+												<div
+													id="fc_com_scheduleem_shop_form_AddAppointmentForm_submit"
+													class="submit">
+													<script type="text/javascript">
+														Spring
+																.addDecoration(new Spring.ValidateAllDecoration(
+																		{
+																			elementId : 'proceed',
+																			event : 'onclick'
+																		}));
+													</script>
+													<input value="Save" type="submit" id="proceed" />
+												</div>
+											</form>
+										</div>
+									</td>
+									<td valign="top"><div>
+											<table width="100%" id="agenda">
+												<th id="agendadate">Today's Agenda</th>
+												<tr>
+													<td onclick="doAjax(10);" width="100%">Jane Doe Begin
+														10:30 AM End 3:51 AM Custom Haircut $25.0</td>
+												</tr>
+											</table>
+										</div>
+									</td>
+								</tr>
+							</table>
+						</div>
+						<script type="text/javascript">
+							Spring.addDecoration(new Spring.ElementDecoration({
+								elementId : 'createTab',
+								widgetType : 'dijit.layout.ContentPane',
+								widgetAttrs : {
+									title : 'Create Appointments',
+									selected : true
+								}
+							}));
+						</script>
+						<div id="editTab">Insert real code here 22</div>
+						<script type="text/javascript">
+							Spring.addDecoration(new Spring.ElementDecoration({
+								elementId : 'editTab',
+								widgetType : 'dijit.layout.ContentPane',
+								widgetAttrs : {
+									title : 'Edit Appointments',
+									selected : true
+								}
+							}));
+						</script>
+						<div id="weekTab">
+							<h1>Week Calendar Demo</h1>
+							<div id="calendar">_</div>
+							<div id="event_edit_container">
+								_
+								<form id="command" action="/shop/myschedule" method="post">
+									<input type="hidden" />
+									<ul>
+										<li><span>Date: </span><span class="date_holder" />
+										</li>
+										<li><label for="start">Start Time: </label><select
+											name="start"><option value="">Select Start
+													Time</option>
+										</select>
+										</li>
+										<li><label for="end">End Time: </label><select name="end"><option
+													value="">Select End Time</option>
+										</select>
+										</li>
+										<li><label for="title">Title: </label><input name="title"
+											type="text" />
+										</li>
+									</ul>
+								</form>
+							</div>
+						</div>
+						<script type="text/javascript">
+							Spring.addDecoration(new Spring.ElementDecoration({
+								elementId : 'weekTab',
+								widgetType : 'dijit.layout.ContentPane',
+								widgetAttrs : {
+									title : 'Week at a glance',
+									selected : true
+								}
+							}));
+						</script>
+						<div id="monthTab">Insert real code here 44</div>
+						<script type="text/javascript">
+			 Spring.addDecoration(new Spring.ElementDecoration(
+			 {elementId : 'monthTab',
+			 widgetType : 'dijit.layout.ContentPane',
+			 widgetAttrs : {title: 'Month at a glance', selected: true}
+			 }));
+			 </script>
+						<script type="text/javascript">
+			 Spring.addDecoration(new Spring.ElementDecoration(
+			 {elementId : 'myTabContainer',
+			 widgetType : 'dijit.layout.TabContainer'}
+			 ));
+			 </script>
+						<script type="text/javascript">
+			 dojo.addOnLoad(function(){
+			 var tabs = dijit.byId("myTabContainer");
+			 var pane = dijit.byId("_title_fc_org_rooina_ria_ajax_coursemanager_model_ Course_id");
+			 tabs.placeAt(pane.containerNode, "first");
+			 tabs.startup();
+			 tabs.resize();
+			 });
+			 }
+			 </script>
+					</div>
+				</fieldset>
+			</div>
+			<div version="2.0" id="footer">
+				<span><a href="/shop/">Home</a>
+				</span> | <span><a href="/shop/resources/j_spring_security_logout">Logout</a>
+				</span><span id="language"> | Language: <a
+					title="Switch language to English" href="?lang=en"><img
+						alt="Switch language to English"
+						src="/shop/resources/images/en.png" class="flag" />
+				</a> <a title="Switch language to Deutsch" href="?lang=de"><img
+						alt="Switch language to Deutsch"
+						src="/shop/resources/images/de.png" class="flag" />
+				</a> <a title="Switch language to Espanol" href="?lang=es"><img
+						alt="Switch language to Espanol"
+						src="/shop/resources/images/es.png" class="flag" />
+				</a> <a title="Switch language to Italiano" href="?lang=it"><img
+						alt="Switch language to Italiano"
+						src="/shop/resources/images/it.png" class="flag" />
+				</a> <a title="Switch language to Dutch" href="?lang=nl"><img
+						alt="Switch language to Dutch" src="/shop/resources/images/nl.png"
+						class="flag" />
+				</a> <a title="Switch language to Svenska" href="?lang=sv"><img
+						alt="Switch language to Svenska"
+						src="/shop/resources/images/sv.png" class="flag" />
+				</a> </span><span> | Theme: <a title="standard" href="?theme=standard">standard</a>
+					| <a title="alt" href="?theme=alt">alt</a> | <a title="rebel"
+					href="?theme=rebel">rebel</a>
+				</span><span><a title="Sponsored by {0}"
+					href="http://springsource.com"><img
+						src="/shop/resources/images/springsource-logo.png"
+						alt="Sponsored by {0}" align="right" />
+				</a>
+				</span>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

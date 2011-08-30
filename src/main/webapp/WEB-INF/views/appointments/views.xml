@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+    <definition extends="default" name="appointments/list">
+        <put-attribute name="body" value="/WEB-INF/views/appointments/list.jspx"/>
+    </definition>
+<definition extends="default" name="appointments/show">
+        <put-attribute name="body" value="/WEB-INF/views/appointments/show.jspx"/>
+    </definition>
+<definition extends="default" name="appointments/create">
+        <put-attribute name="body" value="/WEB-INF/views/appointments/create.jspx"/>
+    </definition>
+<definition extends="default" name="appointments/update">
+        <put-attribute name="body" value="/WEB-INF/views/appointments/update.jspx"/>
+    </definition>
+<definition extends="default" name="appointments/findAppointmentsByShopAndAppointmentDateEquals">
+        <put-attribute name="body" value="/WEB-INF/views/appointments/findAppointmentsByShopAndAppointmentDateEquals.jspx"/>
+    </definition>
+<definition extends="default" name="appointments/findAppointmentsByShopAndAppointmentDateBetween">
+        <put-attribute name="body" value="/WEB-INF/views/appointments/findAppointmentsByShopAndAppointmentDateBetween.jspx"/>
+    </definition>
+<definition extends="default" name="appointments/findAppointmentsByShopAndCancelledNot">
+        <put-attribute name="body" value="/WEB-INF/views/appointments/findAppointmentsByShopAndCancelledNot.jspx"/>
+    </definition>
+<definition extends="default" name="appointments/findAppointmentsByShopAndClient">
+        <put-attribute name="body" value="/WEB-INF/views/appointments/findAppointmentsByShopAndClient.jspx"/>
+    </definition>
+<definition extends="default" name="appointments/findAppointmentsByShopAndCancelledNotAndAppointmentDateBetween">
+        <put-attribute name="body" value="/WEB-INF/views/appointments/findAppointmentsByShopAndCancelledNotAndAppointmentDateBetween.jspx"/>
+    </definition>
+<definition extends="default" name="appointments/findAppointmentsByShopAndStatusNotAndAppointmentDateBetween">
+        <put-attribute name="body" value="/WEB-INF/views/appointments/findAppointmentsByShopAndStatusNotAndAppointmentDateBetween.jspx"/>
+    </definition>
+<definition extends="default" name="appointments/findAppointmentsByShopAndStatusNotAndCancelledNotAndAppointmentDateBetween">
+        <put-attribute name="body" value="/WEB-INF/views/appointments/findAppointmentsByShopAndStatusNotAndCancelledNotAndAppointmentDateBetween.jspx"/>
+    </definition>
+<definition extends="default" name="appointments/findAppointmentsByAppointmentDateBetween">
+        <put-attribute name="body" value="/WEB-INF/views/appointments/findAppointmentsByAppointmentDateBetween.jspx"/>
+    </definition>
+<definition extends="default" name="appointments/findAppointmentsByBeginDateTimeGreaterThanAndEndDateTimeLessThan">
+        <put-attribute name="body" value="/WEB-INF/views/appointments/findAppointmentsByBeginDateTimeGreaterThanAndEndDateTimeLessThan.jspx"/>
+    </definition>
+<definition extends="default" name="appointments/findAppointmentsByShopAndBeginDateTimeGreaterThanAndEndDateTimeLessThan">
+        <put-attribute name="body" value="/WEB-INF/views/appointments/findAppointmentsByShopAndBeginDateTimeGreaterThanAndEndDateTimeLessThan.jspx"/>
+    </definition>
+<definition extends="default" name="appointments/findAppointmentsByShopAndAppointmentDateEqualsAndBeginDateTimeGreaterThanAndEndDateTimeLessThan">
+        <put-attribute name="body" value="/WEB-INF/views/appointments/findAppointmentsByShopAndAppointmentDateEqualsAndBeginDateTimeGreaterThanAndEndDateTimeLessThan.jspx"/>
+    </definition>
+<definition extends="default" name="appointments/findAppointmentsByShopAndAppointmentDateEqualsAndBeginDateTimeGreaterThanEqualsAndEndDateTimeLessThanEquals">
+        <put-attribute name="body" value="/WEB-INF/views/appointments/findAppointmentsByShopAndAppointmentDateEqualsAndBeginDateTimeGreaterThanEqualsAndEndDateTimeLessThanEquals.jspx"/>
+    </definition>
+<definition extends="default" name="appointments/findAppointmentsByShopAndStatusAndAppointmentDateBetween">
+        <put-attribute name="body" value="/WEB-INF/views/appointments/findAppointmentsByShopAndStatusAndAppointmentDateBetween.jspx"/>
+    </definition>
+<definition extends="default" name="appointments/findAppointmentsByShopAndStatusAndAppointmentDateGreaterThanEquals">
+        <put-attribute name="body" value="/WEB-INF/views/appointments/findAppointmentsByShopAndStatusAndAppointmentDateGreaterThanEquals.jspx"/>
+    </definition>
+<definition extends="default" name="appointments/findAppointmentsByShopAndStatus">
+        <put-attribute name="body" value="/WEB-INF/views/appointments/findAppointmentsByShopAndStatus.jspx"/>
+    </definition>
+<definition extends="default" name="appointments/findAppointmentsByShopAndStatusAndClientNotAndAppointmentDateBetween">
+        <put-attribute name="body" value="/WEB-INF/views/appointments/findAppointmentsByShopAndStatusAndClientNotAndAppointmentDateBetween.jspx"/>
+    </definition>
+<definition extends="default" name="appointments/findAppointmentsByShopAndStatusAndClientIsNotNullAndAppointmentDateBetween">
+        <put-attribute name="body" value="/WEB-INF/views/appointments/findAppointmentsByShopAndStatusAndClientIsNotNullAndAppointmentDateBetween.jspx"/>
+    </definition>
+<definition extends="default" name="appointments/findAppointmentsByShopAndStaff">
+        <put-attribute name="body" value="/WEB-INF/views/appointments/findAppointmentsByShopAndStaff.jspx"/>
+    </definition>
+<definition extends="default" name="appointments/findAppointmentsByShopAndStaffEquals">
+        <put-attribute name="body" value="/WEB-INF/views/appointments/findAppointmentsByShopAndStaffEquals.jspx"/>
+    </definition>
+<definition extends="default" name="appointments/findAppointmentsByShopAndStatusNotAndAppointmentDateBetweenAndStaffEquals">
+        <put-attribute name="body" value="/WEB-INF/views/appointments/findAppointmentsByShopAndStatusNotAndAppointmentDateBetweenAndStaffEquals.jspx"/>
+    </definition>
+<definition extends="default" name="appointments/findAppointmentsByShopAndStatusNotAndStatusNotAndAppointmentDateBetweenAndStaffEquals">
+        <put-attribute name="body" value="/WEB-INF/views/appointments/findAppointmentsByShopAndStatusNotAndStatusNotAndAppointmentDateBetweenAndStaffEquals.jspx"/>
+    </definition>
+<definition extends="default" name="appointments/findAppointmentsByShopAndStatusNotAndStatusNotAndAppointmentDateBetween">
+        <put-attribute name="body" value="/WEB-INF/views/appointments/findAppointmentsByShopAndStatusNotAndStatusNotAndAppointmentDateBetween.jspx"/>
+    </definition>
+<definition extends="default" name="appointments/findAppointmentsByShopAndAppointmentDateGreaterThanAndRecur_parentEquals">
+        <put-attribute name="body" value="/WEB-INF/views/appointments/findAppointmentsByShopAndAppointmentDateGreaterThanAndRecur_parentEquals.jspx"/>
+    </definition>
+<definition extends="default" name="appointments/findAppointmentsByShopAndStatusAndClientIsNotNullAndAppointmentDateBetweenAndStaffEquals">
+        <put-attribute name="body" value="/WEB-INF/views/appointments/findAppointmentsByShopAndStatusAndClientIsNotNullAndAppointmentDateBetweenAndStaffEquals.jspx"/>
+    </definition>
+</tiles-definitions>

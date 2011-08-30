@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <form:create id="fc_com_yourhairsalon_booking_domain_Clients" modelAttribute="clients" path="/clientses" render="${empty dependencies}" z="rj2oXXwtmn1x+xKo+IdXjLEzlcw=">
+        <field:simple field="address" id="c_com_yourhairsalon_booking_domain_Clients_address" messageCode="entity_reference_not_managed" messageCodeAttribute="Addresses" z="s8gQq6ugagxg/d2jkVRdpPgBGS8="/>
+        <field:input field="firstName" id="c_com_yourhairsalon_booking_domain_Clients_firstName" max="30" min="1" required="true" z="bZLl4CR8s6nEjsEd0VFl72gSiJQ="/>
+        <field:input field="lastName" id="c_com_yourhairsalon_booking_domain_Clients_lastName" max="30" min="1" required="true" z="o9xM/apqDJ0oCvstXR8+eVqDZwE="/>
+        <field:datetime dateTimePattern="${clients_birthday_date_format}" field="birthDay" id="c_com_yourhairsalon_booking_domain_Clients_birthDay" z="iVBTxuo3WX4illcgdDxdsBDcHCw="/>
+        <field:select field="client_group" id="c_com_yourhairsalon_booking_domain_Clients_client_group" itemValue="id" items="${clientgroups}" path="/clientgroups" z="cqLjlLjlK4xiGw3O7MW6LaKjVsg="/>
+        <field:select field="shop" id="c_com_yourhairsalon_booking_domain_Clients_shop" itemValue="id" items="${shops}" path="/shops" required="true" z="8d/5UB+X5pDFDEvrB/CT/vhlYTk="/>
+        <field:textarea field="username" id="c_com_yourhairsalon_booking_domain_Clients_username" z="y2kfOrbu56Sz/Uef8hnpJnni9qs="/>
+        <field:simple field="communication" id="c_com_yourhairsalon_booking_domain_Clients_communication" messageCode="entity_reference_not_managed" messageCodeAttribute="Communications" z="7al3lO2HYLmsKSf06UVbaX3NfRQ="/>
+        <field:checkbox field="accepts_notifications" id="c_com_yourhairsalon_booking_domain_Clients_accepts_notifications" z="i8ce0BuN0/dGxwUDfxN9fGDbnF0="/>
+        <field:checkbox field="accepts_receipts" id="c_com_yourhairsalon_booking_domain_Clients_accepts_receipts" z="RtdRSeioP9buR2gYLmJXPS8o7qU="/>
+        <field:checkbox field="accepts_initial" id="c_com_yourhairsalon_booking_domain_Clients_accepts_initial" z="B30NosNpXHwjo05DdeFnZegwy6w="/>
+    </form:create>
+    <form:dependency dependencies="${dependencies}" id="d_com_yourhairsalon_booking_domain_Clients" render="${not empty dependencies}" z="BukD6Igx49c7ksCH686nFzEQY5E="/>
+</div>

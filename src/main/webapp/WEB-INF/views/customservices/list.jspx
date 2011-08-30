@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_com_yourhairsalon_booking_domain_CustomService" items="${customservices}" z="XqL9nw71cwwqDOIiK2DX74nkAbU=">
+        <table:table data="${customservices}" id="l_com_yourhairsalon_booking_domain_CustomService" path="/customservices" z="/shWJIJnMEGK56uhYTgKBLK2HrM=">
+            <table:column id="c_com_yourhairsalon_booking_domain_CustomService_description" property="description" z="PwUxyeTlhUAS7cF0yoEC4wI+NkM="/>
+            <table:column id="c_com_yourhairsalon_booking_domain_CustomService_processtime" property="processtime" z="dLlBjA8irVGYDbh8Ebp2gP3XEdw="/>
+            <table:column id="c_com_yourhairsalon_booking_domain_CustomService_finishtime" property="finishtime" z="RkDgJ5mf28XfEnHi2bHxtV/CL+c="/>
+            <table:column id="c_com_yourhairsalon_booking_domain_CustomService_cost" property="cost" z="Ks6MVGry1htsvQKTMVAlGc44F4k="/>
+            <table:column id="c_com_yourhairsalon_booking_domain_CustomService_sendReminders" property="sendReminders" z="O97z+MRUfP5CPiHDDWmHnvEgxw0="/>
+            <table:column id="c_com_yourhairsalon_booking_domain_CustomService_minsetup" property="minsetup" z="tTR6YKzBNN2eGY+oOMHckca0sos="/>
+        </table:table>
+    </page:list>
+</div>

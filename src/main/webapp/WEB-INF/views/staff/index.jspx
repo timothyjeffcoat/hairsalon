@@ -1,0 +1,1285 @@
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:spring="http://www.springframework.org/tags" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+	<div id="wrapper" style="padding-top:40px;">
+		<div id="page-wrapper">
+
+ <style type="text/css">
+             .dojoxGrid table { margin: 0; } html, body { width: 100%; height: 100%;
+                                                          margin: 0; }
+ </style>
+<script>
+dojo.provide("dojox.io.xhrPlugins");
+dojo.require("dojo.AdapterRegistry");
+dojo.require("dojo._base.xhr");
+dojo.require("dojo.request.xhr");
+dojo.require("dojo.json");
+
+dojo.require("dojo.parser");
+dojo.require("dojo.string");
+dojo.require("dojo.html");
+
+
+dojo.require("dojo.data.ItemFileReadStore");
+dojo.require("dojo.data.ItemFileWriteStore");
+dojo.require("dojox.grid.DataGrid");
+dojo.require("dojox.grid.EnhancedGrid");
+dojo.require("dojox.widget.Standby");
+dojo.require("dijit.Dialog");
+dojo.require("dijit.Tooltip");
+dojo.require("dijit.form.Form");
+dojo.require("dijit.form.Button");
+dojo.require("dijit.form.FilteringSelect");
+dojo.require("dijit.form.ValidationTextBox");
+dojo.require("dijit.form.TextBox");
+dojo.require("dijit.form.DateTextBox");
+dojo.require("dijit.form.CheckBox");
+dojo.require("dijit.form.SimpleTextarea");
+dojo.require("dijit.layout.TabContainer"); 
+
+dojo.require("dijit.layout.ContentPane");
+dojo.require("dijit.layout.TabContainer");
+
+dojo.require("dojox.rpc.Client");
+dojo.require("dojox.grid.enhanced.plugins.IndirectSelection");
+
+</script>
+	<c:choose>
+		<c:when test="${not empty shopname}">
+			<spring:url value="/public/shop/${shopurl}" var="home" />
+		</c:when>
+		<c:otherwise>
+			<spring:url value="/" var="home" />
+		</c:otherwise>
+	</c:choose>
+
+	<ol class="breadcrumb">
+		<li><a href="${home}"><i class="icon-dashboard"></i>Home</a></li>
+		<li class="active"><i class="icon-file-alt"></i>Staff</li>
+	</ol>
+
+	
+		<div id="myTabContainer" style="height: 1800px;">
+			<div id="detailsTab" style="width: 100%">
+			 	<util:panel id="testpanel" title="Staff" openPane="true" >
+				 		<div class="row">
+				 			<div class="col-lg-6">
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<h3 class="panel-title">Staff List</h3>
+									</div>
+
+									<div class="panel-body">
+
+										<div id="firstTabStaffListDiv"
+											style="height: 100%; width: 100%;">
+											<c:set var="allow" value="${allowaddstaff}" />
+
+											<div id="upgraderequired" style="display: none">
+												<p>
+													<span id="status.upgrade.required.errors" class="error">Your
+														current status does not allow you to add more staff!
+														Upgrade your status in the Settings section under Account.</span>
+												</p>
+											</div>
+
+											<p>
+
+
+												<span data-dojo-type="dijit.form.Button" id="addbutton"
+													style="display: none"> Add staff <script
+														type="dojo/method" data-dojo-event="onClick"
+														data-dojo-args="evt">
+												<![CDATA[											
+											try{
+												var dlg = dijit.byId('addStaffDialog');
+												dlg.reset();
+												dlg.show();
+											}catch(e){
+												window.console && console.log(e);
+											}
+												]]>
+											</script>
+											</span> 
+											<span data-dojo-type="dijit.form.Button"> Remove
+													staff <script type="dojo/method" data-dojo-event="onClick"
+														data-dojo-args="evt">
+											<![CDATA[
+												removeStaff();
+											]]>
+											</script>
+												</span>
+											<div>
+												<input dojoType="dijit.form.TextBox"
+													id="filtergridfirsttext" type="text" value="*" /> <span
+													data-dojo-type="dijit.form.Button"> Filter first
+													name <script type="dojo/method" data-dojo-event="onClick"
+														data-dojo-args="evt">
+												<![CDATA[
+												filterFirstNameStaff();
+												]]>
+												</script>
+												</span>
+											</div>
+											<div>
+												<input dojoType="dijit.form.TextBox" id="filtergridtext"
+													type="text" value="*" /> <span
+													data-dojo-type="dijit.form.Button"> Filter last name
+													<script type="dojo/method" data-dojo-event="onClick"
+														data-dojo-args="evt">
+												<![CDATA[
+													filterLastNameStaff();
+												]]>
+												</script>
+												</span> <span data-dojo-type="dijit.form.Button"> Show all <script
+														type="dojo/method" data-dojo-event="onClick"
+														data-dojo-args="evt">
+													<![CDATA[
+													showAllStaff();
+													]]>
+												</script>
+												</span>
+											</div>
+											</p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-6" >
+								<!-- insert column here -->
+									<div id="staff_view" dojoType="dijit.form.Form" jsId="staff_view">
+
+										<div class="panel panel-default">
+											<div class="panel-heading">
+												<h3 class="panel-title">Staff Details</h3>
+											</div>
+										
+										  <div class="panel-body">
+
+														
+															<input dojoType="dijit.form.TextBox" id="selectedstaffid"
+															name="selectedstaffid" type="hidden" class="form-control"/>
+														
+															<div class="form-group">
+																<label for="_firstname">F. name:</label>
+																<input dojoType="dijit.form.ValidationTextBox" id="firstname" required="true" class="form-control"/>
+															</div>
+			
+															<div class="form-group">
+																<label for="_lastname">L. name:</label>
+																<input dojoType="dijit.form.ValidationTextBox" id="lastname" required="true" class="form-control"/>
+															</div>
+			
+															<div class="form-group">
+																<label for="_dob">DOB:</label>
+																<input dojoType="dijit.form.DateTextBox" id="dob" required="false" class="form-control"/>
+															</div>
+			
+															<div class="form-group">
+																<label for="_address1">Address1:</label>
+																<input dojoType="dijit.form.ValidationTextBox" id="address1" required="false" class="form-control"/>
+															</div>
+			
+															<div class="form-group">
+																<label for="_address2">Address2:</label>
+																<input dojoType="dijit.form.ValidationTextBox" id="address2" required="false" class="form-control"/>
+															</div>
+			
+															<div class="form-group">
+																<label for="_city">City:</label>
+																<input dojoType="dijit.form.ValidationTextBox" id="city" required="false" class="form-control"/>
+															</div>
+			
+															<div class="form-group">
+																<label for="_state">State:</label>
+																<input dojoType="dijit.form.ValidationTextBox" id="state" required="false" class="form-control"/>
+															</div>
+			
+															<div class="form-group">
+																<label for="_zip">Zip:</label>
+																<input dojoType="dijit.form.ValidationTextBox" id="zip" required="false" class="form-control"/>
+															</div>
+			
+															<div class="form-group">
+																<label for="_homephone">H. phone:</label>
+																<input dojoType="dijit.form.ValidationTextBox" id="homephone" required="false" class="form-control"/>
+															</div>
+			
+															<div class="form-group">
+																<label for="_workphone">W. phone:</label>
+																<input dojoType="dijit.form.ValidationTextBox" id="workphone" required="false" class="form-control"/>
+															</div>
+			
+															<div class="form-group">
+																<label for="_cellphone">Cell:</label>
+																<input dojoType="dijit.form.ValidationTextBox" id="cellphone" required="false" class="form-control"/>
+															</div>
+			
+															<div class="form-group">
+																<label for="_email">E-mail:</label>
+																<input dojoType="dijit.form.ValidationTextBox" id="email" required="false" class="form-control"/>
+															</div>
+															<div class="checkbox form-group">
+																<label for="_allowgcal" style="width:300px">Allow Google Calendar
+																	<input dojoType="dijit.form.CheckBox" id="allowgcal" required="false" class="checkbox style-2 pull-right" />
+																</label>
+															</div>
+															<div class="form-group">
+																<button id="savestaffbutton" dojoType="dijit.form.Button"
+																	type="button" onClick="updateStaff();" class="form-control">Update
+																	staff</button>
+															</div>
+															<div class="panel panel-default">
+																<div class="panel-heading">
+																	<h3 class="panel-title">Change password</h3>
+																</div>
+															
+															  <div class="panel-body">
+
+															<div class="form-group">
+																<div id="usernamesedit" style="display: none">
+																	<label style="width:300px">Username:</label> 
+																		<input
+																		dojoType="dijit.form.ValidationTextBox" id="editusername"
+																		name="editusername" required="false"
+																		invalidMessage="user name already exists. please select another one." />
+																</div>
+															</div>
+															<div class="form-group">
+																<div id="usernamesdisplay" style="display: none" >
+																	<label style="width:300px">Username:
+																		<input
+																			dojoType="dijit.form.ValidationTextBox"
+																			id="editusernamelabel" name="editusernamelabel"
+																			required="false" disabled="true" class="form-control"/>
+																	</label> 
+																</div>
+															</div>
+															<div class="form-group">
+																	<label style="width:300px">Password: 
+																		<input type="password" dojoType="dijit.form.ValidationTextBox" required="true" name="editpassword" intermediateChanges="false"
+																		id="editpassword" invalidMessage="Please type a password" class="form-control"/>
+																	</label>
+															</div>
+															<div class="form-group">
+																	<label style="width:300px">Re-Enter : 
+																		<input
+																		type="password" dojoType="dijit.form.ValidationTextBox"
+																		required="true" name="edituserPassword"
+																		intermediateChanges="false" id="edituserPassword"
+																		constraints="{'other': 'editpassword'}"
+																		validator="confirmPassword"
+																		invalidMessage="This password doesn't match your first password" class="form-control"/>
+																	</label>
+
+															</div>
+															
+															<div class="form-group">
+																<button id="savestaffpasswordbutton"
+																	dojoType="dijit.form.Button" type="button"
+																	onClick="updateStaffPassword();" class="form-control">Save new password
+																</button>
+															</div>
+															</div>
+														</div>														
+													</div>
+												</div>
+									</div>
+								</div>
+							</div>
+						
+					</util:panel>
+				</div>
+				<!-- another tab... -->
+				<div id="emailTab" >
+					<div id="sendmail" dojoType="dijit.form.Form">
+						<table>
+							<tr>
+								<td>
+									<util:panel id="ecpanel" title="Email Staff" openPane="true">
+										<div>
+											<label for="_to">To:</label>
+										</div>
+										<br />
+										<div>
+											<select dojoType="dijit.form.FilteringSelect" name="tostaff"
+												id="tostaff" autocomplete="true" value="sel">
+												<option value=""></option>
+												<c:forEach items="${selectstaff}" var="item">
+													<option value="${item.email}">${item}</option>
+												</c:forEach>
+											</select>
+										</div>
+										<br />
+										<div>
+											<label for="_subject">Subject:</label>
+										</div>
+										<br />
+										<div>
+											<input dojoType="dijit.form.ValidationTextBox" id="subject"
+												required="true" />
+										</div>
+										<br />
+										<div>
+											<label for="_msg">Message:</label>
+										</div>
+										<br />
+										<div>
+											<input dojoType="dijit.form.SimpleTextarea" type="text"
+												name="msg" id="msg" />
+										</div>
+										<br />
+										<button dojoType="dijit.form.Button" type="button"
+											onClick="send();">Send Message</button>
+
+								</util:panel>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+
+
+			<!-- add the content pane decoration (all tabs must live in content panes) -->
+			<script type="text/javascript">
+			 <![CDATA[
+				 function send(){
+					 	var to = dijit.byId('tostaff');
+					 	window.console && console.log(to.value);
+					 	var sub = dijit.byId('subject');
+						window.console && console.log(sub.value);
+					 	var msg = dijit.byId('msg');
+						window.console && console.log(msg.value);
+						$.getJSON("mystaff/sendmail?t="+to.value+"&s="+sub.value+"&m="+msg.value,
+								function(data){
+									window.console && console.log("the data: "+data);
+									var tdata = JSON.stringify(data);
+									window.console && console.log("tdata: "+tdata);
+						});					 
+					 
+						dojo.forEach(dijit.byId('sendmail').getDescendants(), function(widget) {
+							widget.attr('value', null);
+							}
+						);
+				}
+				 ]]>
+			 </script>
+			<div dojoType="dijit.Dialog" id="formDialog" title="Add group"
+				execute="addGroup(arguments[0]);" style="display: none">
+				<input dojoType="dijit.form.TextBox" type="hidden"
+					id="dialogservicetype" />
+				<p>
+					<label for="dialogname">Name:</label>
+				</p>
+				<p>
+					<input dojoType="dijit.form.TextBox" type="text" name="dialogname"
+						id="dialogname" />
+				</p>
+				<p>
+					<label for="dialognotes">Notes:</label>
+				</p>
+				<p>
+					<input dojoType="dijit.form.SimpleTextarea" type="text"
+						name="dialognotes" id="dialognotes" />
+				</p>
+				<button dojoType="dijit.form.Button" type="button"
+					onClick="addGroup(arguments[0]);dijit.byId('formDialog').hide();">
+					Save</button>
+			</div>
+			<div dojoType="dijit.Dialog" id="addStaffDialog" title="Add Staff"
+				execute="addStaff(arguments[0]);" style="display: none">
+				<div id="register_view" name="register_view"
+					dojoType="dijit.form.Form" jsId="register_view" action=""
+					method="POST" modelAttribute="register">
+					<div>
+						<label for="_firstname_dlg">First name:</label>
+					</div>
+					<br />
+					<div>
+						<div dojoType="dijit.form.ValidationTextBox" id="firstname_dlg"
+							required="true">
+							<script type="dojo/connect" event="onKeyPress" args="event">
+								var firstname = dijit.byId('firstname_dlg').attr("value");
+								dijit.byId('firstname_dlg').set("value", toTitleCase(firstname)); 
+							</script>
+						</div>
+					</div>
+
+					<div>
+						<label for="_lastname_dlg">Last name:</label>
+					</div>
+					<br />
+					<div>
+						<div dojoType="dijit.form.ValidationTextBox" id="lastname_dlg"
+							required="true">
+							<script type="dojo/connect" event="onKeyPress" args="event">
+								var lastname = dijit.byId('lastname_dlg').attr("value");
+								dijit.byId('lastname_dlg').set("value", toTitleCase(lastname)); 
+							</script>
+						</div>
+					</div>
+					<div>
+						<label for="_username">Username:</label>
+					</div>
+					<br />
+					<div>
+						<div dojoType="dijit.form.ValidationTextBox" id="username"
+							name="username" required="true"
+							invalidMessage="user name already exists. please select another one." />
+					</div>
+					<div>
+						<label for="_email">E-mail:</label>
+					</div>
+					<br />
+					<div>
+						<div dojoType="dijit.form.ValidationTextBox" id="useremail"
+							name="useremail"
+							regExp="[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}"
+							promptMessage="Enter email address."
+							invalidMessage="Invalid Email Address." trim="true"
+							required="true" />
+					</div>
+					<br /> <br />
+					<div>
+						<label>Password:</label> <br /> <input type="password"
+							dojoType="dijit.form.ValidationTextBox" required="true"
+							name="password" intermediateChanges="false" id="password"
+							invalidMessage="Please type a password" /> <br /> <label>Re-Enter
+							Password:</label> <br /> <input type="password"
+							dojoType="dijit.form.ValidationTextBox" required="true"
+							name="userPassword" intermediateChanges="false" id="userPassword"
+							constraints="{'other': 'password'}" validator="confirmPassword"
+							invalidMessage="This password doesn't match your first password" />
+
+					</div>
+					<br />
+					<button dojoType="dijit.form.Button" type="button"
+						onClick="if(dijit.byId('addStaffDialog').validate()){saveAddDialog();}">
+						Save</button>
+				</div>
+				<div id="mystery" dojoType="dijit.form.ValidationTextBox"
+					style="display: none" />
+			</div>
+			<script type="text/javascript" src="https://www.google.com/recaptcha/api/js/recaptcha_ajax.js">test</script>
+			<!-- now, find the tab container, and the title pane, (which is the ID with a prefix of '_title'. Add the tab container to the tab pane at the top of it.. Note that the button is at the bottom of the TitlePane. -->
+			<script type="text/javascript">
+			 <![CDATA[
+				function addFieldTo(form_id) { 
+					try{
+						var placeholder = dojo.create("div", {id: "test2"});
+						var myTextBox = new dijit.form.TextBox({
+							id: "test",
+							name: "test",
+							value: "reggae" /* no or empty value! */,
+							placeHolder: "type in your name"
+						}, "test2");
+						
+					
+						var le=dijit.byId('mystery');
+						dojo.place(placeholder, le.domNode, 'last');
+						dojo.place(myTextBox.domNode, placeholder, 'before');
+						var hidval = dijit.byId('test');
+						window.console && console.log('test '+ hidval+ ' here');
+						// hide a widget with id="test"
+						dojo.style(myTextBox.domNode, "display", "none");						
+					}catch(err){
+						window.console && console.log(err);
+					}
+				}				          
+			          
+				 dojo.addOnLoad(function(){
+					 Spring.addDecoration(new Spring.ElementDecoration(
+							 {elementId : 'myTabContainer',
+							 widgetType : 'dijit.layout.TabContainer'}
+							 ));
+					 Spring.addDecoration(new Spring.ElementDecoration(
+							 {elementId : 'detailsTab',
+							 widgetType : 'dijit.layout.ContentPane',
+							 widgetAttrs : {title: 'Staff details / Appt Log ', selected: true}
+							 }));
+					 Spring.addDecoration(new Spring.ElementDecoration(
+							 {elementId : 'emailTab',
+							 widgetType : 'dijit.layout.ContentPane',
+							 widgetAttrs : {title: 'Email staff', selected: true}
+							 }));
+									
+				 	var tabs = dijit.byId("myTabContainer");
+				 	tabs.startup();
+				 	tabs.resize();
+					loadFirstTab();
+					dojo.parser.parse(); 
+					disableStaffForm();
+					var showwidgets = ${allowaddstaff};
+					if(showwidgets){
+						dijit.byId('addbutton').set("style", "display:inline"); 
+						document.getElementById('upgraderequired').style.display = 'none';
+					}else{
+						dijit.byId('addbutton').set("style", "display:none"); 
+						document.getElementById('upgraderequired').style.display = 'inline';
+					}
+					setInterval(function() {
+						isAlive();
+					}, 660000); //11 minutes				      
+					// following is code copied from signup index.jspx
+					dojo.parser.parse();
+					addFieldTo("register_view");
+					var username = dijit.byId("username");
+					var isavailable = true;
+					username.validator = function(value, constraints){
+						dojo.request.xhr("public/signup/isnamedavailable?name="+value, {
+						    handleAs: "json"
+						  }).then(function(data){
+								window.console && console.log("the data: "+data);
+								isavailable = data;
+								if(isavailable == true){
+									window.console && console.log("isavailable is true");
+									dijit.Tooltip.hide( 
+											username.domNode
+										);						
+								}else{
+									window.console && console.log("isavailable is : "+isavailable );
+									window.console && console.log("going to show the username invalidmessage");
+									dijit.Tooltip.show(
+										username.get("invalidMessage"), 
+										username.domNode
+									);											
+									username.focus();
+								}
+								return isavailable;
+						  }, function(err, ioArgs){
+								window.console && console.log("the err: "+err);
+						  }, function(evt){
+								window.console && console.log("the evt: "+evt);
+						  });		
+							return true;
+						}						
+						
+						
+
+					dojo.connect(username, "onChange", function(){
+							window.console && console.log("changed "+username.value);
+							window.console && console.log("the value of username.validator: "+username.validator);
+						});
+					// end following is code copied from signup index.jspx
+					init();
+				 
+				 
+					////////////////////////
+					var editusername = dijit.byId("editusername");
+					var editisavailable = true;
+					editusername.validator = function(value, constraints){
+						dojo.request.xhr("public/signup/isnamedavailable?name="+value, {
+						    handleAs: "json"
+						  }).then(function(data){
+							  window.console && console.log("the data: "+data);
+								editisavailable = data;
+								if(editisavailable == true){
+									window.console && console.log("isavailable is true");
+									dijit.Tooltip.hide( 
+											editisavailable.domNode
+										);						
+									
+								}else{
+									dijit.Tooltip.show(
+											editusername.get("invalidMessage"), 
+											editusername.domNode
+									);											
+									editusername.focus();
+								}
+								return editisavailable;
+						  }, function(err, ioArgs){
+								window.console && console.log("the err: "+err);
+						  }, function(evt){
+								window.console && console.log("the evt: "+evt);
+						  });
+							return true;
+						}						
+				 });
+				 
+				function confirmPassword(value, constraints)
+				{
+					var isValid = false;
+					if(constraints && constraints.other)  {
+						var otherInput =  dijit.byId(constraints.other);
+						if(otherInput) {
+								var otherValue = otherInput.value;
+								isValid = (value == otherValue);
+						}
+					}
+					return isValid;
+				}
+				function onsubmit()
+				{
+					var p1 = dijit.byId('password').value;
+					var p2 = dijit.byId('userPassword').value;
+					return p1 == p2;
+				}
+				function init() {
+				      standby = new dojox.widget.Standby({target: "myTabContainer"});
+				      document.body.appendChild(standby.domNode);
+				}
+			]]>
+		</script>
+		<script type="text/javascript">
+			<![CDATA[
+				
+				var loggedinuser = '${loggedinuser}';
+				var standby;    
+			    var staffs_already_loaded = 'false';
+			    var original_selected_editusername;
+				 function isAlive() {
+						dojo.xhrPost(
+								{
+									url: "myschedule/isalive",
+									content: {
+									  },
+									handleAs: "json",
+									load: function(data) {
+										window.console && console.log("SUCCESS FROM CHECKING alive");
+										window.console && console.log("IS THERE AN APPOINTMENT CONFLICT? "+data);
+										if(data == "true"){
+											window.console && console.log("still alive");
+										}
+									},
+									error: function(error) {
+										window.console && console.log("NOT alive");
+										window.location.reload();
+									}
+								}	            		
+						
+						);		
+					 }			
+			    
+				function toTitleCase(str)
+				{
+					return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+				}	
+				function clearDialog(){
+					dijit.byId('firstname_dlg').set("value", ""); 
+					dijit.byId('lastname_dlg').set("value", ""); 
+					dijit.byId('dob_dlg').set("value", ""); 
+					dijit.byId('address1_dlg').set("value", ""); 
+					dijit.byId('address2_dlg').set("value", ""); 
+					dijit.byId('city_dlg').set("value", ""); 
+					dijit.byId('state_dlg').set("value", ""); 
+					dijit.byId('zip_dlg').set("value", ""); 
+					dijit.byId('homephone_dlg').set("value", ""); 
+					dijit.byId('workphone_dlg').set("value", ""); 
+					dijit.byId('cellphone_dlg').set("value", "");
+					dijit.byId('allowgcal').set("checked", "false");
+					dijit.byId('email_dlg').set("value", ""); 
+			
+				}
+				function clearStaffForm(){
+					dijit.byId('firstname').set("value", ""); 
+					dijit.byId('lastname').set("value", ""); 
+					dijit.byId('dob').set("value", ""); 
+					dijit.byId('address1').set("value", ""); 
+					dijit.byId('address2').set("value", ""); 
+					dijit.byId('city').set("value", ""); 
+					dijit.byId('state').set("value", ""); 
+					dijit.byId('zip').set("value", ""); 
+					dijit.byId('homephone').set("value", ""); 
+					dijit.byId('workphone').set("value", ""); 
+					dijit.byId('cellphone').set("value", ""); 
+					dijit.byId('email').set("value", ""); 
+					dijit.byId("selectedstaffid").set("value", "");
+					dijit.byId("editusername").set("value", "");
+					dijit.byId("editpassword").set("value", "");
+					dijit.byId('allowgcal').set("value", "");
+					disableStaffForm();
+				}
+				function disableStaffForm(){
+					dijit.byId('firstname').set("disabled", "disable"); 
+					dijit.byId('lastname').set("disabled", "disable"); 
+					dijit.byId('dob').set("disabled", "disable"); 
+					dijit.byId('address1').set("disabled", "disable"); 
+					dijit.byId('address2').set("disabled", "disable"); 
+					dijit.byId('city').set("disabled", "disable"); 
+					dijit.byId('state').set("disabled", "disable"); 
+					dijit.byId('zip').set("disabled", "disable"); 
+					dijit.byId('homephone').set("disabled", "disable"); 
+					dijit.byId('workphone').set("disabled", "disable"); 
+					dijit.byId('cellphone').set("disabled", "disable"); 
+					dijit.byId('email').set("disabled", "disable"); 
+					dijit.byId("selectedstaffid").set("disabled", "disable");
+					dijit.byId("savestaffbutton").set("disabled", "disable");
+					dijit.byId("savestaffpasswordbutton").set("disabled", "disable");
+					dijit.byId("editpassword").set("disabled", "disable");
+					dijit.byId("edituserPassword").set("disabled", "disable");
+					dijit.byId("editusername").set("disabled", "disable");
+					dijit.byId('allowgcal').set("disabled", "disable");
+				}
+				function enableStaffForm(){
+					dijit.byId('firstname').set("disabled", false); 
+					dijit.byId('lastname').set("disabled", false); 
+					dijit.byId('dob').set("disabled", false); 
+					dijit.byId('address1').set("disabled", false); 
+					dijit.byId('address2').set("disabled", false); 
+					dijit.byId('city').set("disabled", false); 
+					dijit.byId('state').set("disabled", false); 
+					dijit.byId('zip').set("disabled", false); 
+					dijit.byId('homephone').set("disabled", false); 
+					dijit.byId('workphone').set("disabled", false); 
+					dijit.byId('cellphone').set("disabled", false); 
+					dijit.byId('email').set("disabled", false); 
+					dijit.byId("selectedstaffid").set("disabled", false);
+					dijit.byId("savestaffbutton").set("disabled", false);
+					dijit.byId("savestaffpasswordbutton").set("disabled", false);
+					dijit.byId("editpassword").set("disabled", false);
+					dijit.byId("edituserPassword").set("disabled", false);
+					dijit.byId("editusername").set("disabled", false);
+					dijit.byId('allowgcal').set("disabled", false);
+				}
+				
+			 
+				function saveAddDialog(){
+					var firstname = dijit.byId('firstname_dlg').attr("value");
+					firstname = toTitleCase(firstname);
+					if(firstname == ''){
+						alert('Fill in your first name');
+						return;
+					}
+					var lastname = dijit.byId('lastname_dlg').attr("value");
+					if(lastname == ''){
+						alert('Fill in your first name');
+						return;
+					}
+					lastname = toTitleCase(lastname);
+					
+					var username = dijit.byId('username').attr("value");
+					if(username == ''){
+						alert('Fill in your username');
+						return;
+					}
+					
+					var useremail = dijit.byId('useremail').attr("value");
+					if(useremail == ''){
+						alert('Fill in your email');
+						return;
+					}
+			
+					var password = dijit.byId('password').attr("value");
+					if(password == ''){
+						alert('Fill in your password');
+						return;
+					}
+			
+					var dob = "";
+					var address1 = "";
+					var address2 = "";
+					var city = "";
+					var state = "";
+					var zip = "";
+					var homephone = "";
+					var workphone = "";
+					var cellphone = "";
+					var email = useremail;
+					
+					
+					dojo.request.xhr("mystaff/addstaff?f="+firstname+"&l="+lastname+"&dob="+dob+"&a1="+address1+"&a2="+address2+"&c="+city+"&s="+state+"&z="+zip+"&wp="+workphone+"&hp="+homephone+"&cp="+cellphone+"&e="+email+"&u="+username+"&p="+password, {
+					    handleAs: "json"
+					  }).then(function(data){
+						// response is JSON result
+							window.console && console.log(data);
+							if(data == "SUCCESS"){
+								loadFirstTab();
+								dijit.byId('addbutton').set("style", "display:inline"); 
+							}else if(data == "FAILURE"){
+								var widg = document.getElementById('upgraderequired');
+								widg.style.display = 'inline';
+								dijit.byId('addbutton').set("style", "display:none"); 
+							}else{
+								alert("First name and last name already exists.");
+							}
+							dijit.byId('addStaffDialog').hide();
+							clearDialog();
+							return data;
+					  }, function(err, ioArgs){
+							window.console && console.log("the err: "+err);
+							window.location.reload();
+							return err;							
+					  }, function(evt){
+							window.console && console.log("the evt: "+evt);
+					  });						
+					
+				}
+				
+				function updateStaffPassword(){
+					var staffid = dijit.byId("selectedstaffid").attr("value");
+					var editpassword = dijit.byId("editpassword").attr("value");
+					var editusername = dijit.byId("editusername").attr("value");
+					standby.show();
+					
+					
+					
+					dojo.request.xhr("mystaff/changestaffpw?s="+staffid+"&p="+editpassword+"&u="+editusername, {
+					    handleAs: "json"
+					  }).then(function(data){
+						// response is JSON result
+							window.console && console.log(data);
+							loadFirstTab();
+							standby.hide();
+							return data;
+					  }, function(err, ioArgs){
+							window.console && console.log("the err: "+err);
+							window.location.reload();
+					  }, function(evt){
+							window.console && console.log("the evt: "+evt);
+					  });															
+				}
+				
+				function updateStaff(){
+					var firstname = dijit.byId('firstname').attr("value");
+					var lastname = dijit.byId('lastname').attr("value");
+					var dob = dijit.byId('dob').attr("value");
+					try{
+						dob = dojo.date.locale.format(dob, {datePattern: "yyyy-MM-dd", selector: "date"});
+					}catch(err){
+						window.console && console.log("Error trying to format dob: "+err);
+					}
+					var address1 = dijit.byId('address1').attr("value"); 
+					var address2 = dijit.byId('address2').attr("value"); 
+					var city = dijit.byId('city').attr("value"); 
+					var state = dijit.byId('state').attr("value"); 
+					var zip = dijit.byId('zip').attr("value"); 
+					var homephone = dijit.byId('homephone').attr("value"); 
+					var workphone = dijit.byId('workphone').attr("value"); 
+					var cellphone = dijit.byId('cellphone').attr("value");
+					var allowgcal = dijit.byId('allowgcal').attr("value");
+					var email = dijit.byId('email').attr("value");
+					var staffid = dijit.byId("selectedstaffid").attr("value");
+					standby.show();
+					
+					
+					dojo.request.xhr("mystaff/updatestaff?i="+staffid+"&f="+firstname+"&l="+lastname+"&dob="+dob+"&a1="+address1+"&a2="+address2+"&c="+city+"&s="+state+"&z="+zip+"&wp="+workphone+"&hp="+homephone+"&cp="+cellphone+"&e="+email+"&ag="+allowgcal, {
+					    handleAs: "json"
+					  }).then(function(data){
+						// response is JSON result
+							window.console && console.log(data);
+							loadFirstTab();
+							standby.hide();
+							return data;
+					  }, function(err, ioArgs){
+							window.console && console.log("the err: "+err);
+							window.location.reload();
+							return err;
+					  }, function(evt){
+							window.console && console.log("the evt: "+evt);
+					  });						
+				}
+				function showAllStaff(){
+					var clientgrid = dijit.byId("stafflist");
+					clientgrid.filter({		                        
+						lastName: "*"
+			        });
+				}
+				function filterLastNameStaff(){
+					var clientgrid = dijit.byId("stafflist");
+					var filterclientgrid = dijit.byId("filtergridtext").attr("value");;
+					window.console && console.log("filterclientgrid: "+filterclientgrid);
+					clientgrid.queryOptions = {ignoreCase: true};
+					clientgrid.filter({		                        
+						lastName: filterclientgrid+"*"
+			        });
+				}
+				function filterFirstNameStaff(){
+					var clientgrid = dijit.byId("stafflist");
+					var filterclientgrid = dijit.byId("filtergridfirsttext").attr("value");;
+					window.console && console.log("filterclientgrid: "+filterclientgrid);
+					clientgrid.queryOptions = {ignoreCase: true};
+					clientgrid.filter({		                        
+						firstName: filterclientgrid+"*"
+			        });
+				}	
+				function removeStaff(){
+					var staffid = dijit.byId("selectedstaffid").attr("value");
+					window.console && console.log("trying to remove staff with id: "+staffid);
+					
+					
+					
+					var def = dojo.request.xhr("mystaff/deletestaff?id="+staffid, {
+					    handleAs: "json"
+					  }).then(function(data){
+						// response is JSON result
+							if(data == 'FAILURE'){
+								alert('Failure to remove. staff is associated with existing past present or future appointments. First delete all appointments then remove staff.');					
+							}else{
+								clearStaffForm();
+								loadFirstTab();
+							}
+							return data;
+					  }, function(err, ioArgs){
+							window.console && console.log("the err: "+err);
+							window.location.reload();
+							return response;							
+					  }, function(evt){
+							window.console && console.log("the evt: "+evt);
+					  });									
+																
+
+					var nextdeferred = def.then(function(res){
+								dojo.request.xhr("mystaff/allowadd", {
+								    handleAs: "json"
+								  }).then(function(data){
+									// response is JSON result
+										window.console && console.log(data);
+										if(data==true){
+											dijit.byId('addbutton').set("style", "display:inline"); 
+											document.getElementById('upgraderequired').style.display = 'none';
+										}else{
+											dijit.byId('addbutton').set("style", "display:none"); 
+											document.getElementById('upgraderequired').style.display = 'inline';
+										}
+		
+										return data;
+								  }, function(err, ioArgs){
+										window.console && console.log("the err: "+err);
+										window.location.reload();
+										return err;								
+								  }, function(evt){
+										window.console && console.log("the evt: "+evt);
+								  });															
+											
+								return res;
+								
+							},function(err){
+								// This will be called when the deferred
+								// is rejected
+								window.console && console.log("ERROR " + err);
+							}
+						);
+						
+				}
+				function dateFromUTC( dateAsString, ymdDelimiter )
+				{
+				  var pattern = new RegExp( "(\\d{4})" + ymdDelimiter + "(\\d{2})" + ymdDelimiter + "(\\d{2}) (\\d{2}):(\\d{2}):(\\d{2})" );
+				  var parts = dateAsString.match( pattern );
+			
+				  return new Date( Date.UTC(
+					  parseInt( parts[1] )
+					, parseInt( parts[2], 10 ) - 1
+					, parseInt( parts[3], 10 )
+					, parseInt( parts[4], 10 )
+					, parseInt( parts[5], 10 )
+					, parseInt( parts[6], 10 )
+					, 0
+				  ));
+				}	
+				function TraxDetails(response){
+					var isJSON;
+					var data;
+					try {
+						window.console && console.log(response);
+						data = JSON.parse(response);
+						window.console && console.log(data);
+						isJSON = true;
+					}
+					catch (e) {
+						isJSON = false;
+					}
+			
+					if (isJSON) {
+						// data is already parsed, so just use it
+						// handle response codes
+						// do something with returned data
+						
+						if(data.constructor == Array){
+							
+							var cntr = 0;
+							var myStaffs=new Array(); // regular array (add an optional integer
+							dijit.byId('staff_view').reset();
+							for(var key in data) {
+								staffdata = new Object();
+								staffdata.id = data[key].id;
+								window.console && console.log("staff id: "+staffdata.id);
+								staffdata.firstName = data[key].firstName;
+								var fname = dijit.byId('firstname');
+								fname.set("value", toTitleCase(staffdata.firstName));
+								
+								var editusername = dijit.byId('editusername');
+								var editusernamelabel = dijit.byId('editusernamelabel');
+								var usernamesedit = document.getElementById('usernamesedit');
+								var usernamesdisplay = document.getElementById('usernamesdisplay');
+								original_selected_editusername = data[key].username;
+								if(original_selected_editusername == null || original_selected_editusername == ''){
+									usernamesdisplay.style.display = 'none';
+									usernamesedit.style.display = 'block';
+								}else{
+									usernamesdisplay.style.display = 'block';
+									usernamesedit.style.display = 'none';
+									editusernamelabel.set("value", data[key].username);
+								}
+								
+								
+								staffdata.lastName = data[key].lastName;
+								var lname = dijit.byId('lastname');
+								lname.set("value", toTitleCase(staffdata.lastName));
+								window.console && console.log("dob value: "+data[key].birthDay);
+								if(data[key].birthDay != null){
+									var dob_dt = dateFromUTC(data[key].birthDay ,"-");
+									dijit.byId('dob').set("value", dob_dt);
+									window.console && console.log("the dob is: "+dob_dt);
+								}else{
+									
+								}
+								 
+								dijit.byId('address1').set("value", data[key].address1); 
+								dijit.byId('address2').set("value", data[key].address2); 
+								dijit.byId('city').set("value", data[key].citycode); 
+								dijit.byId('state').set("value", data[key].statecode); 
+								dijit.byId('zip').set("value", data[key].zipcode); 
+								dijit.byId('homephone').set("value", data[key].home_phone); 
+								dijit.byId('workphone').set("value", data[key].work_phone); 
+								dijit.byId('cellphone').set("value", data[key].cell_phone);
+								if(data[key].use_gcalendar == "true"){
+									dijit.byId('allowgcal').set("checked", true);
+								}else{
+									dijit.byId('allowgcal').set("checked", false);
+								}
+								dijit.byId('email').set("value", data[key].email); 
+								dijit.byId("selectedstaffid").set("value", staffdata.id);
+								
+							}
+							staffstore = new Object();
+							try{
+								var newStore = new dojo.data.ItemFileReadStore({data: {  identifier: "",  items: []}});
+								historygrid = dijit.byId("historygrid");
+								historygrid.setStore(newStore);
+								historygrid._refresh();
+							}catch(err){}
+							
+							return staffstore;
+							
+						}
+					}
+				 }    	
+				function TraxC(response){
+					var isJSON;
+					var data;
+					try {
+						window.console && console.log(response);
+						data = JSON.parse(response);
+						window.console && console.log(data);
+						isJSON = true;
+					}
+					catch (e) {
+						isJSON = false;
+					}
+			
+					if (isJSON) {
+						// data is already parsed, so just use it
+						// handle response codes
+						// do something with returned data
+						
+						if(data.constructor == Array){
+							
+							var cntr = 0;
+							var myStaffs=new Array(); // regular array (add an optional integer
+							for(var key in data) {
+								staffdata = new Object();
+								staffdata.id = data[key].id;
+								staffdata.firstName = data[key].firstName;
+								staffdata.lastName = data[key].lastName;
+								
+								myStaffs[cntr]=staffdata;       						
+								cntr = cntr + 1;
+							}
+							staffstore = new Object();
+							staffstore.items = myStaffs;
+							staffstore.identifier = 'id';
+							staffstore.label = 'group_name';
+							return staffstore;
+							
+						}else{
+							window.console && console.log(data.id);
+							window.console && console.log(data.value);
+							staffdata = new Object();
+							staffdata.id = data.id;
+							staffdata.firstName = data.firstName;
+							staffdata.lastName = data.lastName;
+							
+							
+							var myCars=new Array(); // regular array (add an optional integer
+							myCars[0]=staffdata;       						
+							
+							staffstore = new Object();
+							staffstore.items = myCars;
+							staffstore.identifier = 'id';
+							staffstore.label = 'description';
+							return staffstore;
+							
+							
+						}
+					}
+				 }    
+				function Trax(response){
+					var isJSON;
+					var data;
+					try {
+						window.console && console.log(response);
+						data = JSON.parse(response);
+						window.console && console.log(data);
+						isJSON = true;
+					}
+					catch (e) {
+						isJSON = false;
+					}
+			
+					if (isJSON) {
+						// data is already parsed, so just use it
+						// handle response codes
+						// do something with returned data
+						
+						if(data.constructor == Array){
+							
+							var cntr = 0;
+							var myStaffs=new Array(); // regular array (add an optional integer
+							for(var key in data) {
+								staffdata = new Object();
+								staffdata.id = data[key].id;
+								staffdata.group_name = data[key].group_name;
+							
+								myStaffs[cntr]=staffdata;       						
+								cntr = cntr + 1;
+							}
+							staffstore = new Object();
+							staffstore.items = myStaffs;
+							staffstore.identifier = 'id';
+							staffstore.label = 'group_name';
+							return staffstore;
+							
+						}else{
+							window.console && console.log(data.id);
+							window.console && console.log(data.value);
+							staffdata = new Object();
+							staffdata.id = data.id;
+							staffdata.description = data.group_name;
+							
+							
+							var myCars=new Array(); // regular array (add an optional integer
+							myCars[0]=staffdata;       						
+							
+							staffstore = new Object();
+							staffstore.items = myCars;
+							staffstore.identifier = 'id';
+							staffstore.label = 'description';
+							return staffstore;
+							
+							
+						}
+					}
+				 }
+			
+			
+			
+				 // begin: load first tab 
+				 function loadFirstTab(){
+					var stafflist;
+					dojo.request.xhr("mystaff/list", {
+					    handleAs: "json"
+					  }).then(function(data){
+						// response is JSON result
+							window.console && console.log("the response: "+data);
+							var tdata = TraxC(JSON.stringify(data));
+							window.console && console.log("tdata: "+tdata);
+							var pstore = new dojo.data.ItemFileWriteStore({
+										   'data':tdata
+									  });
+							
+							window.console && console.log("pstore: "+pstore);
+							/*set up layout*/
+							var layout = [
+								[
+									{
+										'name': 'id',
+										'field': 'id',
+										'width': '0px'
+									},
+									{
+										'name': 'First Name',
+										'field': 'firstName',
+										'width': '200px'
+									},
+									{
+										'name': 'Last Name ',
+										'field': 'lastName',
+										'width': '150px'
+									}
+							]];			
+							
+							if (!dijit.byId("stafflist")) {
+								try{
+									stafflist = new dojox.grid.EnhancedGrid({
+										id: 'stafflist',
+										store: pstore,
+										editable: false,
+										structure: layout,
+										clientSort:"true",
+										autoWidth: "true",
+										autoHeight: "true",
+										selectionMode: "single",
+										autoWidth:true,
+										plugins:{
+													indirectSelection: {
+														name: "Selection",
+														width: "70px",
+														styles: "text-align: center;"
+													}					
+												}
+									},
+									document.createElement('div')
+									);
+								}catch(err){
+									window.console && console.log("err: "+err);
+								}
+								dojo.byId("firstTabStaffListDiv").appendChild(stafflist.domNode);
+								stafflist.update();
+								/*Call startup() to render the grid*/
+								stafflist.layout.setColumnVisibility(1, false);							
+								stafflist.startup();
+					
+							}else{
+								stafflist = dijit.byId("stafflist");
+								stafflist.store = pstore;
+								stafflist.layout.setColumnVisibility(1, false);							
+								stafflist._refresh();
+							}		
+							dijit.byId("stafflist").setSortIndex(2, true);
+							dijit.byId("stafflist").sort();
+							dojo.connect(stafflist, "onRowClick", function(e){
+									standby.show();
+				                    window.console && console.log("onRowClickConnect "+e.rowIndex);
+									var item = stafflist.getItem(e.rowIndex); //The 3rd row 
+									if(item){ //in case the row is not loaded 
+										var staffid = stafflist.getCell(1).get(e.rowIndex, item);
+										window.console && console.log("the customer id: "+staffid);
+										dojo.request.xhr("mystaff/viewstaff?id="+staffid, {
+										    handleAs: "json"
+										  }).then(function(data){
+											enableStaffForm();
+											var data = TraxDetails(JSON.stringify(data))
+											standby.hide();
+											return data;
+										  }, function(err, ioArgs){
+												window.console && console.log("the err: "+err);
+										  }, function(evt){
+												window.console && console.log("the evt: "+evt);
+										  });									
+									}						
+				                }
+							);
+							
+							return tdata;
+					  }, function(err, ioArgs){
+							window.console && console.log("the err: "+err);
+					  }, function(evt){
+							window.console && console.log("the evt: "+evt);
+					  });
+				 }	 
+				 // end: load first tab
+				 ]]>
+			</script>			 
+				</div>
+		
+		</div>
+	</div>
+</div>

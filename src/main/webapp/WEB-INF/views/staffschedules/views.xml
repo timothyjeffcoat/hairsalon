@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+    <definition extends="default" name="staffschedules/list">
+        <put-attribute name="body" value="/WEB-INF/views/staffschedules/list.jspx"/>
+    </definition>
+<definition extends="default" name="staffschedules/show">
+        <put-attribute name="body" value="/WEB-INF/views/staffschedules/show.jspx"/>
+    </definition>
+<definition extends="default" name="staffschedules/create">
+        <put-attribute name="body" value="/WEB-INF/views/staffschedules/create.jspx"/>
+    </definition>
+<definition extends="default" name="staffschedules/update">
+        <put-attribute name="body" value="/WEB-INF/views/staffschedules/update.jspx"/>
+    </definition>
+<definition extends="default" name="staffschedules/findStaffSchedulesByShop">
+        <put-attribute name="body" value="/WEB-INF/views/staffschedules/findStaffSchedulesByShop.jspx"/>
+    </definition>
+<definition extends="default" name="staffschedules/findStaffSchedulesById">
+        <put-attribute name="body" value="/WEB-INF/views/staffschedules/findStaffSchedulesById.jspx"/>
+    </definition>
+</tiles-definitions>

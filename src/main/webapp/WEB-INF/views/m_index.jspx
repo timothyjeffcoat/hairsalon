@@ -1,0 +1,82 @@
+<div id="header" xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags" version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
+
+	<div data-role="page" class="type-home">
+		<span>
+		  <spring:url value="/static/j_spring_security_logout" var="logout"/>
+		  <a href="${logout}">
+			<spring:message code="security_logout"/>
+		  </a>
+		</span>
+
+		<div data-role="header">
+			<h1>Scheduleem.com</h1>
+		</div>
+		<div data-role="content">	
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-40547165-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+<script type="text/javascript">
+function getBaseURL() {
+    var url = location.href;  // entire url including querystring - also: window.location.href;
+	var firstslash = url.indexOf('/', 14);
+    var baseURL = url.substring(0, firstslash);
+	var restofurl = url.substring(firstslash+1, url.length);
+	var secondslash = restofurl.indexOf('/');
+	var webapp =  restofurl.substring(0, secondslash);
+    if (baseURL.indexOf('http://localhost') != -1) {
+        // Base Url for localhost
+        var url = location.href;  // window.location.href;
+        var pathname = location.pathname;  // window.location.pathname;
+        var index1 = url.indexOf(pathname);
+        var index2 = url.indexOf("/", index1 + 1);
+        var baseLocalUrl = url.substr(0, index2);
+        return baseLocalUrl + "/"+ webapp;
+    }
+    else {
+        // Root Url for domain name
+        return baseURL + "/" + webapp;
+    }
+
+}
+function changepage(page){
+	window.location.href = getBaseURL() + page;
+}
+</script>		
+			<p>Shop</p>		
+			<ul data-role="listview" data-inset="true" data-filter="false">
+				<li><a rel="external" onclick="changepage('/myschedule');"><spring:message code="global_menu_schedule"/></a></li>
+				<li><a rel="external" onclick="changepage('/clients/mclients');"><spring:message code="global_menu_clients"/></a></li>
+				<spring:url value="/mystaff/m_index" var="mstaff"/>
+				<li><a rel="external" href="${mstaff}"><spring:message code="global_menu_staff"/></a></li>
+				<li><a rel="external" onclick="changepage('/services/mservices');"><spring:message code="global_menu_services"/></a></li>
+				<sec:authorize ifAnyGranted="ROLE_ADMIN,ROLE_CUSTOMERADMIN">
+					<li><a rel="external" onclick="changepage('/settings/msettings');"><spring:message code="global_menu_settings"/></a></li>
+					<li><a rel="external" onclick="changepage('/reports/mreports');"><spring:message code="global_menu_reports"/></a></li>
+				</sec:authorize>
+				<li><a rel="external" onclick="changepage('/audit');"><spring:message code="global_menu_audit"/></a></li>
+			</ul>
+			
+		</div>
+		<div data-role="footer" class="footer-docs" data-theme="c">
+				<p>  <spring:message code="global_menu_copyright"/></p>
+		</div>	
+	</div>
+	
+</div>

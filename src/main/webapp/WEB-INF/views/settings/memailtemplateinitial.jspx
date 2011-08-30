@@ -1,0 +1,378 @@
+<div id="header" xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" 
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags" version="2.0">
+
+	<spring:url value="/resources/htmlarea/style/jHtmlArea.css" var="htmlarea_css" />
+	<spring:url value="/resources/ckeditor/plugins/s_apptdate/lightbulb.gif" var="apptdate" />
+	<spring:url value="/resources/ckeditor/plugins/s_apptservicename/lightbulb.gif" var="apptservicename" />
+	<spring:url value="/resources/ckeditor/plugins/s_apptserviceprice/lightbulb.gif" var="apptserviceprice" />
+	<spring:url value="/resources/ckeditor/plugins/s_appttime/lightbulb.gif" var="appttime" />
+	<spring:url value="/resources/ckeditor/plugins/s_firstname/lightbulb.gif" var="firstname" />
+	<spring:url value="/resources/ckeditor/plugins/s_lastname/lightbulb.gif" var="lastname" />
+	<spring:url value="/resources/ckeditor/plugins/s_fullname/lightbulb.gif" var="fullname" />
+	<spring:url value="/resources/ckeditor/plugins/s_stafffirstname/lightbulb.gif" var="stafffirstname" />
+	<spring:url value="/resources/ckeditor/plugins/s_stafflastname/lightbulb.gif" var="stafflastname" />
+	<spring:url value="/resources/ckeditor/plugins/s_stafffullname/lightbulb.gif" var="stafffullname" />
+
+	<spring:url value="/resources/htmlarea/scripts/jHtmlArea-0.7.5.js" var="htmlarea_js" />
+	<script type="text/javascript" src="${htmlarea_js}"><!-- required for FF3 and Opera --></script>
+	<link rel="stylesheet" type="text/css" href="${htmlarea_css}"><!-- required for FF3 and Opera --></link>
+	
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
+
+	<script type="text/javascript">
+	
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-40547165-1']);
+	  _gaq.push(['_trackPageview']);
+	
+	  (function() {
+	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+	
+	</script>
+
+	<script>
+		//reset type=date inputs to text
+		$( document ).bind( "mobileinit", function(){
+			$.mobile.page.prototype.options.degradeInputs.birthDay = true;
+		});	
+	</script>
+    <style type="text/css">
+        /* body { background: #ccc;} */
+        div.jHtmlArea .ToolBar ul li a.custom_firstname_button 
+        {
+            background: url(${firstname}) no-repeat;
+            background-position: 0 0;
+        }
+        div.jHtmlArea .ToolBar ul li a.custom_lastname_button 
+        {
+            background: url(${lastname}) no-repeat;
+            background-position: 0 0;
+        }
+        div.jHtmlArea .ToolBar ul li a.custom_fullname_button 
+        {
+            background: url(${fullname}) no-repeat;
+            background-position: 0 0;
+        }
+        div.jHtmlArea .ToolBar ul li a.custom_stafffirstname_button 
+        {
+            background: url(${stafffirstname}) no-repeat;
+            background-position: 0 0;
+        }
+        div.jHtmlArea .ToolBar ul li a.custom_stafflastname_button 
+        {
+            background: url(${stafflastname}) no-repeat;
+            background-position: 0 0;
+        }
+        div.jHtmlArea .ToolBar ul li a.custom_stafffullname_button 
+        {
+            background: url(${stafffullname}) no-repeat;
+            background-position: 0 0;
+        }
+        div.jHtmlArea .ToolBar ul li a.custom_apptdate_button 
+        {
+            background: url(${apptdate}) no-repeat;
+            background-position: 0 0;
+        }
+        div.jHtmlArea .ToolBar ul li a.custom_apptservicename_button 
+        {
+            background: url(${apptservicename}) no-repeat;
+            background-position: 0 0;
+        }
+        div.jHtmlArea .ToolBar ul li a.custom_apptserviceprice_button 
+        {
+            background: url(${apptserviceprice}) no-repeat;
+            background-position: 0 0;
+        }
+        div.jHtmlArea .ToolBar ul li a.custom_appttime_button 
+        {
+            background: url(${appttime}) no-repeat;
+            background-position: 0 0;
+        }
+        div.jHtmlArea { border: solid 1px #ccc; }
+    </style>
+	
+	<div data-role="page" class="type-home">
+		<span>
+			<spring:url value="/resources/j_spring_security_logout" var="logout"/>
+			<div class="ui-grid-a">
+				<div class="ui-block-a">
+				  <a href="${logout}">
+					<spring:message code="security_logout"/>
+				  </a>
+				</div>
+				<div class="ui-block-b">
+				<spring:url value="/settings/msettings" var="back"/>
+				<a rel="external" href="${back}" data-icon="back" data-rel="back">Back</a>
+				</div>
+			</div><!-- /grid-a -->
+		</span>
+		<div data-role="header">
+			<h1>Scheduleem.com</h1>
+		</div>
+		<div data-role="header" data-theme="f">
+			<spring:url value="/" var="home"/>
+			<a rel="external" href="${home}" data-icon="home" data-iconpos="notext" data-direction="reverse" class="ui-btn-right jqm-home">Schedule</a>
+		</div><!-- /header -->
+		
+		<div data-role="content">	
+			<div class="content-primary">
+				<h2>Initial e-mail template</h2>
+				<br/>
+				Sent whenever an appointment is created or updated.
+			</div><!--/content-primary -->		
+			
+			<div class="content-secondary">
+				<div data-role="collapsible" data-collapsed="false" data-theme="b" data-content-theme="d">
+						<p>
+							<form action="../settings/updateiemailtemplate" method="post" data-ajax="false">
+								<input type="hidden" name="gotourl" id="gotourl" value="./mdisplay"/>
+								<div data-role="fieldcontain">
+						         <label for="iemailaddress">E-mail address:</label>
+						         <input type="text" name="iemailaddress" id="iemailaddress" value="${shopsettings.iemail_address}"  />
+								</div>
+								<div data-role="fieldcontain">
+						         <label for="iemail_subject">E-mail subject:</label>
+						         <input type="text" name="iemail_subject" id="iemail_subject" value="${fn:escapeXml(shopsettings.iemail_subject)}"  />
+								</div>
+								<div data-role="fieldcontain">
+							         <label for="iemail_message">E-mail message:</label>
+								    <textarea name="iemail_message" id="iemail_message" cols="50" rows="15" >${fn:escapeXml(shopsettings.iemail_message)}</textarea>
+								    <script type="text/javascript">
+								    <![CDATA[
+								        // You can do this to perform a global override of any of the "default" options
+								        // jHtmlArea.fn.defaultOptions.css = "jHtmlArea.Editor.css";
+								
+								        $(function() {
+								        	$("#iemail_message").htmlarea({
+								        	    // Override/Specify the Toolbar buttons to show
+								        	    toolbar: [
+								        	        ["html"], ["bold", "italic", "underline", "|", "forecolor"],
+								        	        ["h1", "h2", "h3", "h4", "h5", "h6"],
+								        	        ["link", "unlink", "|", "image"],
+								        	        [
+								        	            {
+								        	                // The CSS class used to style the <a> tag of the toolbar button
+								        	                css: 'custom_fullname_button',
+
+								        	                // The text to use as the <a> tags "Alt" attribute value
+								        	                text: 'Client full name',
+
+								        	                // The callback function to execute when the toolbar button is clicked
+								        	                action: function (btn) {
+								        	                    // 'this' = jHtmlArea object
+								        	                    // 'btn' = jQuery object that represents the <a> ("anchor") tag for the toolbar button
+
+								        	                    // Take some action or do something here
+								        	                	 this.pasteHTML("&#36;&#123;clientfullname&#125;");
+
+								        	                }
+								        	            }
+								        	        ],
+								        	        [
+								        	            {
+								        	                // The CSS class used to style the <a> tag of the toolbar button
+								        	                css: 'custom_firstname_button',
+
+								        	                // The text to use as the <a> tags "Alt" attribute value
+								        	                text: 'Client first name',
+
+								        	                // The callback function to execute when the toolbar button is clicked
+								        	                action: function (btn) {
+								        	                    // 'this' = jHtmlArea object
+								        	                    // 'btn' = jQuery object that represents the <a> ("anchor") tag for the toolbar button
+
+								        	                    // Take some action or do something here
+								        	                	 this.pasteHTML("&#36;&#123;clientfirstname&#125;");
+
+								        	                }
+								        	            }
+								        	        ],
+								        	        [
+								        	            {
+								        	                // The CSS class used to style the <a> tag of the toolbar button
+								        	                css: 'custom_lastname_button',
+
+								        	                // The text to use as the <a> tags "Alt" attribute value
+								        	                text: 'Client last name',
+
+								        	                // The callback function to execute when the toolbar button is clicked
+								        	                action: function (btn) {
+								        	                    // 'this' = jHtmlArea object
+								        	                    // 'btn' = jQuery object that represents the <a> ("anchor") tag for the toolbar button
+
+								        	                    // Take some action or do something here
+								        	                	 this.pasteHTML("&#36;&#123;clientlastname&#125;");
+
+								        	                }
+								        	            }
+								        	        ],
+								        	        [
+								        	            {
+								        	                // The CSS class used to style the <a> tag of the toolbar button
+								        	                css: 'custom_stafffirstname_button',
+
+								        	                // The text to use as the <a> tags "Alt" attribute value
+								        	                text: 'Staff first name',
+
+								        	                // The callback function to execute when the toolbar button is clicked
+								        	                action: function (btn) {
+								        	                    // 'this' = jHtmlArea object
+								        	                    // 'btn' = jQuery object that represents the <a> ("anchor") tag for the toolbar button
+
+								        	                    // Take some action or do something here
+								        	                	 this.pasteHTML("&#36;&#123;stafffirstname&#125;");
+
+								        	                }
+								        	            }
+								        	        ],
+								        	        [
+								        	            {
+								        	                // The CSS class used to style the <a> tag of the toolbar button
+								        	                css: 'custom_stafflastname_button',
+
+								        	                // The text to use as the <a> tags "Alt" attribute value
+								        	                text: 'Staff last name',
+
+								        	                // The callback function to execute when the toolbar button is clicked
+								        	                action: function (btn) {
+								        	                    // 'this' = jHtmlArea object
+								        	                    // 'btn' = jQuery object that represents the <a> ("anchor") tag for the toolbar button
+
+								        	                    // Take some action or do something here
+								        	                	 this.pasteHTML("&#36;&#123;stafflastname&#125;");
+
+								        	                }
+								        	            }
+								        	        ],
+								        	        [
+								        	            {
+								        	                // The CSS class used to style the <a> tag of the toolbar button
+								        	                css: 'custom_stafffullname_button',
+
+								        	                // The text to use as the <a> tags "Alt" attribute value
+								        	                text: 'Staff full name',
+
+								        	                // The callback function to execute when the toolbar button is clicked
+								        	                action: function (btn) {
+								        	                    // 'this' = jHtmlArea object
+								        	                    // 'btn' = jQuery object that represents the <a> ("anchor") tag for the toolbar button
+
+								        	                    // Take some action or do something here
+								        	                	 this.pasteHTML("&#36;&#123;stafffullname&#125;");
+
+								        	                }
+								        	            }
+								        	        ],
+								        	        [
+								        	            {
+								        	                // The CSS class used to style the <a> tag of the toolbar button
+								        	                css: 'custom_apptdate_button',
+
+								        	                // The text to use as the <a> tags "Alt" attribute value
+								        	                text: 'Appointment date',
+
+								        	                // The callback function to execute when the toolbar button is clicked
+								        	                action: function (btn) {
+								        	                    // 'this' = jHtmlArea object
+								        	                    // 'btn' = jQuery object that represents the <a> ("anchor") tag for the toolbar button
+
+								        	                    // Take some action or do something here
+								        	                	 this.pasteHTML("&#36;&#123;apptdate&#125;");
+
+								        	                }
+								        	            }
+								        	        ],
+								        	        [
+								        	            {
+								        	                // The CSS class used to style the <a> tag of the toolbar button
+								        	                css: 'custom_appttime_button',
+
+								        	                // The text to use as the <a> tags "Alt" attribute value
+								        	                text: 'Appointment time',
+
+								        	                // The callback function to execute when the toolbar button is clicked
+								        	                action: function (btn) {
+								        	                    // 'this' = jHtmlArea object
+								        	                    // 'btn' = jQuery object that represents the <a> ("anchor") tag for the toolbar button
+
+								        	                    // Take some action or do something here
+								        	                	 this.pasteHTML("&#36;&#123;appttime&#125;");
+
+								        	                }
+								        	            }
+								        	        ],
+								        	        [
+								        	            {
+								        	                // The CSS class used to style the <a> tag of the toolbar button
+								        	                css: 'custom_apptservicename_button',
+
+								        	                // The text to use as the <a> tags "Alt" attribute value
+								        	                text: 'Appointment service name',
+
+								        	                // The callback function to execute when the toolbar button is clicked
+								        	                action: function (btn) {
+								        	                    // 'this' = jHtmlArea object
+								        	                    // 'btn' = jQuery object that represents the <a> ("anchor") tag for the toolbar button
+
+								        	                    // Take some action or do something here
+								        	                	 this.pasteHTML("&#36;&#123;apptservicename&#125;");
+
+								        	                }
+								        	            }
+								        	        ],
+								        	        [
+								        	            {
+								        	                // The CSS class used to style the <a> tag of the toolbar button
+								        	                css: 'custom_apptserviceprice_button',
+
+								        	                // The text to use as the <a> tags "Alt" attribute value
+								        	                text: 'Appointment service price',
+
+								        	                // The callback function to execute when the toolbar button is clicked
+								        	                action: function (btn) {
+								        	                    // 'this' = jHtmlArea object
+								        	                    // 'btn' = jQuery object that represents the <a> ("anchor") tag for the toolbar button
+
+								        	                    // Take some action or do something here
+								        	                	 this.pasteHTML("&#36;&#123;apptserviceprice&#125;");
+
+								        	                }
+								        	            }
+								        	        ]
+								        	    ]
+								        	});
+								        });
+								        ]]>
+								    </script>
+								    
+								    <!-- alert($('#email_message').htmlarea('getSelectedHTML')); -->
+    						         
+								</div>
+								<div data-role="fieldcontain">
+						         <label for="iemail_signature">E-mail signature:</label>
+						         <input type="text" name="iemail_signature" id="iemail_signature" value="${fn:escapeXml(shopsettings.iemail_signature)}"  />
+								</div>
+								<div class="ui-body ui-body-b">
+									<fieldset class="ui-grid-a">
+											<div class="ui-block-a"><button type="button" onClick="parent.location='../settings/msettings'" data-theme="d">Cancel</button></div>
+											<div class="ui-block-b"><button type="submit" data-theme="a">Submit</button></div>
+								    </fieldset>
+								</div>
+							
+							</form>						
+						</p>
+				</div>
+			</div>			
+		</div>
+		<div data-role="footer" class="footer-docs" data-theme="c">
+				<p>  copy 2013 Scheduleem.com</p>
+		</div>	
+	</div>
+</div>

@@ -1,0 +1,59 @@
+<div xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:oform="http://www.springframework.org/tags/form" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:spring="http://www.springframework.org/tags" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0" xmlns:formd="http://www.springframework.org/tags/form">
+<util:load-scripts />
+	<fieldset style="width: 95%;" title="Reports"><legend>Not checked out report</legend>
+	  <jsp:directive.page contentType="text/html;charset=UTF-8" />
+	  <jsp:output omit-xml-declaration="yes" />
+	  <spring:message var="app_name" code="application_name" />
+	  <spring:message var="title" code="welcome_titlepane" arguments="${app_name}" />
+
+		<div class="ui-corner-all" id="left_col_report">
+			<fmt:formatDate var="firstdayform" value='${firstday}' pattern="MM-dd-yyyy"/>
+			<fmt:formatDate var="lastdayform" value='${lastday}' pattern="MM-dd-yyyy"/>
+			<h1>${firstdayform} to ${lastdayform}</h1>
+			<table id="at_a_glance">
+					<tbody><tr>
+						<td># of not checked out</td><td style="text-align:right;">${fn:length(appointments)}</td>
+					</tr>
+				</tbody>
+			</table>
+        </div>
+		<div class="t">
+			<table id="appts" width="100%">
+				<th id="apptdate" >Date</th>
+				<th id="staff" >Staff</th>
+				<th id="client" >Client</th>
+				<th id="amt" >Amount</th>
+				<th id="service" >Service</th>
+				<c:set var="sum" value="${0}"/>
+				<c:forEach var="appoint" items="${appointments}" varStatus="status">
+					<fmt:formatNumber var="formattedValue1" value='${appoint.service1cost}' currencySymbol='$' type='currency'/>
+					<c:set var="sum" value="${sum+appoint.service1cost}"/>
+					<fmt:formatDate var="formattedappt" value='${appoint.appointmentDate}' pattern="MM-dd-yyyy"/>
+					<tr id="${appoint.id}" onMouseOver="this.className='highlight'" onMouseOut="this.className='normal'" >
+						<td width="10%"><c:out value="${formattedappt} "/></td>
+						<td width="25%"><c:out value="${appoint.staff.firstName} ${appoint.staff.lastName}"/></td>
+						<td width="25%"><c:out value="${appoint.client.firstName} ${appoint.client.lastName}"/></td>
+						<td width="10%"><c:out value="${formattedValue1}"/></td>
+						<td width="25%"><c:out value="${appoint.servicename1}"/></td>
+					</tr>
+						<c:if test="${status.last}">
+							<tr id="${payment.id}" onMouseOver="this.className='highlight'" onMouseOut="this.className='normal'" >
+								<td width="10%">TOTALS</td>
+								<fmt:formatNumber var="totalpayformat" value='${sum}' currencySymbol='$' type='currency'/>
+								<fmt:formatNumber var="totalgratuityformat" value='${totalgratuity}' currencySymbol='$' type='currency'/>
+								<fmt:formatNumber var="totalamountgratuityformat" value='${totalamountgratuity}' currencySymbol='$' type='currency'/>
+								<td width="25%"><c:out value=""/></td>
+								<td width="25%"><c:out value=""/></td>
+								<td width="25%"><c:out value="${totalpayformat}"/></td>
+								<td width="15%"><c:out value="${totalamountgratuityformat}"/></td>
+							</tr>
+			  			</c:if>
+					
+				</c:forEach>
+			</table>			
+
+			
+		</div>
+	</fieldset>
+
+</div>

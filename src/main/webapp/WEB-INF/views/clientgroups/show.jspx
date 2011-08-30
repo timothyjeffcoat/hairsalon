@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_com_yourhairsalon_booking_domain_ClientGroup" object="${clientgroup}" path="/clientgroups" z="UoEWVq31HO1lbSgZOG7cay7BlB8=">
+        <field:display field="group_name" id="s_com_yourhairsalon_booking_domain_ClientGroup_group_name" object="${clientgroup}" z="RzEBYm8NWklwIeslBwDxoe7P22Q="/>
+        <field:display field="group_notes" id="s_com_yourhairsalon_booking_domain_ClientGroup_group_notes" object="${clientgroup}" z="SNscni7FVVuCtfrwwFD1uoookmU="/>
+        <field:display date="true" dateTimePattern="${clientGroup_createddate_date_format}" field="createddate" id="s_com_yourhairsalon_booking_domain_ClientGroup_createddate" object="${clientgroup}" z="msZJvlvf8GsFtOZKDuxUOgSeU/A="/>
+        <field:display field="number_clients" id="s_com_yourhairsalon_booking_domain_ClientGroup_number_clients" object="${clientgroup}" z="4dAalEqm9PeowUjI6xtKy4l9zJ0="/>
+        <field:display field="shop" id="s_com_yourhairsalon_booking_domain_ClientGroup_shop" object="${clientgroup}" z="jAsXrUvgs26KW8Ff9Pj8ngKDA8A="/>
+    </page:show>
+</div>

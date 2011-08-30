@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_com_yourhairsalon_booking_domain_Clients" items="${clientses}" z="um54B0pvtQO3igQEXy1ophCZY9o=">
+        <table:table data="${clientses}" id="l_com_yourhairsalon_booking_domain_Clients" path="/clientses" z="Bq4KQ9vqz3HvNnWHfDleivsp0Qw=">
+            <table:column id="c_com_yourhairsalon_booking_domain_Clients_communication" property="communication" z="VmtlIMZYAGINzHK0LJhpmSyEy2w="/>
+            <table:column id="c_com_yourhairsalon_booking_domain_Clients_address" property="address" z="KuQ6rPgHJqqAoFyh0cLRKo7Ij9E="/>
+            <table:column id="c_com_yourhairsalon_booking_domain_Clients_firstName" property="firstName" z="jFwoDdwhbaBqvH8fKMYOru4+urk="/>
+            <table:column date="true" dateTimePattern="${clients_birthday_date_format}" id="c_com_yourhairsalon_booking_domain_Clients_birthDay" property="birthDay" z="tHMW4KKsf8eUYT96PTe0g2GsYSI="/>
+            <table:column id="c_com_yourhairsalon_booking_domain_Clients_lastName" property="lastName" z="wBQoBCVWKnmbSdqpAncrLOeLSq0="/>
+            <table:column id="c_com_yourhairsalon_booking_domain_Clients_username" property="username" z="7P7kljYvArQ7v4ajXY9/K+WA4js="/>
+        </table:table>
+    </page:list>
+</div>

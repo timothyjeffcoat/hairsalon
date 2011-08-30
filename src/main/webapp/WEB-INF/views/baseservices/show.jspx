@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_com_yourhairsalon_booking_domain_BaseService" object="${baseservice}" path="/baseservices" z="jC4p++3UttYoTWkWLeP18Z1S5io=">
+        <field:display field="sendReminders" id="s_com_yourhairsalon_booking_domain_BaseService_sendReminders" object="${baseservice}" z="QEqk7RFFOqrbfLGYHwo0nBdpPgo="/>
+        <field:display field="description" id="s_com_yourhairsalon_booking_domain_BaseService_description" object="${baseservice}" z="2uCyVwHsbWNSUpkDqy/BWMq4TOY="/>
+        <field:display field="processtime" id="s_com_yourhairsalon_booking_domain_BaseService_processtime" object="${baseservice}" z="fUP15kvz+71jaaaOrZ184lbYCjA="/>
+        <field:display field="finishtime" id="s_com_yourhairsalon_booking_domain_BaseService_finishtime" object="${baseservice}" z="oOHJeAL9ydBVg3Vqx1eZpP1OCP4="/>
+        <field:display field="minsetup" id="s_com_yourhairsalon_booking_domain_BaseService_minsetup" object="${baseservice}" z="IRfUwgThGaIKWqJrVKzJDJ7krXs="/>
+        <field:display field="cost" id="s_com_yourhairsalon_booking_domain_BaseService_cost" object="${baseservice}" z="IqGZTi3C89elZvPeN9Hk35atkb8="/>
+        <field:display field="amounttime" id="s_com_yourhairsalon_booking_domain_BaseService_amounttime" object="${baseservice}" z="IeTiKrgpR3ZYCS2w6oFESD3QaYA="/>
+        <field:display field="length_time" id="s_com_yourhairsalon_booking_domain_BaseService_length_time" object="${baseservice}" z="L2djsCTK6KW8cIUZ8NdcHIsFU2s="/>
+        <field:display field="info_note" id="s_com_yourhairsalon_booking_domain_BaseService_info_note" object="${baseservice}" z="4GiNejn9p8RQ5T6kzmUtF49mRR0="/>
+        <field:display field="shop" id="s_com_yourhairsalon_booking_domain_BaseService_shop" object="${baseservice}" z="L0th4sNY86uv9Sh751H1tpTVjhE="/>
+    </page:show>
+</div>

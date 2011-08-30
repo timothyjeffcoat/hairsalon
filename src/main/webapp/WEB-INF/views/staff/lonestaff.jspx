@@ -1,0 +1,663 @@
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:spring="http://www.springframework.org/tags" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+	<div id="wrapper" style="padding-top:40px;">
+		<div id="page-wrapper">
+
+<style type="text/css">
+ </style>
+<c:url var="settingsgcallist" value="/settings/gcallist"/>
+<c:url var="settingsgcal" value="/settings/gcal"/>
+ <style type="text/css">
+             .dojoxGrid table { margin: 0; } html, body { width: 100%; height: 100%;
+                                                          margin: 0; }
+ </style>
+<script type="text/javascript">
+	var loggedinuser = '${loggedinuser}';
+	var standby;    
+    var staffs_already_loaded = 'false';
+    var original_selected_editusername;
+    var calendar_Array = [];
+
+    function calendarobject(calendarid,calendartitle){
+    	this.calendarid = calendarid;
+    	this.calendartitle = calendartitle;
+    }
+    
+	 function isAlive() {
+			dojo.xhrPost(
+					{
+						url: "myschedule/isalive",
+						content: {
+						  },
+						handleAs: "json",
+						load: function(data) {
+							console.log("SUCCESS FROM CHECKING alive");
+							console.log("IS THERE AN APPOINTMENT CONFLICT? "+data);
+							if(data == "true"){
+								console.log("still alive");
+							}
+						},
+						error: function(error) {
+							console.log("NOT alive");
+							window.location.reload();
+						}
+					}	            		
+			
+			);		
+		 }			
+	 
+	 function getGoogleCals(){
+			var standbydlg = new dojox.widget.Standby({
+				  target: "GCalTab"
+			  });
+			document.body.appendChild(standbydlg.domNode);
+			standbydlg.show();
+			
+			console.log("entered getGoogleCals");
+			var gusername = dijit.byId("google_username").attr("value");
+			var gpassword = dijit.byId("google_password").attr("value");
+			dojo.xhrGet({
+				  url: "${settingsgcallist}?u="+gusername+"&amp;p="+gpassword,
+				  handleAs: "json",
+				  timeout: 5000,
+				  load: function(response, ioArgs) {
+					// response is JSON result
+					console.log("response from trying getGoogleCals: "+response);
+					var tdata = Trax(JSON.stringify(response));
+					
+					if(response == ""){
+						
+					}else{
+						 var filteringSelect = dijit.byId("google_cals");
+						 var serviceStore = new dojo.data.ItemFileWriteStore({ data: tdata });
+						 filteringSelect.attr("store", serviceStore);
+					}
+					standbydlg.hide();
+					return response;
+				  },
+
+				  error: function(response, ioArgs) {
+					console.log("HTTP status code: " + ioArgs.xhr.status);
+					window.location.reload();
+					return response;
+				  }
+				});	 	 
+			
+			
+		}
+	 function updateGoogle(){
+			var standbydlg = new dojox.widget.Standby({
+				  target: "GCalTab"
+			  });
+			document.body.appendChild(standbydlg.domNode);
+			standbydlg.show();
+			
+			console.log("entered updateGoogle");
+			var gcal_selected = dijit.byId("google_cals").attr("value");
+			var gusername = dijit.byId("google_username").attr("value");
+			var gpassword = dijit.byId("google_password").attr("value");
+			var original_gcal = document.getElementById("originalcalendarname").value;
+			
+			var gcal_title;
+			// search calendar_Array for title
+			for (var i = 0; i &lt; calendar_Array.length; i++) {
+		    	var cal = calendar_Array[i];
+		    	if(cal.calendarid == gcal_selected){
+		    		gcal_title = cal.calendartitle;	
+		    	}
+			}
+			
+			dojo.xhrGet({
+				  url: "staff/gcal?uid="+loggedinuser+"&amp;c="+gcal_selected+"&amp;ur="+gusername+"&amp;p="+gpassword+"&amp;ogc="+original_gcal+"&amp;t="+gcal_title,
+				  handleAs: "json",
+				  timeout: 5000,
+				  load: function(response, ioArgs) {
+					// response is JSON result
+					console.log("response from trying updateGoogle: "+response);
+					
+					if(response == ""){
+						
+					}else{
+						document.getElementById("originalcalendarname").value = gcal_selected; 
+					}
+					standbydlg.hide();
+					return response;
+				  },
+
+				  error: function(response, ioArgs) {
+					console.log("HTTP status code: " + ioArgs.xhr.status);
+					window.location.reload();
+					return response;
+				  }
+				});	 	 
+			
+		}
+	 function Trax(response){
+			var isJSON;
+			var data;
+			try {
+				//console.log(response);
+				data = JSON.parse(response);
+				console.log(data);
+				isJSON = true;
+			}
+			catch (e) {
+				isJSON = false;
+			}
+
+			if (isJSON) {
+				// data is already parsed, so just use it
+				// handle response codes
+				// do something with returned data
+				
+				if(data.constructor == Array){
+					
+					var cntr = 0;
+					var myCars=new Array(); // regular array (add an optional integer
+					calendar_Array = [];
+					for(var key in data) {
+						
+						bigdata = new Object();
+						bigdata.id = data[key].gcal_id;
+						bigdata.name = data[key].gcal_title;
+
+						var cal = new calendarobject(bigdata.id,bigdata.name);
+						calendar_Array.push(cal);
+						
+						myCars[cntr]=bigdata;       						
+						cntr = cntr + 1;
+					}
+					
+					
+					
+					person = new Object();
+					person.items = myCars;
+					person.identifier = 'id';
+					person.label = 'description';
+					return person;
+					
+				}else{
+					console.log(data.id);
+					console.log(data.value);
+					bigdata = new Object();
+					bigdata.id = data;
+					bigdata.description = data;
+					
+					
+					var myCars=new Array(); // regular array (add an optional integer
+					myCars[0]=bigdata;       						
+					
+					person = new Object();
+					person.items = myCars;
+					person.identifier = 'id';
+					person.label = 'description';
+					return person;
+					
+					
+				}
+			}
+		 }
+	 
+
+    
+	function toTitleCase(str)
+	{
+		return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+	}	
+	
+	function updateStaffPassword(){
+		var staffid = "${staffid}";
+		var editpassword = dijit.byId("editpassword").attr("value");
+		var editusername = dijit.byId("editusername").attr("value");
+		standby.show();
+		dojo.xhrGet({
+			  url: "mystaff/changestaffpw?s="+staffid+"&amp;p="+editpassword+"&amp;u="+editusername,
+			  handleAs: "json",
+			  timeout: 5000,
+			  preventCache: true,
+			  load: function(response, ioArgs) {
+				// response is JSON result
+				console.log(response);
+				standby.hide();
+				return response;
+			  },
+			  error: function(response, ioArgs) {
+				console.log("HTTP status code: " + ioArgs.xhr.status);
+				window.location.reload();
+				return response;
+			  }
+			});	 		
+	}
+	
+	function dateFromUTC( dateAsString, ymdDelimiter )
+	{
+	  var pattern = new RegExp( "(\\d{4})" + ymdDelimiter + "(\\d{2})" + ymdDelimiter + "(\\d{2}) (\\d{2}):(\\d{2}):(\\d{2})" );
+	  var parts = dateAsString.match( pattern );
+
+	  return new Date( Date.UTC(
+		  parseInt( parts[1] )
+		, parseInt( parts[2], 10 ) - 1
+		, parseInt( parts[3], 10 )
+		, parseInt( parts[4], 10 )
+		, parseInt( parts[5], 10 )
+		, parseInt( parts[6], 10 )
+		, 0
+	  ));
+	}	
+
+	 
+	 
+</script>
+		<!-- create the tab container div -->
+		 <div id="myTabContainer" style="height: 800px;">
+			 <!-- add a tab -->
+			 <div id="detailsTab" >
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Staff Details</h3>
+					</div>
+				
+				  <div class="panel-body">
+
+				<p/>
+				<legend>Change password</legend>
+				<div id="usernamesedit" style="display:none">
+					<label>Username:</label>
+					<br />
+					<input dojoType="dijit.form.ValidationTextBox" id="editusername" name="editusername" required="false" invalidMessage="user name already exists. please select another one."/>
+				</div>
+				<div id="usernamesdisplay" style="display:none">
+					<label>Username:</label>
+					<br />
+					<input dojoType="dijit.form.ValidationTextBox" id="editusernamelabel" name="editusernamelabel" required="false" disabled="true"/>
+				</div>
+				<div>
+				<label>Password:</label>
+				 <br />
+				 <input type="password" dojoType="dijit.form.ValidationTextBox" required="true" name="editpassword" intermediateChanges="false" id="editpassword" invalidMessage="Please type a password"/>
+				 <br />
+				 <label>Re-Enter Password:</label>
+				<br />
+				 <input type="password" dojoType="dijit.form.ValidationTextBox" required="true" name="edituserPassword" intermediateChanges="false" id="edituserPassword" constraints="{'other': 'editpassword'}" validator="confirmPassword" invalidMessage="This password doesn't match your first password"/>
+				</div>					
+				<br/>
+				<br/>
+				<button id="savestaffpasswordbutton" dojoType="dijit.form.Button" type="button" onClick="updateStaffPassword();">
+					Save new password
+				</button>
+				
+			</div>
+			</div>
+			<c:if test="${lonestaff.use_gcalendar == 'true'}">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">Google calendar</h3>
+							</div>
+
+							<div class="panel-body">
+
+								<input type="hidden" id="originalcalendarname"
+									name="originalcalendarname" value="${google_cals.gcal_id}" />
+								<div id="GCalTab">
+									<table>
+										<tr>
+											<td>Google username: <input
+												dojoType="dijit.form.ValidationTextBox" id="google_username"
+												name="google_username" required="false"
+												value="${google_username}" promptMessage="Enter username."
+												trim="true" />
+											</td>
+										</tr>
+										<tr>
+											<td>Google password: <input
+												dojoType="dijit.form.TextBox" id="google_password"
+												type="password" name="google_password" required="false" />
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<button dojoType="dijit.form.Button" type="button"
+													onClick="console.log('trying getGoogleCals');getGoogleCals();">
+													Get your Google Calendars</button>
+											</td>
+										</tr>
+										<tr>
+											<td>Calendar select: <select
+												dojoType="dijit.form.FilteringSelect" name="google_cals"
+												id="google_cals" autocomplete="true" required="false"
+												promptMessage="Select your calendar.">
+													<option value="${google_cals.gcal_id}">${google_cals.gcal_title}</option>
+											</select>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<button id="savegcalbutton" dojoType="dijit.form.Button"
+													type="button" onClick="updateGoogle();">Save
+													google calendar</button>
+											</td>
+										</tr>
+									</table>
+								</div>
+								</div>
+								</div>
+					</c:if>
+			 </div>
+			 <!-- add the content pane decoration (all tabs must live in content panes) -->
+			 <script type="text/javascript">
+			 Spring.addDecoration(new Spring.ElementDecoration(
+			 {elementId : 'detailsTab',
+			 widgetType : 'dijit.layout.ContentPane',
+			 widgetAttrs : {title: 'Staff details / Appt Log ', selected: true}
+			 }));
+			 </script> 
+	
+			 <!-- another tab... -->
+			 <div id="emailTab">
+				<div id="sendmail" dojoType="dijit.form.Form">
+					<table>
+						<tr>
+							<td>
+									<div class="panel panel-default">
+										<div class="panel-heading">
+											<h3 class="panel-title">E-mail staff</h3>
+										</div>
+
+										<div class="panel-body">
+
+											<div>
+												<label for="_to">To:</label>
+											</div>
+											<br />
+											<div>
+												<select dojoType="dijit.form.FilteringSelect" name="tostaff"
+													id="tostaff" autocomplete="true" value="sel">
+													<option value=""></option>
+													<c:forEach items="${selectstaff}" var="item">
+														<option value="${item.email}">${item}</option>
+													</c:forEach>
+												</select>
+											</div>
+											<br />
+											<div>
+												<label for="_subject">Subject:</label>
+											</div>
+											<br />
+											<div>
+												<input dojoType="dijit.form.ValidationTextBox" id="subject"
+													required="true" />
+											</div>
+											<br />
+											<div>
+												<label for="_msg">Message:</label>
+											</div>
+											<br />
+											<div>
+												<input dojoType="dijit.form.SimpleTextarea" type="text"
+													name="msg" id="msg" />
+											</div>
+											<br />
+											<button dojoType="dijit.form.Button" type="button"
+												onClick="send();">Send Message</button>
+
+											</div>
+											</div>
+								</td>
+						</tr>
+					</table>
+				</div>
+			 </div>
+			 
+	
+			 <!-- add the content pane decoration (all tabs must live in content panes) -->
+			 <script type="text/javascript">
+			 Spring.addDecoration(new Spring.ElementDecoration(
+			 {elementId : 'emailTab',
+			 widgetType : 'dijit.layout.ContentPane',
+			 widgetAttrs : {title: 'Email staff', selected: true}
+			 }));
+				 function send(){
+
+					 	var to = dijit.byId('tostaff');
+						console.log(to.value);
+					 	var sub = dijit.byId('subject');
+						console.log(sub.value);
+					 	var msg = dijit.byId('msg');
+						console.log(msg.value);
+						$.getJSON("mystaff/sendmail?t="+to.value+"&amp;s="+sub.value+"&amp;m="+msg.value,
+								function(data){
+									console.log("the data: "+data);
+									var tdata = JSON.stringify(data);
+									console.log("tdata: "+tdata);
+						});					 
+					 
+						dojo.forEach(
+							dijit.byId('sendmail').getDescendants(), function(widget) {
+							widget.attr('value', null);
+							}
+						);
+				}
+
+			 </script> 
+				<div dojoType="dijit.Dialog" id="formDialog" title="Add group" execute="addGroup(arguments[0]);" style="display: none">
+					<input dojoType="dijit.form.TextBox" type="hidden" id="dialogservicetype"/>
+					<p>
+						<label for="dialogname">Name:</label>				
+					</p>
+					<p>
+						<input dojoType="dijit.form.TextBox" type="text" name="dialogname" id="dialogname"/>
+					</p>
+					<p>
+						<label for="dialognotes">Notes:</label>				
+					</p>
+					<p>
+						<input dojoType="dijit.form.SimpleTextarea" type="text" name="dialognotes" id="dialognotes"/>
+					</p>
+					<button dojoType="dijit.form.Button" type="button" onClick="addGroup(arguments[0]);dijit.byId('formDialog').hide();">
+						Save
+					</button>
+				</div>		
+				<div dojoType="dijit.Dialog" id="addStaffDialog" title="Add Staff" execute="addStaff(arguments[0]);" style="display: none">
+					<div id="register_view" name="register_view" dojoType="dijit.form.Form" jsId="register_view" action="" method="POST"  modelAttribute="register" >
+						<div>
+							<label for="_firstname_dlg">First name:</label>
+						</div>
+						<br/>
+						<div>
+							<div dojoType="dijit.form.ValidationTextBox" id="firstname_dlg" required="true" >
+								<script type="dojo/connect" event="onKeyPress" args="event">
+								var firstname = dijit.byId('firstname_dlg').attr("value");
+								dijit.byId('firstname_dlg').set("value", toTitleCase(firstname)); 
+							</script>
+							</div>					
+						</div>
+						
+						<div>
+							<label for="_lastname_dlg">Last name:</label>
+						</div>
+						<br/>
+						<div>
+							<div dojoType="dijit.form.ValidationTextBox" id="lastname_dlg" required="true" >
+								<script type="dojo/connect" event="onKeyPress" args="event">
+								var lastname = dijit.byId('lastname_dlg').attr("value");
+								dijit.byId('lastname_dlg').set("value", toTitleCase(lastname)); 
+							</script>
+							</div>					
+						</div>
+						<div>
+							<label for="_username">Username:</label>
+						</div>
+						<br />
+						<div>
+							<div dojoType="dijit.form.ValidationTextBox" id="username" name="username"
+								required="true" invalidMessage="user name already exists. please select another one."/>
+						</div>
+						<div>
+							<label for="_email">E-mail:</label>
+						</div>
+						<br />
+						<div>
+							<div dojoType="dijit.form.ValidationTextBox" id="useremail" name="useremail" regExp="[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}"   promptMessage="Enter email address." invalidMessage="Invalid Email Address."  trim="true" required="true" />
+						</div>
+						<br/>
+						<br />
+						<div>
+						<label>Password:</label>
+						 <br />
+						 <input type="password" dojoType="dijit.form.ValidationTextBox" required="true" name="password" intermediateChanges="false" id="password" invalidMessage="Please type a password"/>
+						 <br />
+						 <label>Re-Enter Password:</label>
+						<br />
+						 <input type="password" dojoType="dijit.form.ValidationTextBox" required="true" name="userPassword" intermediateChanges="false" id="userPassword" constraints="{'other': 'password'}" validator="confirmPassword" invalidMessage="This password doesn't match your first password"/>
+						 
+						</div>					
+						<br/>
+						<button dojoType="dijit.form.Button" type="button" onClick="if(dijit.byId('addStaffDialog').validate()){saveAddDialog();dijit.byId('addStaffDialog').hide();}">
+							Save
+						</button>
+					</div>		
+					<div id="mystery" dojoType="dijit.form.ValidationTextBox" style="display: none"/>
+				</div>
+			<!-- decorate the tab container to create it -->
+			 <script type="text/javascript">
+			 Spring.addDecoration(new Spring.ElementDecoration(
+			 {elementId : 'myTabContainer',
+			 widgetType : 'dijit.layout.TabContainer'}
+			 ));
+			 </script>
+			<script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"> tst</script>
+			 <!-- now, find the tab container, and the title pane, (which is the ID with a prefix of '_title'. Add the tab container to the tab pane at the top of it.. Note that the button is at the bottom of the TitlePane. -->
+			 <script type="text/javascript">
+				 dojo.addOnLoad(function(){
+									
+				 	var tabs = dijit.byId("myTabContainer");
+				 	tabs.startup();
+				 	tabs.resize();
+					dojo.parser.parse(); 
+					setInterval(function() {
+						isAlive();
+					}, 660000); //11 minutes				      
+					// following is code copied from signup index.jspx
+					dojo.parser.parse();
+					addFieldTo("register_view");
+					var username = dijit.byId("username");
+					var isavailable = true;
+					username.validator = function(value, constraints){
+						
+						dojo.xhrGet( {
+							url : "public/signup/isnamedavailable?name="+value,
+							handleAs: "json",
+							preventCache: true,
+							load : function(data, newValue) {
+									console.log("the data: "+data);
+									isavailable = data;
+									if(isavailable == true){
+									}else{
+										dijit.showTooltip(
+											username.get("invalidMessage"), 
+											username.domNode, 
+											username.get("tooltipPosition"),
+											!username.isLeftToRight()
+										);											
+										username.focus();
+									}
+										
+								},
+							error: function(error) {
+										console.log("An unexpected error occurred: " + error);
+									}													
+						});		
+						
+						return isavailable;
+					}	
+
+					dojo.connect(username, "onChange", function(){
+							console.log("changed "+username.value);
+							console.log("the value of username.validator: "+username.validator);
+						});
+					// end following is code copied from signup index.jspx
+					init();
+				 
+				 
+					////////////////////////
+					var editusername = dijit.byId("editusername");
+					var editisavailable = true;
+					editusername.validator = function(value, constraints){
+						dojo.xhrGet( {
+							url : "public/signup/isnamedavailable?name="+value,
+							handleAs: "json",
+							preventCache: true,
+							load : function(data, newValue) {
+									console.log("the data: "+data);
+									editisavailable = data;
+									if(editisavailable == true){
+									}else{
+										dijit.showTooltip(
+												editusername.get("invalidMessage"), 
+												editusername.domNode, 
+												editusername.get("tooltipPosition"),
+											!editusername.isLeftToRight()
+										);											
+										editusername.focus();
+									}
+										
+								},
+							error: function(error) {
+										console.log("An unexpected error occurred: " + error);
+									}													
+						});		
+						return editisavailable;
+					}	
+					
+					///////////////////////				      						 
+				 
+				 });
+				 <![CDATA[
+							function addFieldTo(form_id) { 
+								try{
+									var placeholder = dojo.create("div", {id: "test2"});
+									var myTextBox = new dijit.form.TextBox({
+										id: "test",
+										name: "test",
+										value: "reggae" /* no or empty value! */,
+										placeHolder: "type in your name"
+									}, "test2");
+									
+								
+									var le=dijit.byId('mystery');
+									dojo.place(placeholder, le.domNode, 'last');
+									dojo.place(myTextBox.domNode, placeholder, 'before');
+									dojo.style(myTextBox.domNode, "display", "none");						
+								}catch(err){
+									console.log(err);
+								}
+							}				          
+							function confirmPassword(value, constraints)
+							{
+								var isValid = false;
+								if(constraints && constraints.other)  {
+									var otherInput =  dijit.byId(constraints.other);
+									if(otherInput) {
+											var otherValue = otherInput.value;
+											isValid = (value == otherValue);
+									}
+								}
+								return isValid;
+							}
+							function onsubmit()
+							{
+								var p1 = dijit.byId('password').value;
+								var p2 = dijit.byId('userPassword').value;
+								return p1 == p2;
+							}
+							function init() {
+							      standby = new dojox.widget.Standby({target: "myTabContainer"});
+							      document.body.appendChild(standby.domNode);
+							}
+						 ]]>
+			 		</script>		 
+		 		</div>
+		 
+	
+		</div>
+	</div>
+</div>

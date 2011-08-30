@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+    <definition extends="default" name="communicationses/list">
+        <put-attribute name="body" value="/WEB-INF/views/communicationses/list.jspx"/>
+    </definition>
+<definition extends="default" name="communicationses/show">
+        <put-attribute name="body" value="/WEB-INF/views/communicationses/show.jspx"/>
+    </definition>
+<definition extends="default" name="communicationses/create">
+        <put-attribute name="body" value="/WEB-INF/views/communicationses/create.jspx"/>
+    </definition>
+<definition extends="default" name="communicationses/update">
+        <put-attribute name="body" value="/WEB-INF/views/communicationses/update.jspx"/>
+    </definition>
+<definition extends="default" name="communicationses/findCommunicationsesByPerson">
+        <put-attribute name="body" value="/WEB-INF/views/communicationses/findCommunicationsesByPerson.jspx"/>
+    </definition>
+<definition extends="default" name="communicationses/findCommunicationsesByShop">
+        <put-attribute name="body" value="/WEB-INF/views/communicationses/findCommunicationsesByShop.jspx"/>
+    </definition>
+<definition extends="default" name="communicationses/findCommunicationsesByCommunication_valueEquals">
+        <put-attribute name="body" value="/WEB-INF/views/communicationses/findCommunicationsesByCommunication_valueEquals.jspx"/>
+    </definition>
+</tiles-definitions>

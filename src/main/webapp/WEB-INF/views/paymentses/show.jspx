@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_com_yourhairsalon_booking_domain_Payments" object="${payments}" path="/paymentses" z="AGsRDI3UoDW51uQRqvJdIujoWUI=">
+        <field:display date="true" dateTimePattern="${payments_datecreated_date_format}" field="datecreated" id="s_com_yourhairsalon_booking_domain_Payments_datecreated" object="${payments}" z="yLgkj0lMTKoBoOx8OiqP7IY18GI="/>
+        <field:display field="amount" id="s_com_yourhairsalon_booking_domain_Payments_amount" object="${payments}" z="bgjKopPszAFPoU9UjIt/6If1e08="/>
+        <field:display field="tax" id="s_com_yourhairsalon_booking_domain_Payments_tax" object="${payments}" z="wXOykVdTRGuQkl8ar5tp4vV45qc="/>
+        <field:display field="note" id="s_com_yourhairsalon_booking_domain_Payments_note" object="${payments}" z="WKh9YulTL6RQANIP1WjXJnOdyr8="/>
+        <field:display field="gratuity" id="s_com_yourhairsalon_booking_domain_Payments_gratuity" object="${payments}" z="CPgfVGD9DS1cbJtDL0HCG3gX7vg="/>
+        <field:display field="client" id="s_com_yourhairsalon_booking_domain_Payments_client" object="${payments}" z="ej35RU9nYB33E1ZhZKYcCK3oRiI="/>
+        <field:display field="staff" id="s_com_yourhairsalon_booking_domain_Payments_staff" object="${payments}" z="sg5Tnry8v1ctC2UirgRp/FAynxE="/>
+        <field:display field="shop" id="s_com_yourhairsalon_booking_domain_Payments_shop" object="${payments}" z="o1zEeCe2ZohhS6nyX4xBFrpYa5M="/>
+        <field:display field="appointment" id="s_com_yourhairsalon_booking_domain_Payments_appointment" object="${payments}" z="gDY6MU3yex0PrDTs1M/dLVB0EMM="/>
+    </page:show>
+</div>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_com_yourhairsalon_booking_domain_ShopSettings" object="${shopsettings}" path="/shopsettingses" z="QWfg68ntanbYOkt4qCsXirhTmOI=">
+        <field:display field="receiveConfirmations" id="s_com_yourhairsalon_booking_domain_ShopSettings_receiveConfirmations" object="${shopsettings}" z="9PwUi3qSR9jN3uBwfASE8tymuWU="/>
+        <field:display field="email_subject" id="s_com_yourhairsalon_booking_domain_ShopSettings_email_subject" object="${shopsettings}" z="WSs+ZF5FjsOXfWTeYWZzUgcKcn0="/>
+        <field:display field="email_message" id="s_com_yourhairsalon_booking_domain_ShopSettings_email_message" object="${shopsettings}" z="qAXCfhiwQxXGCggbD89pAl13DTM="/>
+        <field:display field="email_signature" id="s_com_yourhairsalon_booking_domain_ShopSettings_email_signature" object="${shopsettings}" z="S9C8hiw08hpx42lkjpZVgRbsvio="/>
+        <field:display field="username" id="s_com_yourhairsalon_booking_domain_ShopSettings_username" object="${shopsettings}" z="5hSp6RSImmt7f0dm2FjklyPHhmI="/>
+        <field:display field="user_password" id="s_com_yourhairsalon_booking_domain_ShopSettings_user_password" object="${shopsettings}" z="tG0eD19xq2O3NXmjpl1P+N0iqus="/>
+        <field:display field="store_phone" id="s_com_yourhairsalon_booking_domain_ShopSettings_store_phone" object="${shopsettings}" z="dVMQH5FpdWgNlL51akRqS8YgFx4="/>
+        <field:display field="default_appt_length" id="s_com_yourhairsalon_booking_domain_ShopSettings_default_appt_length" object="${shopsettings}" z="wBmr/e0jT3asuluTWispCEedylE="/>
+        <field:display field="clientdisplay" id="s_com_yourhairsalon_booking_domain_ShopSettings_clientdisplay" object="${shopsettings}" z="3uAzmAJUGPVrhp7S1dxWP9CYzBQ="/>
+        <field:display field="image_file_logo" id="s_com_yourhairsalon_booking_domain_ShopSettings_image_file_logo" object="${shopsettings}" z="/II/dYrqM9tlh6gMcns+ebdtd6Q="/>
+        <field:display field="shop" id="s_com_yourhairsalon_booking_domain_ShopSettings_shop" object="${shopsettings}" z="mTLzqgeBYevoiEM2uMS5ngdPRz4="/>
+        <field:display field="locale" id="s_com_yourhairsalon_booking_domain_ShopSettings_locale" object="${shopsettings}" z="TQIZxaC8jVI4yWSmy4AxdOz9Ofs="/>
+        <field:display field="email_address" id="s_com_yourhairsalon_booking_domain_ShopSettings_email_address" object="${shopsettings}" z="/p+psbydRr8BT8PV4kSPhxxYyEM="/>
+        <field:display field="timezone" id="s_com_yourhairsalon_booking_domain_ShopSettings_timezone" object="${shopsettings}" z="E0i+O31RNvJXniqPF5EBfnnUj6w="/>
+        <field:display field="number_days_notify" id="s_com_yourhairsalon_booking_domain_ShopSettings_number_days_notify" object="${shopsettings}" z="KREboyO5BSe+3r/fcIrPh+6/Wr4="/>
+        <field:display field="use_gcalendar_for_shop" id="s_com_yourhairsalon_booking_domain_ShopSettings_use_gcalendar_for_shop" object="${shopsettings}" z="HQYHWz+Nb3KD8RTHp8fDXC7Oj9M="/>
+        <field:display field="allow_staff_gcalendar" id="s_com_yourhairsalon_booking_domain_ShopSettings_allow_staff_gcalendar" object="${shopsettings}" z="M5yYsjBBoGtXDhMoiNasWiyhsdk="/>
+        <field:display field="iemail_subject" id="s_com_yourhairsalon_booking_domain_ShopSettings_iemail_subject" object="${shopsettings}" z="ZFTRF8umCYY4S5JQ/bFpp7S58Vc="/>
+        <field:display field="iemail_message" id="s_com_yourhairsalon_booking_domain_ShopSettings_iemail_message" object="${shopsettings}" z="od6Dz+8dB8688b696/ZCT9WY7O0="/>
+        <field:display field="iemail_signature" id="s_com_yourhairsalon_booking_domain_ShopSettings_iemail_signature" object="${shopsettings}" z="Qzm4VwTg4wQjYbDEWl7eurfK5iQ="/>
+        <field:display field="iemail_address" id="s_com_yourhairsalon_booking_domain_ShopSettings_iemail_address" object="${shopsettings}" z="KCR/OySQBSM1ksNK9UMrrDVGUjU="/>
+        <field:display field="remail_subject" id="s_com_yourhairsalon_booking_domain_ShopSettings_remail_subject" object="${shopsettings}" z="t6JaRKInxNJkxKmn3xNt2cW8whA="/>
+        <field:display field="remail_message" id="s_com_yourhairsalon_booking_domain_ShopSettings_remail_message" object="${shopsettings}" z="UlGqzWY+azK8N9dRFC+G59NwV50="/>
+        <field:display field="remail_signature" id="s_com_yourhairsalon_booking_domain_ShopSettings_remail_signature" object="${shopsettings}" z="9tMBJejEsH6610+pXbEheaqxjkE="/>
+        <field:display field="remail_address" id="s_com_yourhairsalon_booking_domain_ShopSettings_remail_address" object="${shopsettings}" z="k73b3h8VblU79mee91artogNV/I="/>
+        <field:display field="email_big_message" id="s_com_yourhairsalon_booking_domain_ShopSettings_email_big_message" object="${shopsettings}" z="LwtqI3GxVBeGbBflDLRVTmuToBw="/>
+    </page:show>
+</div>

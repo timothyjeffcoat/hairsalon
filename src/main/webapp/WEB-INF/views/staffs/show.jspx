@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_com_yourhairsalon_booking_domain_Staff" object="${staff}" path="/staffs" z="Qe92CvP2i+Ya5lb6J/jxLy/4i3k=">
+        <field:display field="firstName" id="s_com_yourhairsalon_booking_domain_Staff_firstName" object="${staff}" z="tjM2GGGjdArlgrbGhz1d4LbIvjU="/>
+        <field:display field="lastName" id="s_com_yourhairsalon_booking_domain_Staff_lastName" object="${staff}" z="d+QnWJ4f7VnK7r3RcTuhpJ5Szqs="/>
+        <field:display date="true" dateTimePattern="${staff_birthday_date_format}" field="birthDay" id="s_com_yourhairsalon_booking_domain_Staff_birthDay" object="${staff}" z="G58O9lu7IB+/cLeuGtLFg7/I6oY="/>
+        <field:display field="shop" id="s_com_yourhairsalon_booking_domain_Staff_shop" object="${staff}" z="17HgIKlq/iBDawYZ3FJY6zp7IbE="/>
+        <field:display field="username" id="s_com_yourhairsalon_booking_domain_Staff_username" object="${staff}" z="aud0/VN1LGwZDW45rm6VZxuvLxI="/>
+        <field:display field="use_gcalendar" id="s_com_yourhairsalon_booking_domain_Staff_use_gcalendar" object="${staff}" z="NWAo3DxxkmHZ2mQjy7m/JWqE898="/>
+    </page:show>
+</div>

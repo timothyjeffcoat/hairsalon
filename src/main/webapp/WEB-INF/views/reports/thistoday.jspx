@@ -1,0 +1,58 @@
+<div xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:oform="http://www.springframework.org/tags/form" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:spring="http://www.springframework.org/tags" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0" xmlns:formd="http://www.springframework.org/tags/form">
+<util:load-scripts />
+	<fieldset style="width: 95%;" title="Reports"><legend>Today's report</legend>
+	  <jsp:directive.page contentType="text/html;charset=UTF-8" />
+	  <jsp:output omit-xml-declaration="yes" />
+	  <spring:message var="app_name" code="application_name" />
+	  <spring:message var="title" code="welcome_titlepane" arguments="${app_name}" />
+
+		<div class="ui-corner-all" id="left_col_report">
+			<fmt:formatDate var="firstdayform" value='${firstday}' pattern="MM-dd-yyyy"/>
+			<fmt:formatDate var="lastdayform" value='${lastday}' pattern="MM-dd-yyyy"/>
+			<h1>${firstdayform} to ${lastdayform}</h1>
+			<table id="at_a_glance">
+					<tbody><tr>
+						<td># of Payments</td><td style="text-align:right;">${fn:length(payments)}</td>
+					</tr>
+				</tbody>
+			</table>
+        </div>
+		<div class="t">
+			<table id="payments" width="100%">
+				<th id="payhistory" >Payment date</th>
+				<th id="payamt" >Staff</th>
+				<th id="payamt" >Client</th>
+				<th id="payamt" >Amount</th>
+				<th id="total" >Total</th>
+				<c:forEach var="payment" items="${payments}" varStatus="status">
+					<c:set var="sum" value="${payment.amount + payment.gratuity}"/>
+					<fmt:formatNumber var="formattedValue1" value='${payment.amount}' currencySymbol='$' type='currency'/>
+					<fmt:formatNumber var="formattedValue2" value='${payment.gratuity}' currencySymbol='$' type='currency'/>
+					<fmt:formatNumber var="sumform" value='${sum}' currencySymbol='$' type='currency'/>
+					<tr id="${payment.id}" onMouseOver="this.className='highlight'" onMouseOut="this.className='normal'" >
+						<td width="10%"><c:out value="${payment.datecreated} "/></td>
+						<td width="25%"><c:out value="${payment.staff.firstName} ${payment.staff.lastName}"/></td>
+						<td width="25%"><c:out value="${payment.client.firstName} ${payment.client.lastName}"/></td>
+						<td width="25%"><c:out value="${formattedValue1}"/></td>
+						<td width="15%"><c:out value="${sumform}"/></td>
+					</tr>
+						<c:if test="${status.last}">
+							<tr id="${payment.id}" onMouseOver="this.className='highlight'" onMouseOut="this.className='normal'" >
+								<td width="10%">TOTALS</td>
+								<fmt:formatNumber var="totalamountformat" value='${totalamount}' currencySymbol='$' type='currency'/>
+								<fmt:formatNumber var="totalgratuityformat" value='${totalgratuity}' currencySymbol='$' type='currency'/>
+								<fmt:formatNumber var="totalamountgratuityformat" value='${totalamountgratuity}' currencySymbol='$' type='currency'/>
+								<td width="25%"><c:out value=""/></td>
+								<td width="25%"><c:out value=""/></td>
+								<td width="25%"><c:out value="${totalamountformat}"/></td>
+								<td width="15%"><c:out value="${totalamountgratuityformat}"/></td>
+							</tr>
+			  			</c:if>
+				</c:forEach>
+			</table>			
+
+			
+		</div>
+	</fieldset>
+
+</div>

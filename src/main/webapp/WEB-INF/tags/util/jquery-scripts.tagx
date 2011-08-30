@@ -1,0 +1,54 @@
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+
+    <spring:url value="/styles/jqueryui/redmond/jquery-ui-1.8.7.custom.css" var="jqueryUI_CSS" />
+    <spring:url value="/scripts/jquery-1.5.2.min.js" var="jQuery_URL" />
+    <spring:url value="/scripts/jquery-ui-1.8.11.custom.min.js" var="jQueryUI_URL" />
+    <spring:url value="/scripts/jquery.ui.touch-punch.min.js" var="touch_url" />
+    <spring:url value="/scripts/datatables/jquery.dataTables.js" var="jQuery_dataTables" />
+    <spring:url value="/styles/datatables/demo_table.css" var="jQuery_dataTables_demotable_CSS" />
+    <spring:url value="/styles/datatables/demo_page.css" var="jQuery_dataTables_demopage_CSS" />
+	
+	<spring:url value="/scripts/able/_loader.js" var="able_url" />
+	
+	<spring:url value="/scripts/jcal/jCal.js" var="jcal_js" />
+	<spring:url value="/scripts/jcal/jCal.css" var="jcal_css" />
+	<spring:url value="/scripts/jcal/jquery.animate.clip.js" var="jcal_animate_js" />
+	
+	<!--  full calendar code -->
+	<spring:url value="/scripts/fullcalendar/fullcalendar.css" var="fullcalendar_CSS" />
+	<spring:url value="/scripts/fullcalendar/fullcalendar.print.css" var="fullcalendar_print_CSS" />
+
+    <spring:url value="/scripts/fullcalendar/fullcalendar.js" var="fullcalendar_URL" />
+    <spring:url value="/scripts/fullcalendar/fullcalendar.min.js" var="fullcalendar_min_URL" />
+    <spring:url value="/scripts/fullcalendar/gcal.js" var="gcal_URL" />
+
+    <!--<spring:url value="/scripts/jquery.jqGrid.min.js" var="jqGrid_URL" />-->
+
+    <link rel="stylesheet" type="text/css" href="${jQuery_dataTables_demotable_CSS}"><!-- required for FF3 and Opera --></link>
+    <link rel="stylesheet" type="text/css" href="${jQuery_dataTables_demopage_CSS}"><!-- required for FF3 and Opera --></link>
+	
+    <script type="text/javascript" src="${jQuery_URL}"><!-- required --></script>
+	<!--  full calendar code 	
+	<script type="text/javascript" src="${fullcalendar_min_URL}"></script>
+	-->
+	<script type="text/javascript" src="${gcal_URL}"></script>
+	
+	<script type="text/javascript" src="${jQueryUI_URL}"></script>
+	
+    <script type="text/javascript" src="${jQueryUI_URL}"><!-- required --></script>
+    
+    <script type="text/javascript" src="${touch_url}"><!-- required --></script>
+    
+    <script type="text/javascript" src="${jQuery_dataTables}"><!-- required --></script>
+	<!--  full calendar code -->
+	<script type='text/javascript' src="${able_url}"><!-- required --></script>
+
+	<!--  full calendar code 
+
+	<link rel="stylesheet" type="text/css" href="${fullcalendar_CSS}"></link>
+	-->
+	<link rel="stylesheet" type="text/css" href="${jcal_css}"><!-- required for FF3 and Opera --></link>
+	<script type="text/javascript" src="${jcal_animate_js}"><!-- required --></script>
+	<script type="text/javascript" src="${jcal_js}"><!-- required --></script>
+	
+</jsp:root>

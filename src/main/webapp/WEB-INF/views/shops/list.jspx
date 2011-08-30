@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_com_yourhairsalon_booking_domain_Shop" items="${shops}" z="4NJeT8pRXyRiUy8WMHf/eI6UUyw=">
+        <table:table data="${shops}" id="l_com_yourhairsalon_booking_domain_Shop" path="/shops" z="GJWa7ibLwvVtuxX3ErNHWyoaLrU=">
+            <table:column id="c_com_yourhairsalon_booking_domain_Shop_shop_name" property="shop_name" z="EJ/06QoLFpwTXBBztXXoNp7+gt4="/>
+            <table:column id="c_com_yourhairsalon_booking_domain_Shop_shopuuid" property="shopuuid" z="xHxWLP1/exjHk/NRU1usMZj6zXI="/>
+            <table:column id="c_com_yourhairsalon_booking_domain_Shop_type" property="type" z="XMbU0b4cbD6AofJvQLgLl3xuE00="/>
+            <table:column date="true" dateTimePattern="${shop_expiration_date_date_format}" id="c_com_yourhairsalon_booking_domain_Shop_expiration_date" property="expiration_date" z="BBV7X94mOmO1j9qu7ZsI63MihbE="/>
+            <table:column id="c_com_yourhairsalon_booking_domain_Shop_shop_url" property="shop_url" z="5kSoMijXxVcyZz69uoICHvOcMRI="/>
+            <table:column date="true" dateTimePattern="${shop_ts_date_format}" id="c_com_yourhairsalon_booking_domain_Shop_ts" property="ts" z="8M7894jB7AKUYPChBYAwTcEzjtQ="/>
+        </table:table>
+    </page:list>
+</div>

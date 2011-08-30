@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+    <definition extends="default" name="shopschedules/list">
+        <put-attribute name="body" value="/WEB-INF/views/shopschedules/list.jspx"/>
+    </definition>
+<definition extends="default" name="shopschedules/show">
+        <put-attribute name="body" value="/WEB-INF/views/shopschedules/show.jspx"/>
+    </definition>
+<definition extends="default" name="shopschedules/create">
+        <put-attribute name="body" value="/WEB-INF/views/shopschedules/create.jspx"/>
+    </definition>
+<definition extends="default" name="shopschedules/update">
+        <put-attribute name="body" value="/WEB-INF/views/shopschedules/update.jspx"/>
+    </definition>
+<definition extends="default" name="shopschedules/findShopSchedulesByShop">
+        <put-attribute name="body" value="/WEB-INF/views/shopschedules/findShopSchedulesByShop.jspx"/>
+    </definition>
+<definition extends="default" name="shopschedules/findShopSchedulesById">
+        <put-attribute name="body" value="/WEB-INF/views/shopschedules/findShopSchedulesById.jspx"/>
+    </definition>
+</tiles-definitions>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_com_yourhairsalon_booking_domain_Payments" items="${paymentses}" z="EA1s6gR7NkjzqEI8yROXbUrG3Zs=">
+        <table:table data="${paymentses}" id="l_com_yourhairsalon_booking_domain_Payments" path="/paymentses" z="gdiiv6XWeS/P52+3HUy5p/TdatE=">
+            <table:column id="c_com_yourhairsalon_booking_domain_Payments_amount" property="amount" z="ksRZmbBGfZqtNIs3LLTN1XUTXUk="/>
+            <table:column id="c_com_yourhairsalon_booking_domain_Payments_tax" property="tax" z="TsT6gRPRPgue3MCb9g3xD8RZ3nc="/>
+            <table:column id="c_com_yourhairsalon_booking_domain_Payments_note" property="note" z="KHVXVKG77TW3mvqigDfD1bexG6A="/>
+            <table:column id="c_com_yourhairsalon_booking_domain_Payments_gratuity" property="gratuity" z="l04y8eMiErhfazD3tVpxCDwL598="/>
+            <table:column date="true" dateTimePattern="${payments_datecreated_date_format}" id="c_com_yourhairsalon_booking_domain_Payments_datecreated" property="datecreated" z="dOEzBVYnPrxrldoKYrooi3zWNLQ="/>
+            <table:column id="c_com_yourhairsalon_booking_domain_Payments_client" property="client" z="yMlb0H3kCBeikVJfxRiaMBMwZPE="/>
+        </table:table>
+    </page:list>
+</div>

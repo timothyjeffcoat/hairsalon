@@ -1,0 +1,808 @@
+<div id="header" xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" 
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags" version="2.0">
+	<spring:url value="/resources/codebase/dhxscheduler_mobile.js" var="scheduler" />
+	<spring:url value="/resources/codebase/moment.min.js" var="moment" />
+	
+	<spring:url value="/resources/codebase/dhxscheduler_mobile.css" var="schedulercss" />
+	<script type="text/javascript" src="${scheduler}"><!-- required for FF3 and Opera --></script>
+	<script type="text/javascript" src="${moment}"><!-- required for FF3 and Opera --></script>
+	<link rel="stylesheet" type="text/css" href="${schedulercss}"><!-- required for FF3 and Opera --></link>
+	<spring:url value="http://m.testdomain.com:8080/shop/myschedule/calapptschange" var="onchangeurl"/>
+	<!-- C:\dev\themes\dhtmlxScheduler_v30_120111\samples\01_initialization_loading\php -->
+<script type="text/javascript">
+function serviceobject(serviceid,description,amountoftime){
+	this.serviceid = serviceid;
+	this.description = description;
+	this.amountoftime = amountoftime;
+}
+function servicepriceobject(serviceid,cost){
+	this.serviceid = serviceid;
+	this.cost = cost;
+}
+
+var servicespricesArray = [
+<c:forEach var="serviceprice" items="${servicesprices}" varStatus="theCount">
+<c:if test="${not empty serviceprice.key}">
+{ serviceid:"<c:out value='${serviceprice.key}' />", cost:"<c:out value='${serviceprice.value}' />" }<c:if test="${not theCount.last }">,</c:if>
+</c:if>
+</c:forEach>
+];
+
+var servicesArray = [
+<c:forEach var="service" items="${services}" varStatus="theCount">
+<c:if test="${not empty service.key}">
+	{ id:"<c:out value='${service.key}' />", value:"<c:out value='${service.value}' />" }<c:if test="${not theCount.last }">,</c:if>
+</c:if>
+</c:forEach>
+];
+
+
+function setEndTimeNoPost(svcid){
+	if(servicesArray.length > 0){
+		for(var key in servicesArray) {
+			var findservice = servicesArray[key];
+			if(findservice.serviceid==svcid){
+                var total = findservice.amountoftime;
+                
+			}
+		}
+	}
+}
+function getServiceOptionsLabel(svcid){
+	console.log("entered getServiceOptionsLabel id: "+svcid);
+	if(servicesArray.length > 0){
+		console.log("entered getServiceOptionsLabel 2");
+		for(var key in servicesArray) {
+			console.log("entered getServiceOptionsLabel 3");
+			var findservice = servicesArray[key];
+			console.log("service description: "+findservice.value);
+			console.log("service id: "+findservice.id);
+			if(findservice.id==svcid){
+				console.log("entered getServiceOptionsLabel 4");
+                console.log("service description: "+findservice.value);
+                return findservice.value;
+			}
+		}
+	}
+}
+
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-40547165-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<style>
+.today .dhx_event_text{
+      color:black !important;
+}
+ 
+</style>
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
+		<script type="text/javascript" charset="utf-8">
+			//<![CDATA[
+
+			function setDates(){
+        		var tmpdate = new Date();
+        		tmpdate.setMinutes(0);
+        		if($$("scheduler").$$("editForm").elements["start_date"] != undefined){
+        			$$("scheduler").$$("editForm").elements["start_date"].setValue(tmpdate);
+        		}
+        		var tmpdate2 = new Date();
+        		tmpdate2.setMinutes(30);
+        		/* $$("scheduler").$$("editForm").elements["end_date"].setValue(tmpdate2); */
+			}
+			function addMinutes(date, minutes) {
+    			return new Date(date.getTime() + minutes*60000);
+			}
+			function getFormattedDate(date) {
+			  var year = date.getFullYear();
+			  var month = 1 + date.getMonth();
+			  month = month.length > 1 ? "0"+month :  month;
+			  var day = date.getDate();
+			  day = day.length > 1 ? day :  "0"+day;
+			  return month + '/' + day + "/" + year;
+			}			           
+			function showLocation(){
+				var eventId = $$("scheduler").getCursor();
+				var location = $$("scheduler").item(eventId).location;
+				dhx.alert(location)
+			}			
+			function showLocation(){
+				alert("Boo");
+			}
+			function log(){
+				alert("staff clicked " + this.value);
+			}
+			//]]>
+			function init() {
+				scheduler.config.bottom_toolbar = [
+					{ view:"button",id:"today",label:scheduler.locale.labels.icon_today,inputWidth:scheduler.xy.icon_today, align:"left",width:scheduler.xy.icon_today+6},
+					{ view:"segmented", id:"buttons",selected:"list",align:"center",multiview:true, options:[
+						{ value:"list", label:scheduler.locale.labels.list_tab,width:scheduler.xy.list_tab},
+						{ value:"day", label:scheduler.locale.labels.day_tab,width:scheduler.xy.day_tab},
+						{ value:"month", label:scheduler.locale.labels.month_tab,width:scheduler.xy.month_tab}
+					]},
+					//{ view:"button",id:"Yester",label:'Yester',click:"showLocation"},
+					{ view:"combo",name: "staffs", id:'staffs',  label: 'Staff', value:"1", yCount:"3", options:[
+<c:forEach var="staff" items="${staffs}" varStatus="theCount">
+<c:if test="${not empty staff.key}">{ id:"<c:out value='${staff.key}' />", value:"<c:out value='${staff.value}' />" }<c:if test="${not theCount.last }">,</c:if></c:if>
+</c:forEach>
+					]},
+					{ view:"button",css:"add",id:"add", align:"right",label:"+",inputWidth:42,width:50}
+				];
+				
+				scheduler.config.form = [
+				             			{view:"combo",		label:"Client",	map_to:'clientid',id:'clientid',name:'clientid' ,options:
+				             								             				
+				             				[
+<c:forEach var="client" items="${clients}" varStatus="theCount">
+<c:if test="${not empty client.key}">{ id:"<c:out value='${client.key}' />", value:"<c:out value='${client.value}' />" }<c:if test="${not theCount.last }">,</c:if></c:if>
+</c:forEach>
+				             			              		               	                        
+	                                                                                 				]
+				             								             				
+				             				},
+				                         
+				             			{view:"combo",		label:"Service",	map_to:'text',name:'text' ,options:[
+<c:forEach var="service" items="${services}" varStatus="theCount">
+<c:if test="${not empty service.key}">{ id:"<c:out value='${service.key}' />", value:"<c:out value='${service.value}' />" }<c:if test="${not theCount.last }">,</c:if></c:if>
+</c:forEach>
+
+	                                                                                 				]},
+                          				{view:"combo",		label:"Staff",	map_to:'staffid',id:'staffid',name:'staffid' ,options:[
+<c:forEach var="staff" items="${staffs}" varStatus="theCount">
+<c:if test="${not empty staff.key}">{ id:"<c:out value='${staff.key}' />", value:"<c:out value='${staff.value}' />" }<c:if test="${not theCount.last }">,</c:if></c:if>
+</c:forEach>
+
+                                                                                 				]},	                                                                                 				
+				             			{view:"datepicker",	label:"Start",	id:'start_date', name:'start_date',	timeSelect:1, dateFormat:"%m/%d/%Y %h:%i %a"},
+				             			{view:"datepicker",	label:"End",	id:'end_date', name:'end_date',	timeSelect:1, dateFormat:"%m/%d/%Y %h:%i %a"},
+				             			//custom section in form
+				             			{view:"text",		label:"Price",	id:'service1cost', name:'service1cost' },
+				             			{view:"text",		label:"Notes",	id:'notes', name:'notes' },
+				             			//button can be removed
+				             			{view:"button", label:"Cancel appt", name:"cancelappt", id:"cancelappt"},
+				             			{view:"button", label:"No Show", name:"noshow", id:"noshow"},
+				             			{view:"button", label:"Checkout", name:"checkout", id:"checkout"}
+				             		];
+				//<![CDATA[				
+				// the scheduler.templates.event_title is used when you click the LIst button and it displays each info as returned below
+				scheduler.templates.new_event_data= function(){
+					console.log("ENTERED new_event_data");
+					 var hours = (dhx.Date.add(new Date(),1,"hour")).getHours();
+					 var start = dhx.Date.copy(this.coreData.getValue());
+					 start.setHours(hours);
+					 start.setMinutes(0);
+					 console.log("start date: "+start);
+					 var end = dhx.Date.add(start,1,"hour");
+					 end.setHours(hours);
+					 end.setMinutes(0);
+					 console.log("end date: "+end);
+					 console.log("EXITING new_event_data");
+					 return {start_date:start,end_date:end};
+					};				
+				scheduler.templates.event_date = function(date){
+					console.log("event_date "+date);
+					var a = moment(date);
+					a = a.format("MM/DD/YYYY");
+					console.log("event_date moment : "+a);
+					
+					//return dhx.Date.dateToStr("%d.%m.%Y")(date);
+					return a;
+				};				
+				scheduler.templates.event_long_date = function(date){
+					console.log("event_long_date "+date);
+					var a = moment(date);
+					a = a.format("MM/DD/YYYY");
+					console.log("event_long_date moment : "+a);					
+					//return dhx.Date.dateToStr("%l, %d %F %Y")(date);
+					return a;
+				};				
+				scheduler.templates.event_time = function(date){
+					console.log("event_time "+date);
+					var a = moment(date);
+					a = a.format("MM/DD/YYYY");
+					console.log("event_time moment : "+a);					
+					//return dhx.Date.dateToStr("%H:%i")(date);
+					return a;
+				};				
+				scheduler.templates.selected_event = function(obj,type){
+					var html = "";
+					if(!obj.start_date) return html;
+					html += "<div  class='selected_event'>";
+					html += "<div class='event_title'>"+getServiceOptionsLabel(obj.text)+"</div>";
+					console.log("ENTERED SELECTED_EVENT");
+					console.log("start_date: "+obj.start_date);
+					console.log("end_date: "+obj.end_date);
+					if(dhx.Date.datePart(obj.start_date).valueOf()==dhx.Date.datePart(obj.end_date).valueOf()){
+						console.log("ENTERED THE FIRST IF STATEMENT");
+						var fd = scheduler.templates.event_long_date(obj.start_date);
+						console.log("fd " +fd);
+						var fts = scheduler.templates.event_time(obj.start_date);
+						console.log("fts " +fts);
+						var fte = scheduler.templates.event_time(obj.end_date);
+						console.log("fte " +fte);
+						html += "<div class='event_text'>"+fd+"</div>";
+						html += "<div class='event_text'>"+scheduler.locale.labels.label_from+" "+fts+" "+scheduler.locale.labels.label_to+" "+fte+"</div>";
+					}
+					else{
+						var fds = scheduler.templates.event_long_date(obj.start_date);
+						var fde = scheduler.templates.event_long_date(obj.end_date);
+						var fts = scheduler.templates.event_time(obj.start_date);
+						var fte = scheduler.templates.event_time(obj.end_date);
+						html += "<div class='event_text'>"+scheduler.locale.labels.label_from+" "+fts+" "+fds+"</div>";
+						html += "<div class='event_text'>"+scheduler.locale.labels.label_to+" "+fte+" "+fde+"</div>";
+					}
+					if(obj.details&&obj.details!==""){
+						html += "<div class='event_title'>"+scheduler.locale.labels.label_details+"</div>";
+						html += "<div class='event_text'>"+obj.details+"</div>";
+					}
+					html += "</div>";
+					return html;
+				};				
+				
+				// event_title: header for List view
+				scheduler.templates.event_title = function(obj,type){
+					if(obj.start_date!=undefined && obj.start_date!=null){
+						return "<div class='dhx_day_title'>  "+scheduler.templates.event_date(obj.start_date)+"</div><div style='margin:10px'><div class='dhx_event_time'>"+scheduler.templates.event_time(obj)+"</div>"+scheduler.templates.event_marker(obj,type)+"<div class='dhx_event_text'>"+getServiceOptionsLabel(obj.text)+"</div></div>";
+					}else{
+						return "<div class='dhx_day_title'></div><div style='margin:10px'><div class='dhx_event_time'> "+scheduler.templates.event_time(obj)+"</div>"+scheduler.templates.event_marker(obj,type)+"<div class='dhx_event_text'>"+getServiceOptionsLabel(obj.text)+"</div></div>";
+					}
+				};
+				scheduler.templates.month_event_title = function(obj,type){
+					return scheduler.templates.event_marker(obj,type)+"<div class='dhx_event_time'>MONTH View "+scheduler.templates.event_time(obj)+"</div><div class='dhx_event_text'>"+getServiceOptionsLabel(obj.text)+"</div>";	
+				};
+				scheduler.templates.day_event = function(obj,type){
+					//return " "+obj.status + "  " + obj.clientfirstname + " " + obj.clientlastname + " " + obj.servicename1 +"";
+					console.log("scheduler.templates.day_event service id: " + obj.text);
+					var label  = "test";
+					try{
+						label  = getServiceOptionsLabel(obj.text);
+					}catch(err){
+						console.log(err);
+					}
+					return label ;
+				};
+				scheduler.templates.event_class =  function(obj, type){
+					console.log("status : "+obj.status+" apptid: "+obj.apptid);
+					if(obj.status == 'ACTIVE'){
+						obj.color = 'yellow';
+					}else if(obj.status == 'NO_SHOW'){
+						obj.color = 'Crimson';
+					}else if(obj.status == 'CANCELED'){
+						obj.color = 'DarkRed';
+					}else if(obj.status == 'CHECKED_OUT'){
+						obj.color = 'green';
+					}else if(obj.status == 'DELETED'){
+						obj.color = 'black';
+					}
+				       return obj;
+				}
+
+			}
+			
+			init();
+			scheduler.config.collision_limit = 0;
+			scheduler.config.init_date = new Date(2012,11,11);
+			scheduler.config.day_date = "%m/%d/%Y";
+			scheduler.config.item_date = "%m/%d/%Y";
+			scheduler.config.header_date = "%D%m/%d/%Y";
+			scheduler.config.form_date = "%m/%d/%Y %h:%i";
+			scheduler.config.hour_date="%h:%i %A";
+			scheduler.config.edit_on_create = false;
+			scheduler.config.update_render = true;
+			
+			//scheduler.setLoadMode("day");	
+//http://forum.dhtmlx.com/viewtopic.php?f=24&t=25447
+
+// this is important  $$("scheduler").$$("calendar").attachEvent("onAfterMonthChange", function (newDate, oldDate) {
+//            PageMethods.PopulateScheduler(SuccessPopulateScheduler, FailurePopulateScheduler);
+//        });
+//}); 
+
+			dhx.ready(function(){
+				//dhx.ui.fullScreen();
+				dhx.ui(
+					{
+						
+						view:"scheduler",
+						id:"scheduler",
+						url: "calappts",
+						datatype: "json"
+//						,
+// TODO: THIS IS WHERE I NEED TO CREATE A REST SERVICE TO SAVE THIS APPOINTMENT						save: "savecalappt"	
+					}
+				);
+				
+				$$("scheduler").$$("editForm").elements["start_date"].attachEvent("onAfterRender",function(){
+					/*
+						http://forum.dhtmlx.com/viewtopic.php?f=24&t=23108
+						var e = $$('scheduler').$$('editForm').elements;
+						 var start_date = e.start_date.valueOf().Md;
+						 var end_date = e.end_date.valueOf().Md;					
+					*/
+			        var id = this.config.id;
+			        dhx.delay(function(){
+			        	/*
+			        		to set values
+			        		http://forum.dhtmlx.com/viewtopic.php?f=24&t=22646
+			        		also
+			        		http://forum.dhtmlx.com/viewtopic.php?f=24&t=25673
+			        				
+			        		to fill a list or select look at 
+			        		http://forum.dhtmlx.com/viewtopic.php?f=24&t=31225
+			        	
+			        		*/
+			        		console.log("start_date onAfterRender id: "+id);
+			        		//setDates();			        		
+			        		
+							$$(id).attachEvent("onChange",function(date){
+								if(date != undefined && date != null && date != ''){
+									// grab the time for selected service and add to start_date and then assign to end_date
+									var serviceid = $$("scheduler").$$("editForm").elements["text"].getValue();
+									console.log("start_date serviceid: " +serviceid);
+									var servicedescription = getServiceOptionsLabel(serviceid);
+									var servicetime = 15;
+									if(servicedescription != undefined && servicedescription != ""){
+										var servicecoln2 = servicedescription.indexOf('(');
+										var servicecoln3 = servicedescription.indexOf(')');
+										servicetime = servicedescription.substring(servicecoln2+1,servicecoln3);
+									}
+									
+									var tmpenddate = new Date(date.getTime() + servicetime*60000);
+									$$("scheduler").$$("editForm").elements["end_date"].setValue(tmpenddate);
+								}
+							 })
+			        	});
+					});
+				$$("scheduler").$$("bottomBar").elements["staffs"].attachEvent("onChange",function(id){
+					console.log("staffs onchange id "+id);
+
+				});					
+				$$("scheduler").$$("editForm").elements["text"].attachEvent("onAfterRender",function(){
+					/*
+						service options
+					*/
+			        var id = this.config.id;
+			        dhx.delay(function(){
+							$$(id).attachEvent("onChange",function(value){
+								var serviceid = value;
+								console.log("text serviceid: " +serviceid);
+								var servicedescription = getServiceOptionsLabel(serviceid);
+								var servicetime = 15;
+								console.log("text servicedescription: " +servicedescription);
+								if(servicedescription != "" && servicedescription != undefined){
+									var servicecoln2 = servicedescription.indexOf('(');
+									var servicecoln3 = servicedescription.indexOf(')');
+									servicetime = servicedescription.substring(servicecoln2+1,servicecoln3);
+								}
+								console.log("servicetime "+servicetime);
+								
+								
+								if($$("scheduler").$$("editForm").elements["start_date"] != undefined && $$("scheduler").$$("editForm").elements["start_date"].getValue() != null && $$("scheduler").$$("editForm").elements["start_date"].getValue() != undefined){
+									console.log("startdate: "+$$("scheduler").$$("editForm").elements["start_date"].getValue());
+									var tmpenddate = new Date($$("scheduler").$$("editForm").elements["start_date"].getValue().getTime() + servicetime*60000);
+									console.log("tmpenddate: "+tmpenddate);
+									$$("scheduler").$$("editForm").elements["end_date"].setValue(tmpenddate);
+								}
+							 })
+			        	});
+					});				
+
+				$$("scheduler").attachEvent("onAfterCursorChange",function(id){
+					//alert("onAfterEventDisplay: " + id  );
+					});				
+				$$("scheduler").$$("editForm").attachEvent("onshow",function(){
+					dhx.delay(function(){
+			        	alert("onShow editForm");
+						});
+					});
+
+				$$("scheduler").$$("views").attachEvent("onViewChange",function(view1,view2){
+						console.log("view2 "+$$("scheduler").innerId(view2));
+						console.log("view1 "+$$("scheduler").innerId(view1));
+					   if($$("scheduler").innerId(view2) == "form"){
+					             // when opening editForm... set option values for selected Appointment Event such as client, staff, service
+					             //$$("scheduler").$$("editForm").elements["apptid"].hide();
+				             	console.log("ENTERED onViewchange for editForm");
+				             	
+				             	var eventId = $$("scheduler").getCursor();
+				             	console.log("eventId "+eventId);
+				             	var eventobject = $$("scheduler").item(eventId);
+								if(eventobject != undefined){
+									console.log("eventobject client id "+eventobject.clientid);
+									console.log("eventobject staff id "+eventobject.staffid);
+									console.log("eventobject service1cost "+eventobject.service1cost);
+									console.log("eventobject notes "+eventobject.notes);
+									if($$("scheduler").$$("editForm").elements["start_date"] != undefined && $$("scheduler").$$("editForm").elements["start_date"].getValue() != undefined){
+										console.log("start_date is what? "+$$("scheduler").$$("editForm").elements["start_date"].getValue());
+										
+										//$$("scheduler").setCurrentView(null,view2);
+									}
+								}
+							/* 	$$("scheduler").$$("editForm").elements["start_date"].setValue(tmpdate);
+								$$("scheduler").$$("editForm").elements["start_date"].setValue(tmpdate);
+								var tmpdate2 = new Date();
+								tmpdate2.setMinutes(30);
+								$$("scheduler").$$("editForm").elements["end_date"].setValue(tmpdate2);
+								$$("scheduler").$$("editForm").elements["end_date"].setValue(tmpdate2); */
+ 
+					            console.log("EXITING onViewchange for editForm");
+					       }
+					   return true;
+				});				
+				$$("scheduler").$$("cancelappt").attachEvent("onItemClick",function(){
+	             	var eventId = $$("scheduler").getCursor();
+	             	console.log("eventId "+eventId);
+	             	var eventobject = $$("scheduler").item(eventId);
+	             	
+					console.log("cancel button clicked "+eventobject.apptid+" status: "+eventobject.status);
+		            var request = $.ajax({
+		                url: "cancel",
+		                type: "GET",
+		                data: {'apptid' : eventobject.apptid}, 
+		                dataType: "text"
+		             });
+		             request.done(function( msg ) {
+		            	 console.log("return message from cancel: "+msg);
+		            	 if(msg == 'SUCCESS'){
+		            		 console.log("success updating appt to no_show");
+		            		 eventobject.status = "CANCELED";
+		            	 }else{
+		            		 eventobject.status = "ACTIVE";
+		            	 }
+		            	 $$("scheduler").refresh();
+		            	 var id =$$("scheduler").$$("cancel").config.id;
+		            	 $$("scheduler").callEvent("onItemClick",[id]);
+		                return true;
+		             });
+				});
+				
+				/**
+				TODO: GET APPTID AND SEND TO NOSHOW
+				*/
+				$$("scheduler").$$("noshow").attachEvent("onItemClick",function(){
+					
+	             	var eventId = $$("scheduler").getCursor();
+	             	console.log("eventId "+eventId);
+	             	var eventobject = $$("scheduler").item(eventId);
+	             	
+					console.log("noshow button clicked "+eventobject.apptid+" status: "+eventobject.status);
+		            var request = $.ajax({
+		                url: "noshow",
+		                type: "GET",
+		                data: {'apptid' : eventobject.apptid}, 
+		                dataType: "text"
+		             });
+		             request.done(function( msg ) {
+		            	 console.log("return message from noshow: "+msg);
+		            	 if(msg == 'SUCCESS'){
+		            		 console.log("success updating appt to no_show");
+		            		 eventobject.status = "NO_SHOW";
+		            	 }else{
+		            		 eventobject.status = "ACTIVE";
+		            	 }
+		            	 $$("scheduler").refresh();
+		            	 var id =$$("scheduler").$$("cancel").config.id;
+		            	 $$("scheduler").callEvent("onItemClick",[id]);
+		                return true;
+		             });
+					
+					
+				});
+				$$("scheduler").$$("checkout").attachEvent("onItemClick",function(){
+
+	             	var eventId = $$("scheduler").getCursor();
+	             	console.log("eventId "+eventId);
+	             	var eventobject = $$("scheduler").item(eventId);
+	             	
+					console.log("checkout button clicked "+eventobject.apptid+" status: "+eventobject.status);
+		            var request = $.ajax({
+		                url: "checkout",
+		                type: "GET",
+		                data: {'apptid' : eventobject.apptid}, 
+		                dataType: "text"
+		             });
+		             request.done(function( msg ) {
+		            	 console.log("return message from checkout: "+msg);
+		            	 if(msg == 'SUCCESS'){
+		            		 console.log("success updating appt to no_show");
+		            		 eventobject.status = "CHECKED_OUT";
+		            	 }else{
+		            		 eventobject.status = "ACTIVE";
+		            	 }
+		            	 $$("scheduler").refresh();
+		            	 var id =$$("scheduler").$$("cancel").config.id;
+		            	 $$("scheduler").callEvent("onItemClick",[id]);
+		                return true;
+		             });
+					
+				});
+				
+				$$("scheduler").$$("editForm").elements["end_date"].attachEvent("onAfterRender",function(){
+					/*
+						http://forum.dhtmlx.com/viewtopic.php?f=24&t=23108
+						var e = $$('scheduler').$$('editForm').elements;
+						 var start_date = e.start_date.valueOf().Md;
+						 var end_date = e.end_date.valueOf().Md;					
+					*/
+			        var id = this.config.id;
+			        dhx.delay(function(){
+			        	/*
+			        		to set values
+			        		http://forum.dhtmlx.com/viewtopic.php?f=24&t=22646
+			        		also
+			        		http://forum.dhtmlx.com/viewtopic.php?f=24&t=25673
+			        				
+			        		to fill a list or select look at 
+			        		http://forum.dhtmlx.com/viewtopic.php?f=24&t=31225
+			        	
+				        	
+			        	
+			        		var tmpdate = new Date();
+			        		tmpdate.setMinutes(30);
+			        		$$("scheduler").$$("editForm").elements["end_date"].setValue(tmpdate);
+			        		*/
+							$$(id).attachEvent("onChange",function(date){
+								//alert("end date changed");
+							       
+							 })
+			        	});
+					});
+				$$("scheduler").data.attachEvent("onStoreUpdated",function(id,item,operation){
+					console.log("ENTERED onStoreUpdated");
+					console.log("operation "+operation);
+
+					if(id){
+						console.log("inside of id ");
+						console.log("event_object "+event_object);
+						if(event_object == undefined){
+			             	var eventId = $$("scheduler").getCursor();
+							
+			             	console.log("eventId "+eventId);
+							if(eventId != undefined){
+								event_object = $$("scheduler").item(eventId);
+								console.log("event_object.start_date "+event_object.start_date);
+								console.log("event_object.start_date "+event_object.start_date);
+								
+							}
+
+						}
+						
+						if(event_object != undefined && operation != 'delete' && event_object.start_date != undefined && event_object.start_date){
+							console.log("inside of event_object ");
+							var event_object = $$("scheduler").item(id);
+							console.log("eventobject text " + event_object.text);
+							console.log("item text " + item.text);
+							var apptid = event_object.apptid;
+							var serviceid = event_object.text;
+						
+							var a = moment(event_object.start_date);
+							a = a.format("MM/DD/YYYY");
+							console.log("moment start: "+a);
+							var defandroid = a;
+		
+							var b = moment(event_object.start_date);
+							b = b.format("hh:mm a");
+							console.log("start hour: "+b);
+							var starttime = b;
+		
+							var c = moment(event_object.end_date);
+							c = c.format("hh:mm a");
+							console.log("end hour: "+c);
+							var endtime = c;
+							
+							var price = event_object.service1cost;
+							var notes = event_object.notes;
+							var staff = event_object.staffid;
+							var client = event_object.clientid;
+							
+							var notes = event_object.notes;
+							console.log("onBeforeAdd event_object apptid: "+event_object.apptid);
+							console.log("onBeforeAdd event_object staff: "+event_object.staff);
+							console.log("onBeforeAdd event_object client: "+event_object.client);
+							console.log("onBeforeAdd event_object defandroid: "+defandroid);
+							console.log("onBeforeAdd event_object starttime: "+starttime);
+							console.log("onBeforeAdd event_object endtime: "+endtime);
+							
+				            var request = $.ajax({
+				                url: "updateappointmentmobileajax",
+				                type: "GET",
+				                data: {'gotourl' : 'stay','errgotourl' : 'noplace','appointmentid':apptid,'note':notes,'defandroid': apptid,'mstaff':staff,'mcategory':'cats','mservice':serviceid,'mclient':client,'personalhour':starttime,'personalendhour':endtime}, //motivo
+				                dataType: "json"
+				             });
+				             request.done(function( msg ) {
+				            	 //dhx.alert("msg: " + msg);
+				            	 //scheduler.clearAll();
+				            	 $$("scheduler").parse(msg,"json");
+				            	 console.log("message response back from saving appointment: "+msg);
+				                return msg;
+				             });
+						}		
+					}
+					console.log("EXITING onStoreUpdated");
+				});
+				$$("scheduler").data.attachEvent("onBeforeDelete",function(event_id,event_object){
+					// TODO: use this to save to database using ajax
+					console.log("ENTERED onBeforeDelete  event_object " + event_object);
+	             	var eventId = $$("scheduler").getCursor();
+	             	console.log("eventId "+eventId);
+	             	var eventobject = $$("scheduler").item(eventId);
+	             	console.log("eventobject " + eventobject);
+					if(eventobject != undefined){
+						var apptid = eventobject.apptid;
+						console.log("apptid "+apptid);
+			            var request = $.ajax({
+			                url: "delete",
+			                type: "GET",
+			                data: {'apptid' : apptid}, 
+			                dataType: "text"
+			             });
+			             request.done(function( msg ) {
+			            	 console.log("return message from delete: "+msg);
+			            	 if(msg == 'SUCCESS'){
+			            		 console.log("success updating appt to delete");
+			            		 eventobject.status = "DELETED";
+			            	 }else{
+			            		 eventobject.status = "ACTIVE";
+			            	 }
+			            	 $$("scheduler").refresh();
+			            	 var id =$$("scheduler").$$("cancel").config.id;
+			            	 $$("scheduler").callEvent("onItemClick",[id]);
+			                return true;
+			             });
+					}
+		             console.log("EXITING onBeforeDelete  ");
+				});				
+				
+				$$("scheduler").data.attachEvent("onBeforeAdd",function(event_id,event_object){
+					// TODO: use this to save to database using ajax
+					console.log("ENTERED onBeforeAdd  ");
+					var apptid = event_object.apptid;
+					
+					console.log("apptid "+apptid);
+					var serviceid = event_object.text;
+					if(event_object.start_date != undefined && event_object.start_date){
+						var a = moment(event_object.start_date);
+						a = a.format("MM/DD/YYYY");
+						console.log("moment start: "+a);
+						var defandroid = a;
+	
+						var b = moment(event_object.start_date);
+						b = b.format("hh:mm a");
+						console.log("start hour: "+b);
+						var starttime = b;
+	
+						var c = moment(event_object.end_date);
+						c = c.format("hh:mm a");
+						console.log("end hour: "+c);
+						var endtime = c;
+						
+						if(event_object.staff == undefined){
+			             	var eventId = $$("scheduler").getCursor();
+			             	console.log("eventId "+eventId);
+							if(eventId != null){
+								event_object = $$("scheduler").item(eventId);
+							}
+						}
+						if(event_object != undefined && event_object.price != undefined){
+							var price = event_object.price;
+						}
+						if(event_object != undefined && event_object.description != undefined){
+							var notes = event_object.description;
+						}
+						var staff = event_object.staff;
+						if(staff == undefined){
+							staff = $$("scheduler").$$("staffid").getValue();
+						}
+						var client = event_object.client;
+						if(client == undefined){
+							client = $$("scheduler").$$("clientid").getValue();
+						}
+						console.log("onBeforeAdd event_object apptid: "+apptid);
+						console.log("onBeforeAdd event_object staff: "+staff);
+						console.log("onBeforeAdd event_object client: "+client);
+						console.log("onBeforeAdd event_object defandroid: "+defandroid);
+						console.log("onBeforeAdd event_object starttime: "+starttime);
+						console.log("onBeforeAdd event_object endtime: "+endtime);
+					
+						// for creation of new appointments use createappointmentmobileajax
+						// for updating use updateappointmentmobileajax
+						if(apptid == null || apptid == '' || apptid == undefined){
+							console.log("create using createappointmentmobileajax");
+				            var request = $.ajax({
+				                url: "createappointmentmobileajax",
+				                type: "GET",
+				                data: {'gotourl' : 'stay','errgotourl' : 'noplace','defandroid': defandroid,'mstaff':staff,'mcategory':'cats','mservice':serviceid,'mclient':client,'personalhour':starttime,'personalendhour':endtime}, //motivo
+				                dataType: "json"
+				             });
+				             request.done(function( msg ) {
+				            	 //dhx.alert("msg: " + msg);
+				            	 //scheduler.clearAll();
+				            	 $$("scheduler").parse(msg,"json");
+				            	 console.log("message response back from saving appointment: "+msg);
+				                return msg;
+				             });
+						}else{
+							console.log("update using updateappointmentmobileajax");
+				            var request = $.ajax({
+				                url: "updateappointmentmobileajax",
+				                type: "GET",
+				                data: {'gotourl' : 'stay','errgotourl' : 'noplace','defandroid': defandroid,'mstaff':staff,'mcategory':'cats','mservice':serviceid,'mclient':client,'personalhour':starttime,'personalendhour':endtime}, //motivo
+				                dataType: "json"
+				             });
+				             request.done(function( msg ) {
+				            	 //dhx.alert("msg: " + msg);
+				            	 //scheduler.clearAll();
+				            	 $$("scheduler").parse(msg,"json");
+				            	 console.log("message response back from saving appointment: "+msg);
+				                return msg;
+				             });
+							
+						}
+			             console.log("onBeforeAdd id: " + event_id + " text: "+event_object.text );
+			             console.log("EXITING onBeforeAdd  ");
+					}
+				});				
+
+
+				$$("scheduler").data.attachEvent("onAfterAdd",function(id){
+					//dhx.alert("Item '"+this.item(id).text+"' has been added");
+				});
+				
+				$$("scheduler").$$("delete").attachEvent("onItemClick", function (id, ev, trg) {
+	             	var eventId = $$("scheduler").getCursor();
+	             	console.log("eventId "+eventId);
+	             	var eventobject = $$("scheduler").item(eventId);
+					
+					console.log("delete button clicked apptid: " + eventobject.apptid);		
+				});				
+				//$$("scheduler").load("calappts","json");
+				
+				$$("scheduler").$$("calendar").attachEvent("onAfterMonthChange", function (newDate, oldDate) {
+		            dhx.alert("staff: "+$$("scheduler").$$("staffs").getValue());
+		            
+					var formdate = getFormattedDate(newDate);
+					
+		            var request = $.ajax({
+		                url: "calapptschange",
+		                type: "GET",
+		                data: {'newDate' : formdate }, //motivo
+		                dataType: "json"
+		             });
+		             request.done(function( msg ) {
+		            	 //dhx.alert("msg: " + msg);
+		            	 //scheduler.clearAll();
+		            	 $$("scheduler").parse(msg,"json");
+		            	 scheduler.updateView();
+		                return msg;
+		             });
+				});
+				
+				
+				$$("scheduler").$$("buttons").setValue("day");
+				$$("scheduler").$$("day").show();
+				$$("scheduler").setDate(new Date());				
+									
+			});
+			
+			
+			//]]>
+		</script>
+		<div>
+			<spring:url value="/" var="home"/>
+			<a rel="external" href="${home}" data-icon="home" data-iconpos="notext" data-direction="reverse" class="ui-btn-right jqm-home">Schedule</a>
+		</div>
+
+</div>

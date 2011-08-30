@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_com_yourhairsalon_booking_domain_Appointment" object="${appointment}" path="/appointments" z="PeCm0Rum0XN6nLIX69B8aUbNT38=">
+        <field:display field="confirmed" id="s_com_yourhairsalon_booking_domain_Appointment_confirmed" object="${appointment}" z="k/fLUF2VcHapW8O/NgeZTNpEweE="/>
+        <field:display field="cancelled" id="s_com_yourhairsalon_booking_domain_Appointment_cancelled" object="${appointment}" z="bXmj8lu3AVctGjwORIwBG9MCTQk="/>
+        <field:display field="reoccurring" id="s_com_yourhairsalon_booking_domain_Appointment_reoccurring" object="${appointment}" z="VlopU3QTdRCEWaChJEcxt6SAgLo="/>
+        <field:display field="reoccurring_email_all" id="s_com_yourhairsalon_booking_domain_Appointment_reoccurring_email_all" object="${appointment}" z="pPLf/k3k6CW9YJapgXkcbjhiJVg="/>
+        <field:display field="frequency_week" id="s_com_yourhairsalon_booking_domain_Appointment_frequency_week" object="${appointment}" z="XxKABLTcu7AZxUMpz9NcOC0y04Q="/>
+        <field:display field="duration_month" id="s_com_yourhairsalon_booking_domain_Appointment_duration_month" object="${appointment}" z="j0aTFIdB9LThjE9rDiCB96hrcPo="/>
+        <field:display date="true" dateTimePattern="${appointment_reoccur_start_date_date_format}" field="reoccur_start_date" id="s_com_yourhairsalon_booking_domain_Appointment_reoccur_start_date" object="${appointment}" z="mZdcs1hlb7t6eZZw2YqyuYiGcIs="/>
+        <field:display field="description" id="s_com_yourhairsalon_booking_domain_Appointment_description" object="${appointment}" z="UpNJcVJAdgmzbQE+L6sbI7vbluo="/>
+        <field:display date="true" dateTimePattern="${appointment_appointmentdate_date_format}" field="appointmentDate" id="s_com_yourhairsalon_booking_domain_Appointment_appointmentDate" object="${appointment}" z="m8Qaiu41MpNDR2hros+kVRC4BJI="/>
+        <field:display field="starttime" id="s_com_yourhairsalon_booking_domain_Appointment_starttime" object="${appointment}" z="rjBxV3iWLiQ0aLSyiyTMLRvuOmo="/>
+        <field:display field="endtime" id="s_com_yourhairsalon_booking_domain_Appointment_endtime" object="${appointment}" z="F0Ku6YreViw3lFKyailkMe2mvWQ="/>
+        <field:display date="true" dateTimePattern="${appointment_checkintime_date_format}" field="checkintime" id="s_com_yourhairsalon_booking_domain_Appointment_checkintime" object="${appointment}" z="PsKErhvhvwYyXQThrunHIcNbQWQ="/>
+        <field:display date="true" dateTimePattern="${appointment_checkouttime_date_format}" field="checkouttime" id="s_com_yourhairsalon_booking_domain_Appointment_checkouttime" object="${appointment}" z="6XK503wI1fyTPxyoYeP32V8Ss3g="/>
+        <field:display date="true" dateTimePattern="${appointment_confirmeddate_date_format}" field="confirmeddate" id="s_com_yourhairsalon_booking_domain_Appointment_confirmeddate" object="${appointment}" z="CAEH+8E0+3U+MgEtHcPjJ482CRk="/>
+        <field:display date="true" dateTimePattern="${appointment_createddate_date_format}" field="createddate" id="s_com_yourhairsalon_booking_domain_Appointment_createddate" object="${appointment}" z="2I+z3ntP98srQK4yYsl/sHpXVFY="/>
+        <field:display field="staff" id="s_com_yourhairsalon_booking_domain_Appointment_staff" object="${appointment}" z="VZk6wqhDOsQ/SRhaJXqS+garYis="/>
+        <field:display field="client" id="s_com_yourhairsalon_booking_domain_Appointment_client" object="${appointment}" z="XeXZ+ofoC326H8Cc4xk/tSpMsYA="/>
+        <field:display field="shop" id="s_com_yourhairsalon_booking_domain_Appointment_shop" object="${appointment}" z="fhd3ScZYGC2/4RxeW1Kaa496QSU="/>
+        <field:display calendar="true" dateTimePattern="${appointment_enddatetime_date_format}" field="endDateTime" id="s_com_yourhairsalon_booking_domain_Appointment_endDateTime" object="${appointment}" z="LVa/WBX3qplRKTe3qP/Zozik3dM="/>
+        <field:display calendar="true" dateTimePattern="${appointment_begindatetime_date_format}" field="beginDateTime" id="s_com_yourhairsalon_booking_domain_Appointment_beginDateTime" object="${appointment}" z="c/+ReZmw5kIKm5WG2/URiGVNZAU="/>
+        <field:display field="services" id="s_com_yourhairsalon_booking_domain_Appointment_services" object="${appointment}" z="yMJf+ZW+gCOiUu0knAbodA0QIm4="/>
+        <field:display field="notes" id="s_com_yourhairsalon_booking_domain_Appointment_notes" object="${appointment}" z="VHjOXjPcA5yQQFXFd0S+7tsEzmI="/>
+        <field:display field="status" id="s_com_yourhairsalon_booking_domain_Appointment_status" object="${appointment}" z="+jo6zExCMxNyF9a58YwBZApdJvs="/>
+        <field:display field="personallabel" id="s_com_yourhairsalon_booking_domain_Appointment_personallabel" object="${appointment}" z="gNcnP4o0VeUJyy2fRPl0h72IYJs="/>
+        <field:display field="parent" id="s_com_yourhairsalon_booking_domain_Appointment_parent" object="${appointment}" z="n79JJ1rJrKuJ5HaW5fb39I+nOlw="/>
+        <field:display field="recur_parent" id="s_com_yourhairsalon_booking_domain_Appointment_recur_parent" object="${appointment}" z="Br2DdY7dR+9UePQg3HFY1LuWnlY="/>
+        <field:display field="requested_image_path" id="s_com_yourhairsalon_booking_domain_Appointment_requested_image_path" object="${appointment}" z="w7jiCC5w3iPxu0YohSE5/YuBzbQ="/>
+        <field:display field="requested_image_name" id="s_com_yourhairsalon_booking_domain_Appointment_requested_image_name" object="${appointment}" z="PVthU4xdytbnhaWr5X8XehjHeVA="/>
+        <field:display field="gcalid" id="s_com_yourhairsalon_booking_domain_Appointment_gcalid" object="${appointment}" z="q6nStJ7UoJcPfGr3B1NUhDVX6Q0="/>
+        <field:display field="staff_gcalid" id="s_com_yourhairsalon_booking_domain_Appointment_staff_gcalid" object="${appointment}" z="x28oCsuNDXkYbx1xazrz+cLRHUY="/>
+    </page:show>
+</div>

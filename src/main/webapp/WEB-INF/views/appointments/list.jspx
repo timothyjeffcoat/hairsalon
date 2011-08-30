@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_com_yourhairsalon_booking_domain_Appointment" items="${appointments}" z="H9gc7eEKFKNVkZUv9TZf+9T+R4s=">
+        <table:table data="${appointments}" id="l_com_yourhairsalon_booking_domain_Appointment" path="/appointments" z="1zd4yqfHZAzngn1pbWTNTWzdEzc=">
+            <table:column id="c_com_yourhairsalon_booking_domain_Appointment_reoccurring_email_all" property="reoccurring_email_all" z="wxLHTX1qfx8Bqz3J7d5xRPwW08M="/>
+            <table:column id="c_com_yourhairsalon_booking_domain_Appointment_confirmed" property="confirmed" z="YGy3UM+mlO/quw4LvBQGZ9Zoabs="/>
+            <table:column id="c_com_yourhairsalon_booking_domain_Appointment_cancelled" property="cancelled" z="xf0AbaHSY96IQoACaxX3Ta2v+t4="/>
+            <table:column id="c_com_yourhairsalon_booking_domain_Appointment_reoccurring" property="reoccurring" z="jV6pDHJM2rLCXVHc9Bv6Ao2Nvr4="/>
+            <table:column id="c_com_yourhairsalon_booking_domain_Appointment_frequency_week" property="frequency_week" z="b80/KDanHKT1AvOqH7Wc/HTGEbY="/>
+            <table:column id="c_com_yourhairsalon_booking_domain_Appointment_recur_parent" property="recur_parent" z="A1XFxHGnsdiSn/HyK3nhy0PAhM4="/>
+        </table:table>
+    </page:list>
+</div>

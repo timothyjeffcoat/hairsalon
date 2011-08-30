@@ -1,0 +1,79 @@
+<div id="header" xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags" version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-40547165-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+	<div data-role="page" class="type-home">
+		<span>
+			<spring:url value="/resources/j_spring_security_logout" var="logout"/>
+			<div class="ui-grid-a">
+				<div class="ui-block-a">
+				  <a href="${logout}">
+					<spring:message code="security_logout"/>
+				  </a>
+				</div>
+				<div class="ui-block-b">
+				<a href="/" data-icon="back" data-rel="back">Back</a>
+				</div>
+			</div><!-- /grid-a -->
+		</span>
+
+		<div data-role="header">
+			<h1>Scheduleem.com</h1>
+		</div>
+		<div data-role="header" data-theme="f">
+			<spring:url value="/" var="home"/>
+			<a rel="external" href="${home}" data-icon="home" data-iconpos="notext" data-direction="reverse" class="ui-btn-right jqm-home">Schedule</a>
+		</div><!-- /header -->
+		<div data-role="content">	
+			<div data-role="content">	
+				<div class="content-primary">
+					<h2>Clients</h2>
+				</div><!--/content-primary -->		
+				<div class="content-secondary">
+					<c:if test="${emailsentstatus=='success'}">
+						<p>
+							Email sent successfully.
+						</p>
+					</c:if>
+
+					<div data-role="collapsible" data-collapsed="false" data-theme="b" data-content-theme="d">
+							<h3>Create, edit, view your clients</h3>
+							<ul data-role="listview"  data-theme="c" data-dividertheme="d">
+								<li data-role="list-divider">Overview</li>
+								<c:if test="${allowaddclient == true}">
+									<li><a rel="external" href="./mcreate">Create a client</a></li>
+								</c:if>
+								<c:if test="${allowaddclient == false}">
+									<spring:url value="../settings/mupgradeacct" var="upgrade" />
+									<li><a rel="external" href="${upgrade}">Upgrade account in Settings to create a client</a></li>
+								</c:if>
+								<li><a rel="external" href="./mdisplay">Display / edit client list</a></li>
+								<spring:url value="./m_sendemail" var="msendemail"/>
+								<li><a rel="external" href="${msendemail}">Send e-mail to client</a></li>
+								
+							</ul>
+					</div>
+				</div>			
+			</div>
+		</div>
+		<div data-role="footer" class="footer-docs" data-theme="c">
+				<p>  copy 2013 Scheduleem.com</p>
+		</div>	
+	</div>
+</div>

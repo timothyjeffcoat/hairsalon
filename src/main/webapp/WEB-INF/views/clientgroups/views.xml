@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+    <definition extends="default" name="clientgroups/list">
+        <put-attribute name="body" value="/WEB-INF/views/clientgroups/list.jspx"/>
+    </definition>
+<definition extends="default" name="clientgroups/show">
+        <put-attribute name="body" value="/WEB-INF/views/clientgroups/show.jspx"/>
+    </definition>
+<definition extends="default" name="clientgroups/create">
+        <put-attribute name="body" value="/WEB-INF/views/clientgroups/create.jspx"/>
+    </definition>
+<definition extends="default" name="clientgroups/update">
+        <put-attribute name="body" value="/WEB-INF/views/clientgroups/update.jspx"/>
+    </definition>
+<definition extends="default" name="clientgroups/findClientGroupsByShop">
+        <put-attribute name="body" value="/WEB-INF/views/clientgroups/findClientGroupsByShop.jspx"/>
+    </definition>
+</tiles-definitions>

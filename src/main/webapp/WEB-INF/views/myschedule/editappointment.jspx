@@ -1,0 +1,510 @@
+<div id="header" xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" 
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags" version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
+	<fmt:formatDate var="begintimedatehour" value="${appointment.beginDateTimeDate}" pattern="H"/>
+	<fmt:formatDate var="begintimedatemin" value="${appointment.beginDateTimeDate}" pattern="mm"/>
+	<fmt:formatDate var="endtimedatehour" value="${appointment.endDateTimeDate}" pattern="H"/>
+	<fmt:formatDate var="endintimedatemin" value="${appointment.endDateTimeDate}" pattern="mm"/>
+	
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-40547165-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+		
+	<div data-role="page" class="type-home">
+		<span>
+			<spring:url value="/resources/j_spring_security_logout" var="logout"/>
+			<div class="ui-grid-a">
+				<div class="ui-block-a">
+				  <a href="${logout}">
+					<spring:message code="security_logout"/>
+				  </a>
+				</div>
+				<div class="ui-block-b">
+				<spring:url value="/myschedule/mmyschedule" var="back"/>
+				<a rel="external" href="${back}" data-icon="back" data-rel="back">Back</a>
+				</div>
+			</div><!-- /grid-a -->
+		</span>
+		<div data-role="header">
+			<h1>Scheduleem.com</h1>
+		</div>
+		<div data-role="header" data-theme="f">
+			<spring:url value="/" var="home"/>
+			<a rel="external" href="${home}" data-icon="home" data-iconpos="notext" data-direction="reverse" class="ui-btn-right jqm-home">Schedule</a>
+		</div><!-- /header -->
+		
+		<div data-role="content">	
+			<div class="content-primary">
+				<h2>Edit appointment</h2>
+			</div><!--/content-primary -->		
+			
+			<div class="content-secondary">
+<script type="text/javascript">
+	function checkout(urlpath){
+		var apptid = $("#appointmentid").val();
+		window.location.href = urlpath+apptid;
+	}
+	function noshow(urlpath){
+		var apptid = $("#appointmentid").val();
+		window.location.href = urlpath+apptid;
+	}
+	function deletemobile(urlpath){
+		var apptid = $("#appointmentid").val();
+		window.location.href = urlpath+apptid;
+	}
+	function cancelmobile(urlpath){
+		var apptid = $("#appointmentid").val();
+		window.location.href = urlpath+apptid;
+	}
+	
+</script>	
+<script type="text/javascript">
+	function clientobject(clientid,fullname){
+		this.clientid = clientid;
+		this.fullname = fullname;
+	}
+	function serviceobject(serviceid,description,amountoftime){
+		this.serviceid = serviceid;
+		this.description = description;
+		this.amountoftime = amountoftime;
+	}
+	function categoryserviceobject(categoryid,serviceid,description,amountoftime){
+		this.categoryid = categoryid;
+		this.serviceid = serviceid;
+		this.description = description;
+		this.amountoftime = amountoftime;
+	}
+	function servicepriceobject(serviceid,cost){
+		this.serviceid = serviceid;
+		this.cost = cost;
+	}
+	function customservicepriceobject(appointmentid, serviceid,cost){
+		this.appointmentid = appointmentid;
+		this.serviceid = serviceid;
+		this.cost = cost;
+	}
+	
+	var servicesArray = [];
+	var servicespricesArray = [];
+	var categoryservicesArray = [];
+
+	<c:forEach var="catservice" items="${categoryservices}">
+		var serviceid = "${catservice.svcid}";
+		var servicedescription = "${catservice.servicedescription}";
+		var servicetime = "${catservice.svcamounttime}";
+		var catid = "${catservice.catid}";
+
+		var service = new categoryserviceobject(catid, serviceid,servicedescription, servicetime);
+		categoryservicesArray.push(service);
+		
+	</c:forEach>
+
+	<c:forEach var="serviceprice" items="${servicesprices}">
+	var placeholder = "${serviceprice}";
+	if (placeholder != "=") {
+		var servicecoln = placeholder.indexOf('=');
+		var serviceid = placeholder.substring(0, servicecoln);
+		var serviceprice = placeholder.substring(servicecoln + 1,
+				placeholder.length);
+		var serviceprice = new servicepriceobject(serviceid, serviceprice);
+		servicespricesArray.push(serviceprice);
+	}
+	</c:forEach>
+
+	<c:forEach var="service" items="${services}">
+	var placeholder = "${service}";
+	if (placeholder != "=") {
+		var servicecoln = placeholder.indexOf('=');
+		var serviceid = placeholder.substring(0, servicecoln);
+		var servicedescription = placeholder.substring(servicecoln + 1,
+				placeholder.length);
+		var servicecoln2 = servicedescription.indexOf('(');
+		var servicecoln3 = servicedescription.indexOf(')');
+		var servicetime = servicedescription.substring(servicecoln2 + 1,
+				servicecoln3);
+		servicedescription = servicedescription.substring(0, servicecoln2);
+		var service = new serviceobject(serviceid, servicedescription,
+				servicetime);
+		servicesArray.push(service);
+	}
+	</c:forEach>
+
+	
+	function getPriceForService(id) {
+		if (servicespricesArray.length > 0) {
+			for ( var key in servicespricesArray) {
+				var findservice = servicespricesArray[key];
+				if (findservice.serviceid == id) {
+					return findservice.cost;
+				}
+			}
+		}
+
+	}
+	function getEndTimeNoPost(svcid) {
+		if (servicesArray.length > 0) {
+			for ( var key in servicesArray) {
+				var findservice = servicesArray[key];
+				if (findservice.serviceid == svcid) {
+					var total = findservice.amountoftime;
+					return total;
+				}
+			}
+		}
+	}
+	$().ready(function() {
+		$("#frmCreate").validate({
+			rules: {
+				defandroid: "required",
+				mstaff: "required",
+				mservice: "required",
+				mclient: "required",
+				personalhour: "required",
+				personalendhour: "required"
+			},
+			messages: {
+				defandroid: "Please enter date",
+				mstaff: "Please select staff",
+				mservice: "Please select service",
+				mclient: "Please select client",
+				personalhour: "Please select begin hour",
+				personalendhour: "Please select end hour"
+			}
+		});
+
+		$("#mservice").change(function() {
+						var id = $(this).attr("value");
+
+						var time = getEndTimeNoPost(id);
+						var addmin = $("#personalhour").val();
+						var stamp = new Date (new Date().toDateString() + " " + addmin);
+						
+	                    var endhour = stamp.getHours();
+						var endmin = stamp.getMinutes();
+						var eap = "AM";
+						if (endhour   > 11) { eap = "PM";        }
+						if (endhour   > 12) { endhour = endhour - 12; }
+						if (endhour   == 0) { endhour = 12;        }
+						if(endmin == "0"){endmin="00";}
+						
+						var newDateObj = new Date(stamp.getTime() + time*60000);
+	                    var endehour = newDateObj.getHours();
+						var endemin = newDateObj.getMinutes();
+						var eeap = "AM";
+						if (endehour   > 11) { eeap = "PM";        }
+						if (endehour   > 12) { endehour = endehour - 12; }
+						if (endehour   == 0) { endehour = 12;        }
+						if(endemin == "0"){endemin="00";}
+						
+						$("#personalendhour").val(endehour+ ":" +endemin+" "+eeap);
+					});
+		$("#personalhour").change(function() {
+			var id = $("#mservice").val();
+
+			var time = getEndTimeNoPost(id);
+			if(time == undefined){
+				$("#personalendhour").val($("#personalhour").val());	
+				return;
+			}
+			var addmin = $("#personalhour").val();
+			var stamp = new Date (new Date().toDateString() + " " + addmin);
+			
+            var endhour = stamp.getHours();
+			var endmin = stamp.getMinutes();
+			var eap = "AM";
+			if (endhour   > 11) { eap = "PM";        }
+			if (endhour   > 12) { endhour = endhour - 12; }
+			if (endhour   == 0) { endhour = 12;        }
+			if(endmin == "0"){endmin="00";}
+			
+			var newDateObj = new Date(stamp.getTime() + time*60000);
+            var endehour = newDateObj.getHours();
+			var endemin = newDateObj.getMinutes();
+			var eeap = "AM";
+			if (endehour   > 11) { eeap = "PM";        }
+			if (endehour   > 12) { endehour = endehour - 12; }
+			if (endehour   == 0) { endehour = 12;        }
+			if(endemin == "0"){endemin="00";}
+			
+			$("#personalendhour").val(endehour+ ":" +endemin+" "+eeap);
+		});
+			var begintime = "${appointment.s_beginDateTime}";
+			$("#personalhour").val(begintime);
+			
+			var defaultPickerValue = [${begintimedatehour}, ${begintimedatemin}, 0]; // 12 hour, 0 minutes, 0 seconds
+			$("#personalhour").data("datebox").options.defaultPickerValue = defaultPickerValue;
+			var defaultPickerValueEnd = [${endtimedatehour}, ${endintimedatemin}, 0]; // 12 hour, 0 minutes, 0 seconds
+			$("#personalendhour").data("datebox").options.defaultPickerValue = defaultPickerValueEnd;
+	});
+	function onChangePersonalHour(){
+		var id = $("#mservice").attr('value');
+
+		var time = getEndTimeNoPost(id);
+		if (time == undefined) {
+			$("#personalendhour").val(
+					$("#personalhour").val());
+			return;
+		}
+		var addmin = $("#personalhour").val();
+		var stamp = new Date(new Date().toDateString()
+				+ ' ' + addmin);
+
+		var endhour = stamp.getHours();
+		var endmin = stamp.getMinutes();
+		var eap = "AM";
+		if (endhour > 11) {
+			eap = "PM";
+		}
+		if (endhour > 12) {
+			endhour = endhour - 12;
+		}
+		if (endhour == 0) {
+			endhour = 12;
+		}
+		if (endmin == "0") {
+			endmin = "00";
+		}
+
+		var newDateObj = new Date(stamp.getTime()
+				+ time * 60000);
+		var endehour = newDateObj.getHours();
+		var endemin = newDateObj.getMinutes();
+		var eeap = "AM";
+		if (endehour > 11) {
+			eeap = "PM";
+		}
+		if (endehour > 12) {
+			endehour = endehour - 12;
+		}
+		if (endehour == 0) {
+			endehour = 12;
+		}
+		if (endemin == "0") {
+			endemin = "00";
+		}
+
+		$("#personalendhour").val(
+				endehour + ':' + endemin + ' ' + eeap);			
+	}
+	function setEndTimeNoPost(svcid){
+		var id = $("#mservice").attr('value');
+		var time = getEndTimeNoPost(id);
+		var addmin = $("#personalhour").val();
+		var stamp = new Date(new Date().toDateString()
+				+ ' ' + addmin);
+
+		var endhour = stamp.getHours();
+		var endmin = stamp.getMinutes();
+		var eap = "AM";
+		if (endhour > 11) {
+			eap = "PM";
+		}
+		if (endhour > 12) {
+			endhour = endhour - 12;
+		}
+		if (endhour == 0) {
+			endhour = 12;
+		}
+		if (endmin == "0") {
+			endmin = "00";
+		}
+
+		var newDateObj = new Date(stamp.getTime()
+				+ time * 60000);
+		var endehour = newDateObj.getHours();
+		var endemin = newDateObj.getMinutes();
+		var eeap = "AM";
+		if (endehour > 11) {
+			eeap = "PM";
+		}
+		if (endehour > 12) {
+			endehour = endehour - 12;
+		}else{
+			endehour = "0"+endehour;
+		}
+		if (endehour == 0) {
+			endehour = 12;
+		}
+		if (endemin == "0") {
+			endemin = "00";
+		}
+
+		$("#personalendhour").val(
+				endehour + ':' + endemin + ' ' + eeap);			
+	}
+	
+	function updateService(selectedcatid){
+ 	
+		if(selectedcatid.value == '0'){
+			var newoptions = '<option value="0"></option>';
+			for(var key in servicesArray) {
+				var service = servicesArray[key];
+				newoptions = newoptions + '<option value="'+service.serviceid+'">'+service.description + " ("+service.amountoftime+")"+'</option>';
+
+			}
+			$('#mservice')
+		    .find('option')
+		    .remove()
+		    .end()
+		    .append(newoptions);
+
+ 		}else{
+			if(categoryservicesArray.length > 0){
+				var newoptions = '<option value="0"></option>';
+				for(var key in categoryservicesArray) {
+					var catservice = categoryservicesArray[key];
+					if(selectedcatid.value == catservice.categoryid){
+						newoptions = newoptions + '<option value="'+catservice.serviceid+'">'+catservice.description + " ("+catservice.amountoftime+")"+'</option>';
+					}
+				}
+				$('#mservice')
+			    .find('option')
+			    .remove()
+			    .end()
+			    .append(newoptions);
+			}
+		}
+		
+		
+	}	
+	</script>
+	<style type="text/css">
+		label.error {
+		    color: red;
+		    font-size: 16px;
+		    font-weight: normal;
+		    line-height: 1.4;
+		    margin-top: 0.5em;
+		    width: 100%;
+		    float: none;
+		}
+		
+		@media screen and (orientation: portrait){
+		    label.error { margin-left: 0; display: block; }
+		}
+		
+		@media screen and (orientation: landscape){
+		    label.error { display: inline-block; margin-left: 22%; }
+		}
+		
+		em { color: red; font-weight: bold; padding-right: .25em; }	
+	</style>
+				<div data-role="collapsible" data-collapsed="false" data-theme="b" data-content-theme="d">
+						<p>
+							<spring:url value="updateappointmentmobile" var="updateappointmentmobile"/>
+							<form name="frmCreate" action="${updateappointmentmobile}" method="post" data-ajax="false">
+								<input type="hidden" name="gotourl" id="gotourl" value="./mdisplay"/>
+								<input type="hidden" name="errgotourl" id="errgotourl" value="./mcreate"/>
+								<input type="hidden" name="appointmentid" id="appointmentid" value="${appointment.id}"/>
+								<fmt:formatDate var="formattedappt" value="${appointment.appointmentDate}" pattern="yyyy-MM-dd"/>
+								
+								<div data-role="fieldcontain">
+									<label for="defandroid">Appointment Date</label>
+									<input name="defandroid" type="date" data-role="datebox" id="defandroid" value="${formattedappt}"  data-options="{'mode': 'datebox', 'dateFormat': 'YYYY-mm-dd'}" />								
+								</div>								
+								<div data-role="fieldcontain">
+						         <label for="mstaff">Staff:</label>
+						         <select data-native-menu="false"  name="mstaff" id="mstaff" >
+						         	<option value="0" selected="selected"></option>
+						         	<c:forEach var="staff" items="${mobilestaffs}">
+										<c:choose>
+											<c:when test="${appointment.staff.id == staff.id}">
+												<option value="${staff.id}" selected="selected">${staff.firstName} ${staff.lastName}</option>
+											</c:when>
+											<c:otherwise>
+												<option value="${staff.id}">${staff.firstName} ${staff.lastName}</option>
+											</c:otherwise>
+										</c:choose>									
+						         	</c:forEach>
+						         </select>
+								</div>
+								<div data-role="fieldcontain">
+						         <label for="mcategory">Category:</label>
+						         <select data-native-menu="false"  name="mcategory" id="mcategory" title="Filter by category!" validate="required:false" onchange="updateService(this);">
+						         	<option value="0" ></option>
+						         	<c:forEach var="category" items="${categories}">
+						         		<option value="${category.key}" >${category.value}</option>
+						         	</c:forEach>
+						         </select>
+								</div>
+								<div data-role="fieldcontain">
+						         <label for="mservice">Service:</label>
+						         <select data-native-menu="false"  name="mservice" id="mservice" onchange="setEndTimeNoPost(this);">
+						         	<option value="0" selected="selected"></option>
+						         	<c:forEach var="service" items="${mobileservices}">
+										<c:choose>
+											<c:when test="${appointment.service1id == service.id}">
+												<option value="${service.id}" selected="selected">${service.description}</option>
+											</c:when>
+											<c:otherwise>
+												<option value="${service.id}">${service.description}</option>
+											</c:otherwise>
+										</c:choose>									
+						         	</c:forEach>
+						         </select>
+								</div>
+								<div data-role="fieldcontain">
+						         <label for="mclient">Client:</label>
+						         <select data-native-menu="false"  name="mclient" id="mclient" >
+						         	<option value="0" selected="selected"></option>
+						         	<c:forEach var="client" items="${mobileclients}">
+										<c:if test="${appointment.client.id == client.id}">
+											<option value="${client.id}" selected="selected">${client.firstName} ${client.lastName}</option>
+										</c:if>
+						         	</c:forEach>
+						         </select>
+								</div>
+								<div data-role="fieldcontain">
+									<label for="personalhour">Begin time: </label>
+									<input name="personalhour" id="personalhour" value="${appointment.s_beginDateTime}" type="date" data-role="datebox" data-options='{\"mode\": \"timebox\", \"timeFormatOverride\": 12,\"minuteStep\":15}' class="required" onchange="onChangePersonalHour();"/>											
+								</div>
+								<div data-role="fieldcontain">
+									<label for="personalendhour">End time: ${endtimedatehour}:${endintimedatemin}</label>
+									<input name="personalendhour" id="personalendhour" value="${appointment.s_endDateTime}" type="date" data-role="datebox" data-options='{\"mode\": \"timebox\", \"timeFormatOverride\": 12,\"minuteStep\":15}' class="required"/>
+								</div>
+								<div data-role="fieldcontain">
+									<label for="price">Price</label>
+									<input name="price" type="text" id="price" value="${appointment.service1cost}"  />								
+								</div>								
+								
+								<div data-role="fieldcontain">
+									<label for="note">Notes</label>
+									<input name="note" type="text" id="note" value="${appointment.notes}"  />								
+								</div>								
+							
+								<div class="ui-body ui-body-b">
+									<fieldset class="ui-grid-a">
+											<spring:url value="/myschedule/cancelmobile?appointmentid=" var="cancel"/>
+											<div class="ui-block-a"><button type="button" onclick="cancelmobile('${cancel}');" data-theme="d">Cancel appointment</button></div>
+											<spring:url value="/myschedule/noshowmobile?appointmentid=" var="noshow"/>
+											<div class="ui-block-a"><button type="button" onclick="noshow('${noshow}');" data-theme="d">No Show</button></div>
+											<spring:url value="/myschedule/checkoutmobile?appointmentid=" var="checkout"/>
+											<div class="ui-block-a"><button type="button" onclick="checkout('${checkout}');" data-theme="d">Checkout</button></div>
+											<div class="ui-block-a"><button type="submit" data-theme="a">Save</button></div>
+								    </fieldset>
+								</div>
+							
+							</form>						
+						</p>
+				</div>
+			</div>			
+		</div>
+		<div data-role="footer" class="footer-docs" data-theme="c">
+				<p>  copy 2013 Scheduleem.com</p>
+		</div>	
+	</div>
+</div>

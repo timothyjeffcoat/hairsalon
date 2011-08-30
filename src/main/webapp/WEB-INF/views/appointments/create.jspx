@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <form:create id="fc_com_yourhairsalon_booking_domain_Appointment" modelAttribute="appointment" path="/appointments" render="${empty dependencies}" z="74FVxDaoGzzclALFHHwiU0RcqXc=">
+        <field:checkbox field="confirmed" id="c_com_yourhairsalon_booking_domain_Appointment_confirmed" z="I/XVxkVNxbqUaas58WMR0rmKCU4="/>
+        <field:checkbox field="cancelled" id="c_com_yourhairsalon_booking_domain_Appointment_cancelled" z="//3r4vMm2cfNvuXRab5lkuULwUI="/>
+        <field:checkbox field="reoccurring" id="c_com_yourhairsalon_booking_domain_Appointment_reoccurring" z="VkBs4pSTJyAtME/dc8JaR7pSQuQ="/>
+        <field:checkbox field="reoccurring_email_all" id="c_com_yourhairsalon_booking_domain_Appointment_reoccurring_email_all" validationMessageCode="field_invalid_email" z="3te0vhOAJS82Ld697Iqjr16arA0="/>
+        <field:input field="frequency_week" id="c_com_yourhairsalon_booking_domain_Appointment_frequency_week" validationMessageCode="field_invalid_integer" z="5GFPOkn+Df3f30aKi5BTByUPj/M="/>
+        <field:input field="duration_month" id="c_com_yourhairsalon_booking_domain_Appointment_duration_month" validationMessageCode="field_invalid_integer" z="s4Mk2RqhPUKahvU0HHKKfs56RSA="/>
+        <field:datetime dateTimePattern="${appointment_reoccur_start_date_date_format}" field="reoccur_start_date" id="c_com_yourhairsalon_booking_domain_Appointment_reoccur_start_date" z="L3Myy01h7BhdMUfE/6pKExOxFwU="/>
+        <field:textarea field="description" id="c_com_yourhairsalon_booking_domain_Appointment_description" z="TExo290+HV3bICjj9fgK7IUdNCo="/>
+        <field:datetime dateTimePattern="${appointment_appointmentdate_date_format}" field="appointmentDate" id="c_com_yourhairsalon_booking_domain_Appointment_appointmentDate" required="true" z="k9JB5ywZM0fNKEUZJHUXFuVb/7c="/>
+        <field:input field="starttime" id="c_com_yourhairsalon_booking_domain_Appointment_starttime" min="0" required="true" validationMessageCode="field_invalid_integer" z="YODhlZKUz8u497LgIbGPBA3Gnm4="/>
+        <field:input field="endtime" id="c_com_yourhairsalon_booking_domain_Appointment_endtime" min="0" required="true" validationMessageCode="field_invalid_integer" z="2lD+NRWgkHt/KnzPtlsAkYziC5c="/>
+        <field:datetime dateTimePattern="${appointment_checkintime_date_format}" field="checkintime" id="c_com_yourhairsalon_booking_domain_Appointment_checkintime" z="iIRd0raeEqs7kexOs3qvI+K0N9U="/>
+        <field:datetime dateTimePattern="${appointment_checkouttime_date_format}" field="checkouttime" id="c_com_yourhairsalon_booking_domain_Appointment_checkouttime" z="S1kRVVr2g9F2cBK0Dj6fDm/w0HM="/>
+        <field:datetime dateTimePattern="${appointment_confirmeddate_date_format}" field="confirmeddate" id="c_com_yourhairsalon_booking_domain_Appointment_confirmeddate" z="5FyCD+rvHtnxOvA6Pr0A6aYlKS0="/>
+        <field:datetime dateTimePattern="${appointment_createddate_date_format}" field="createddate" id="c_com_yourhairsalon_booking_domain_Appointment_createddate" required="true" z="xhRWrxGrKnT1aMT5AvY6TWsaf8U="/>
+        <field:select field="staff" id="c_com_yourhairsalon_booking_domain_Appointment_staff" itemValue="id" items="${staffs}" path="/staffs" required="true" z="X+VhWatjPdel3twjXJBS6HtjUx0="/>
+        <field:select field="client" id="c_com_yourhairsalon_booking_domain_Appointment_client" itemValue="id" items="${clientses}" path="/clientses" z="STHNQDKJd/MZLl9PEQD2pxOwWCw="/>
+        <field:select field="shop" id="c_com_yourhairsalon_booking_domain_Appointment_shop" itemValue="id" items="${shops}" path="/shops" required="true" z="pL+SdcP4u+8WPiPDzVC/i7rwkh0="/>
+        <field:datetime dateTimePattern="${appointment_enddatetime_date_format}" field="endDateTime" id="c_com_yourhairsalon_booking_domain_Appointment_endDateTime" required="true" z="JQaJK5Q5XcP+gLZKUkfKZ5P/AiQ="/>
+        <field:datetime dateTimePattern="${appointment_begindatetime_date_format}" field="beginDateTime" id="c_com_yourhairsalon_booking_domain_Appointment_beginDateTime" required="true" z="pOap0n3sOxa8Vr5KFRUmkmG5BPw="/>
+        <field:select field="services" id="c_com_yourhairsalon_booking_domain_Appointment_services" itemValue="id" items="${baseservices}" multiple="true" path="/baseservices" z="pG0Nk+z+qsYRlIrwM0bVQq5ymcw="/>
+        <field:textarea field="notes" id="c_com_yourhairsalon_booking_domain_Appointment_notes" z="QOnLNmCpexfbqEbarJioiXwRPDA="/>
+        <field:select field="status" id="c_com_yourhairsalon_booking_domain_Appointment_status" items="${schedulestatuses}" path="schedulestatuses" z="SRKySJGv4E2g10E8RS3Z70gxeB8="/>
+        <field:textarea field="personallabel" id="c_com_yourhairsalon_booking_domain_Appointment_personallabel" z="A6c87YSBLfghlh7VtUkFh+p0yyw="/>
+        <field:input field="parent" id="c_com_yourhairsalon_booking_domain_Appointment_parent" min="0" required="true" validationMessageCode="field_invalid_integer" z="3pgQqAMciJJXrQFwj6e9QupLmAc="/>
+        <field:input field="recur_parent" id="c_com_yourhairsalon_booking_domain_Appointment_recur_parent" min="0" required="true" validationMessageCode="field_invalid_integer" z="1AnnaifB6GzNLMG2HmeIP27H6sU="/>
+        <field:textarea field="requested_image_path" id="c_com_yourhairsalon_booking_domain_Appointment_requested_image_path" z="44v06jmikvEylYjcmwViDAtERkw="/>
+        <field:textarea field="requested_image_name" id="c_com_yourhairsalon_booking_domain_Appointment_requested_image_name" z="GqGwFRMTYDnsr6FFu1I76jvGu/0="/>
+        <field:textarea field="gcalid" id="c_com_yourhairsalon_booking_domain_Appointment_gcalid" z="sQDjsKL/71R/OYWDZ73Gm052XNg="/>
+        <field:textarea field="staff_gcalid" id="c_com_yourhairsalon_booking_domain_Appointment_staff_gcalid" z="WoJXByTxDQltI5+k7cygOKMcldQ="/>
+    </form:create>
+    <form:dependency dependencies="${dependencies}" id="d_com_yourhairsalon_booking_domain_Appointment" render="${not empty dependencies}" z="TjDQBwMK8oxj2k9uNr/knUTWqW4="/>
+</div>

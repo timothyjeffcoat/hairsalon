@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+    <definition extends="default" name="servicegroups/list">
+        <put-attribute name="body" value="/WEB-INF/views/servicegroups/list.jspx"/>
+    </definition>
+<definition extends="default" name="servicegroups/show">
+        <put-attribute name="body" value="/WEB-INF/views/servicegroups/show.jspx"/>
+    </definition>
+<definition extends="default" name="servicegroups/create">
+        <put-attribute name="body" value="/WEB-INF/views/servicegroups/create.jspx"/>
+    </definition>
+<definition extends="default" name="servicegroups/update">
+        <put-attribute name="body" value="/WEB-INF/views/servicegroups/update.jspx"/>
+    </definition>
+<definition extends="default" name="servicegroups/findServiceGroupsByShop">
+        <put-attribute name="body" value="/WEB-INF/views/servicegroups/findServiceGroupsByShop.jspx"/>
+    </definition>
+<definition extends="default" name="servicegroups/findServiceGroupsByServices">
+        <put-attribute name="body" value="/WEB-INF/views/servicegroups/findServiceGroupsByServices.jspx"/>
+    </definition>
+<definition extends="default" name="servicegroups/findServiceGroupsById">
+        <put-attribute name="body" value="/WEB-INF/views/servicegroups/findServiceGroupsById.jspx"/>
+    </definition>
+</tiles-definitions>

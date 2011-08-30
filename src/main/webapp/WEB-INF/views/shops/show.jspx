@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_com_yourhairsalon_booking_domain_Shop" object="${shop}" path="/shops" z="J23agNnJ8lY3P0PTd2CU+2pkClM=">
+        <field:display field="shop_name" id="s_com_yourhairsalon_booking_domain_Shop_shop_name" object="${shop}" z="9sw+nW+6TqdBQa9xImQ/aMgOvuw="/>
+        <field:display field="shopuuid" id="s_com_yourhairsalon_booking_domain_Shop_shopuuid" object="${shop}" z="GAvS92u7etyoGU02oM75RtPkzb0="/>
+        <field:display field="type" id="s_com_yourhairsalon_booking_domain_Shop_type" object="${shop}" z="GU0QYWLwuzJhqFHZEEtMZUkxpoE="/>
+        <field:display date="true" dateTimePattern="${shop_expiration_date_date_format}" field="expiration_date" id="s_com_yourhairsalon_booking_domain_Shop_expiration_date" object="${shop}" z="nR1aKD44lwgZYfwG+fLtGKRkNO4="/>
+        <field:display field="shop_url" id="s_com_yourhairsalon_booking_domain_Shop_shop_url" object="${shop}" z="Z9jcINTi+VPaKPMMc7eWUyrG3LU="/>
+        <field:display date="true" dateTimePattern="${shop_ts_date_format}" field="ts" id="s_com_yourhairsalon_booking_domain_Shop_ts" object="${shop}" z="6nPsx2coV8RIoDGhXWo4DoPajh8="/>
+    </page:show>
+</div>

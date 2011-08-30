@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_com_yourhairsalon_booking_domain_StaffSchedule" object="${staffschedule}" path="/staffschedules" z="whrPUgCxVrNTsIBV0+geGeVLV8M=">
+        <field:display date="true" dateTimePattern="${staffSchedule_schedule_date_date_format}" field="schedule_date" id="s_com_yourhairsalon_booking_domain_StaffSchedule_schedule_date" object="${staffschedule}" z="6Fxd+jHhFcDMbQkuVc9pxU2/2Bs="/>
+        <field:display date="true" dateTimePattern="${staffSchedule_start_time_date_format}" field="start_time" id="s_com_yourhairsalon_booking_domain_StaffSchedule_start_time" object="${staffschedule}" z="NqhmZ4Cr/kR1F5EdbzZPCBr5nrs="/>
+        <field:display date="true" dateTimePattern="${staffSchedule_end_time_date_format}" field="end_time" id="s_com_yourhairsalon_booking_domain_StaffSchedule_end_time" object="${staffschedule}" z="guVx67UgHlmLcbFz2O4ByZsfzhI="/>
+        <field:display field="schedule_status" id="s_com_yourhairsalon_booking_domain_StaffSchedule_schedule_status" object="${staffschedule}" z="9/calf9fe5+dyOYl8JDB3FsEI8M="/>
+    <field:display field="shop" id="s_com_yourhairsalon_booking_domain_StaffSchedule_shop" object="${staffschedule}" z="uSXGS8/yIpUQK/EbRoNrNBbeXt4="/>
+    
+    </page:show>
+</div>

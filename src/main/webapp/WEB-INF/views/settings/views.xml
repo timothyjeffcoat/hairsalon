@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+    <definition extends="default" name="settings">
+        <put-attribute name="body" value="/WEB-INF/views/settings/index.jspx"/>
+    </definition>
+    <definition extends="default" name="settings/paypalresponse">
+        <put-attribute name="body" value="/WEB-INF/views/settings/paypalresponse.jspx"/>
+    </definition>
+    <definition extends="default" name="settings/receipt">
+        <put-attribute name="body" value="/WEB-INF/views/settings/receipt.jspx"/>
+    </definition>
+	<definition extends="htmleditor" name="settings/memailtemplate">
+        <put-attribute name="body" value="/WEB-INF/views/settings/memailtemplate.jspx"/>
+    </definition>
+	<definition extends="htmleditor" name="settings/memailtemplatereceipt">
+        <put-attribute name="body" value="/WEB-INF/views/settings/memailtemplatereceipt.jspx"/>
+    </definition>
+	<definition extends="htmleditor" name="settings/memailtemplateinitial">
+        <put-attribute name="body" value="/WEB-INF/views/settings/memailtemplateinitial.jspx"/>
+    </definition>
+</tiles-definitions>

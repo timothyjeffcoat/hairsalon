@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_com_yourhairsalon_booking_domain_Addresses" items="${addresseses}" z="axMXxltzRTr0nOCYH/BevcZzjew=">
+        <table:table data="${addresseses}" id="l_com_yourhairsalon_booking_domain_Addresses" path="/addresseses" z="vCmudl2dmX9c6JKxUL1Zku+X0Sg=">
+            <table:column id="c_com_yourhairsalon_booking_domain_Addresses_address1" property="address1" z="q23QCiv6l/bmQzyytUB3RQzv8e0="/>
+            <table:column id="c_com_yourhairsalon_booking_domain_Addresses_address2" property="address2" z="ZkAZy/KqxdjZceoIZFEZWZTFgUA="/>
+            <table:column id="c_com_yourhairsalon_booking_domain_Addresses_citycode" property="citycode" z="pRJ/RQt3eVT1kCDPJGlX61qcMGg="/>
+            <table:column id="c_com_yourhairsalon_booking_domain_Addresses_statecode" property="statecode" z="n/tesWHFq+D9HHGTsCyO0tcn6oo="/>
+            <table:column id="c_com_yourhairsalon_booking_domain_Addresses_zipcode" property="zipcode" z="untQrwc5jU51M+oze9/yU8IFFy0="/>
+            <table:column id="c_com_yourhairsalon_booking_domain_Addresses_person" property="person" z="/TKp4ChbkRra6viyfrZ3JE3RYsw="/>
+        </table:table>
+    </page:list>
+</div>

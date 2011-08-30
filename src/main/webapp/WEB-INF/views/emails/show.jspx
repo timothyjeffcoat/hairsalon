@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_com_yourhairsalon_booking_domain_Email" object="${email}" path="/emails" z="rm//E7eDMZRoF3ieb6hjkgcB5Ow=">
+        <field:display field="message" id="s_com_yourhairsalon_booking_domain_Email_message" object="${email}" z="CabgGbbCdgYsDlQFSgFOIKZDkpo="/>
+        <field:display date="true" dateTimePattern="${email_sentdate_date_format}" field="sentDate" id="s_com_yourhairsalon_booking_domain_Email_sentDate" object="${email}" z="i6OriZMKZwzUlhk8nTRg6Onjs/k="/>
+        <field:display field="from_staff" id="s_com_yourhairsalon_booking_domain_Email_from_staff" object="${email}" z="PFHLMt/DpteTboukKu+WY/W3rrA="/>
+        <field:display field="to_client" id="s_com_yourhairsalon_booking_domain_Email_to_client" object="${email}" z="cPOJnIoDSkFTpdyHNvA0WHNaq+Y="/>
+        <field:display field="shop" id="s_com_yourhairsalon_booking_domain_Email_shop" object="${email}" z="//L1vNlwc7YLD92bAMdYH9IL9Pw="/>
+    
+    </page:show>
+</div>

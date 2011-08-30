@@ -1,0 +1,1628 @@
+<div xmlns:form="urn:jsptagdir:/WEB-INF/tags/form"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:util="urn:jsptagdir:/WEB-INF/tags/util"
+	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0"
+	xmlns:page="urn:jsptagdir:/WEB-INF/tags/form"
+	xmlns:springform="http://www.springframework.org/tags/form"
+	xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields">
+	<div id="wrapper" style="padding-top:40px;">
+		<div id="page-wrapper">
+
+ <style type="text/css">
+             .dojoxGrid table { margin: 0; } html, body { width: 100%; height: 100%;
+                                                          margin: 0; }
+ </style>
+ <script>
+dojo.provide("dojox.io.xhrPlugins");
+dojo.require("dojo.AdapterRegistry");
+dojo.require("dojo._base.xhr");
+dojo.require("dojo.request.xhr");
+dojo.require("dojo.json");
+
+
+dojo.require("dojo.parser");
+dojo.require("dojo.string");
+dojo.require("dojo.html");
+
+dojo.require("dojo.data.ItemFileReadStore");
+dojo.require("dojo.data.ItemFileWriteStore");
+dojo.require("dojox.grid.DataGrid");
+dojo.require("dojox.grid.EnhancedGrid");
+dojo.require("dojox.widget.Standby");
+dojo.require("dijit.Dialog");
+dojo.require("dijit.form.Form");
+dojo.require("dijit.form.Button");
+dojo.require("dijit.form.FilteringSelect");
+dojo.require("dijit.form.ValidationTextBox");
+dojo.require("dijit.form.TextBox");
+dojo.require("dijit.form.DateTextBox");
+dojo.require("dijit.form.CheckBox");
+dojo.require("dijit.form.SimpleTextarea");
+dojo.require("dijit.form.Textarea");
+dojo.require("dijit.layout.TabContainer"); 
+
+dojo.require("dijit.layout.ContentPane");
+dojo.require("dijit.layout.TabContainer");
+
+dojo.require("dojox.rpc.Client");
+dojo.require("dojox.grid.enhanced.plugins.IndirectSelection");
+
+</script>
+<script type="text/javascript">
+if ( ! window.console ) console = { log: function(){} };
+    var services_already_loaded = 'false';
+	 function isAlive() {
+			dojo.xhrPost(
+					{
+						url: "myschedule/isalive",
+						content: {
+						  },
+						handleAs: "json",
+						load: function(data) {
+							console.log("SUCCESS FROM CHECKING alive");
+							console.log("IS THERE AN APPOINTMENT CONFLICT? "+data);
+							if(data == "true"){
+								console.log("still alive");
+							}
+						},
+						error: function(error) {
+							console.log("NOT alive");
+							window.location.reload();
+						}
+					}	            		
+			
+			);		
+		 }			
+    
+	function toTitleCase(str)
+	{
+		return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+	}	
+    
+	function disableServiceForm(){
+		dijit.byId('description').set("disabled", "disable");
+		dijit.byId('processtime').set("disabled", "disable");
+		dijit.byId('finishhour').set("disabled", "disable");
+		dijit.byId('finishminute').set("disabled", "disable");
+		dijit.byId('minsetup').set("disabled", "disable");
+		dijit.byId('cost').set("disabled", "disable");
+		dijit.byId('amounttime').set("disabled", "disable");
+		dijit.byId('length_time').set("disabled", "disable");
+		dijit.byId('info_note').set("disabled", "disable");
+	}
+	function enableServiceForm(){
+		dijit.byId('description').set("disabled", false);
+		dijit.byId('processtime').set("disabled", false);
+		dijit.byId('finishhour').set("disabled", false);
+		dijit.byId('finishminute').set("disabled", false);
+		dijit.byId('minsetup').set("disabled", false);
+		dijit.byId('cost').set("disabled", false);
+		dijit.byId('amounttime').set("disabled", false); 
+		dijit.byId('length_time').set("disabled", false);
+		dijit.byId('info_note').set("disabled", false);
+	}
+    
+	function clearAddDialog(){
+		dijit.byId('description_dlg').set("value", "");
+		dijit.byId('processtime_dlg').set("value", "0");
+		dijit.byId('minsetup_dlg').set("value", "0");
+		dijit.byId('cost_dlg').set("value", "0.00");
+		dijit.byId('amounttime_dlg').set("value", "0"); 
+		dijit.byId('length_time_dlg').set("value", "0");
+		dijit.byId('info_note_dlg').set("value", "");
+		dijit.byId('finishhour_dlg').set("value", "");
+		dijit.byId('finishminute_dlg').set("value", "");
+	}
+	function clearServicesForm(){
+		dijit.byId('description').set("value", "");
+		dijit.byId('processtime').set("value", "0");
+		dijit.byId('finishhour').set("value", "");
+		dijit.byId('finishminute').set("value", "");
+		dijit.byId('minsetup').set("value", "0");
+		dijit.byId('cost').set("value", "");
+		dijit.byId('amounttime').set("value", "0"); 
+		dijit.byId('length_time').set("value", "0");
+		dijit.byId('info_note').set("value", "");
+		disableServiceForm();
+	}
+    
+ 	function loadservicesGroup(){
+		dojo.xhrGet({
+		  url: "services/sg",
+		  handleAs: "json",
+		  timeout: 5000,
+		  preventCache: true,
+		  load: function(response, ioArgs) {
+			// response is JSON result
+			console.log("the response: "+response);
+			var tdata = JSON.stringify(response);
+			var pstore = new dojo.data.ItemFileWriteStore({
+						   data: {items: response}
+					  });
+			
+			console.log(tdata);
+			/*set up layout*/
+			var layout = [
+				[
+			{
+				'name': 'Name',
+				'field': 'group_name',
+				'width': '200px'
+			},
+			{
+				'name': ' ',
+				'field': 'id',
+				'width': '150px',
+				editable: true,
+				type: dojox.grid.cells._Widget,
+				widgetClass: dijit.form.Button,
+				formatter: function(value) {
+					var control = new dijit.form.Button({
+						label: 'manage',
+						onClick: function(){
+							// first get details for the selected client group
+							dojo.xhrGet({
+							  url: "services/sgrp?id="+value,
+							  handleAs: "json",
+							  timeout: 5000,
+							  preventCache: true,
+							  load: function(response, ioArgs) {
+								// response is JSON result
+								console.log(response);
+								console.log(response[0].id);
+								var namewidget = dijit.byId("name");
+								var noteswidget = dijit.byId("notes");
+								var createdwidget = dijit.byId("created");
+								var idwidget = dijit.byId("groupdetailid");
+								idwidget.setValue(response[0].id);
+								console.log(response[0].group_name);
+								namewidget.setValue(response[0].group_name);
+								console.log(response[0].group_notes);
+								noteswidget.setValue(response[0].group_notes);
+								var dt = new Date(response[0].createddate);
+								console.log(dt);
+								createdwidget.setValue(dt);
+								return response;
+							  },
+	
+							  error: function(response, ioArgs) {
+								console.log("HTTP status code: " + ioArgs.xhr.status);
+								window.location.reload();
+								return response;
+							  }
+							});	 
+							loadGridServiceList(value);
+							
+						}
+					});			
+					console.log(value);
+					return control;	
+					}		
+			}
+			]];							
+			if (!dijit.byId("grid")) {
+				grid = new dojox.grid.DataGrid({
+					id: 'grid',
+					store: pstore,
+					editable: true,
+					structure: layout,
+					autoWidth:true
+				},
+				document.createElement('div'));
+				dojo.byId("gridDiv").appendChild(grid.domNode);
+				grid.update();
+				/*Call startup() to render the grid*/
+				grid.startup();
+	
+			}else{
+				grid = dijit.byId("grid");
+				grid.store = pstore;
+				grid._refresh();
+			}		
+		
+
+			
+			return tdata;
+		  },
+
+		  error: function(response, ioArgs) {
+			console.log("HTTP status code: " + ioArgs.xhr.status);
+			window.location.reload();
+			return response;
+		  }
+		});			 
+	 }
+ 	function addGroup(args){
+		var name = dijit.byId("dialogname");
+		var notes = dijit.byId("dialognotes");
+		name = name.value;
+		notes = notes.value;
+		dojo.xhrGet({
+		  url: "services/addgrp?n="+name+"&amp;nt="+notes,
+		  handleAs: "json",
+		  timeout: 5000,
+		  preventCache: true,
+		  load: function(response, ioArgs) {
+			// response is JSON result
+			console.log(response);
+			loadservicesGroup();
+			return response;
+		  },
+
+		  error: function(response, ioArgs) {
+			alert("HTTP status code: " + ioArgs.xhr.status);
+			window.location.reload();
+			return response;
+		  }
+		});	 
+	 }
+ 	function removeGroup(){
+		/* Get all selected items from the Grid: */
+		var grid = grid = dijit.byId("grid");
+		var items = grid.selection.getSelected();
+		if (items.length) {
+			var store = grid.store;
+			/* Iterate through the list of selected items.
+			  The current item is available in the variable
+			  "selectedItem" within the following function: */
+			dojo.forEach(items, function(selectedItem) {
+				if (selectedItem !== null) {
+					/* Delete the item from the data store: */
+					store.deleteItem(selectedItem);
+					console.log("selected item is: "+selectedItem.id);
+					deleteStoreItem(selectedItem.id);
+				}
+				/* end if */
+			});
+			/* end forEach */
+		}
+		/* end if */
+	 }
+ 	function deleteStoreItem(id){
+		dojo.xhrGet({
+		  url: "services/delgrp?id="+id,
+		  handleAs: "json",
+		  timeout: 5000,
+		  preventCache: true,
+		  load: function(response, ioArgs) {
+			// response is JSON result
+			console.log(response);
+			loadservicesGroup();
+			return response;
+		  },
+
+		  error: function(response, ioArgs) {
+			console.log("HTTP status code: " + ioArgs.xhr.status);
+			loadservicesGroup();
+			window.location.reload();
+			return response;
+		  }
+		});	 
+	 }
+	function displayAddGroupDialog(){
+		try{
+			var dlg = dijit.byId('formDialog');
+			dlg.show();
+		}catch(e){
+			console.log(e);
+		}
+	
+	}
+	function loadGridServiceList(value){
+		// get the client list for the selected client group
+		dojo.xhrGet({
+		  url: "services/slist?id="+value,
+		  handleAs: "json",
+		  timeout: 5000,
+		  preventCache: true,
+		  load: function(response, ioArgs) {
+			// response is JSON result
+			console.log("response from trying to get the service list: "+response);
+			var nuclientswidget = dijit.byId("numservices");
+			if(response == ""){
+				nuclientswidget.setValue("0");
+			}else{
+				nuclientswidget.setValue(response.length);
+				clients = new Object();
+				clients.items = response;
+				clients.identifier = 'id';
+				clients.label = 'name';
+				var pstore = new dojo.data.ItemFileWriteStore({
+				  data: {items: response}
+				 });
+				loadservicelist(pstore);
+			}
+			return response;
+		  },
+
+		  error: function(response, ioArgs) {
+			console.log("HTTP status code: " + ioArgs.xhr.status);
+			window.location.reload();
+			return response;
+		  }
+		});	 	 
+	 }
+	 function loadservicelist(store){
+			var layout = [
+							[
+								{
+									'name': 'Sel',
+									'field': 'Sel',
+									'width': '150px',
+									editable: true,
+									alwaysEditing: true,							
+									'type': dojox.grid.cells.Bool,
+									formatter: function(value) {
+												console.log("the checkbox was clicked with value: "+value);
+												return value;
+											}							
+								},
+								{
+									'name': 'id',
+									'field': 'id',
+									'width': '150px'
+								},
+								{
+									'name': 'Description',
+									'field': 'description',
+									'width': '200px'
+								}
+							]
+						];
+		 
+			/*create a new grid:*/
+			if(!dijit.byId("servicegrid")){
+				try{
+					clientgrid = new dojox.grid.DataGrid({
+						id: 'servicegrid',
+						store: store,
+						structure: layout,
+						autoHeight:true,
+						autoWidth:true
+					},
+					document.createElement('div'));
+					/*append the new grid to the div*/
+					dojo.byId("detailserviceGrid").appendChild(clientgrid.domNode);
+
+					/*Call startup() to render the grid*/
+					clientgrid.resize();
+					clientgrid.update();
+					clientgrid.startup();
+				}catch(err){
+					console.log(err);
+				}
+				
+			}else{
+				try{
+					var clientlist = dijit.byId("servicegrid");
+					clientlist.store = store;
+					clientlist.structure = layout;
+					clientlist._refresh();
+				}catch(err){
+					console.log(err);
+				}
+				
+			}
+		 
+	 }
+	 function addServiceDialog(){
+		try{
+			value = dijit.byId('groupdetailid');
+			loadServicesListDialog(value);
+			var dlg = dijit.byId('addServicesDialog');
+			dlg.show();
+		}catch(e){
+			console.log(e);
+		}
+	 }
+	function loadServicesListDialog(groupid){
+		dojo.xhrGet({
+			  url: "services/fclist?sgid="+groupid.value,
+			  handleAs: "json",
+			  timeout: 5000,
+			  preventCache: true,
+			  load: function(response, ioArgs) {
+				// response is JSON result
+				console.log("the response: "+response);
+				clients = new Object();
+				clients.items = response;
+				clients.identifier = 'id';
+				clients.label = 'description';
+				var pstore = new dojo.data.ItemFileWriteStore({
+				  data: {items: response}
+				 });
+				
+				console.log(response);
+				/*set up layout*/
+				var layout = [
+					[
+						{
+							'name': 'Sel',
+							'field': 'Sel',
+							'width': '150px',
+							editable: true,
+							alwaysEditing: true,							
+							'type': dojox.grid.cells.Bool,
+							formatter: function(value) {
+										console.log("the checkbox was clicked with value: "+value);
+										return value;
+									}							
+						},
+						{
+							'name': 'id',
+							'field': 'id',
+							'width': '150px',
+						},
+						{
+							'name': 'Description',
+							'field': 'description',
+							'width': '200px'
+						}
+					]
+				];
+				var clientgrid;
+				if (!dijit.byId("servicegrids")) {
+					try{
+						clientgrid = new dojox.grid.DataGrid({
+							id: 'servicegrids',
+							store: pstore,
+							allowMultipleSelection: true,
+							editable: true,
+							structure: layout,
+							autoWidth:true
+						},
+						document.createElement('div'));
+						dojo.byId("servicesGrid").appendChild(clientgrid.domNode);
+						clientgrid.update();
+						/*Call startup() to render the grid*/
+						clientgrid.startup();
+					}catch(e){
+						var txt="There was an error on this page.\n\n";
+						txt+="Error description: " + e.description + "\n\n";
+						console.log("test");
+					}
+		
+				}else{
+					try{
+						clientgrid = dijit.byId("servicegrids");
+						clientgrid.store = pstore;
+						clientgrid.structure = layout;
+						clientgrid._refresh();
+					}catch(e){
+						var txt="There was an error on this page.\n\n";
+						txt+="Error description: " + e.description + "\n\n";
+						console.log(txt);
+					}
+				}		
+			
+
+				
+				return response;
+			  },
+
+			  error: function(response, ioArgs) {
+				console.log("HTTP status code: " + ioArgs.xhr.status);
+				window.location.reload();
+				return response;
+			  }
+			});				 
+	 }		 
+	 function saveServices(){
+			var grid = dijit.byId("servicegrids");
+			var cnt = grid.rowCount;
+			console.log("row count" +cnt);
+			var gid = dijit.byId("groupdetailid");
+			for (var i=0;i&lt;cnt;i++)
+			{
+				var item = grid.getItem(i);
+				
+				console.log("groupid: "+gid.value);
+				var selected = false;
+				if(item){ //in case the row is not loaded
+					selected = grid.getCell(0).get(i, item);
+					console.log("selected: "+grid.getCell(0).get(i, item)); //The 1st column, the i+1 row 
+				}			
+				if(selected == true){
+					var cid = item.id;
+					console.log("gid.value: "+gid.value);
+					console.log("cid: "+cid);
+					dojo.xhrGet({
+						  url: "services/adds?sid="+cid+"&amp;gid="+gid.value,
+						  handleAs: "json",
+						  timeout: 5000,
+						  preventCache: true,
+						  load: function(response, ioArgs) {
+							// response is JSON result
+							console.log(response);
+							loadGridServiceList(gid.value);	
+							return response;
+						  },
+
+						  error: function(response, ioArgs) {
+							console.log("HTTP status code: " + ioArgs.xhr.status);
+							loadGridServiceList(gid.value);
+							window.location.reload();
+							return response;
+						  }
+						});	 
+				}
+			}				 
+	 }
+		function showAllServices(){
+			var clientgrid = dijit.byId("servicelist");
+			clientgrid.filter({		                        
+				description: "*"
+	        });
+		}
+	 
+		function filterService(){
+			var clientgrid = dijit.byId("servicelist");
+			var filterclientgrid = dijit.byId("filtergridfirsttext").attr("value");;
+			console.log("filterclientgrid: "+filterclientgrid);
+			clientgrid.queryOptions = {ignoreCase: true};
+			clientgrid.filter({		                        
+				description: filterclientgrid+"*"
+	        });
+		}
+	 
+	 function removeServices(){
+			var grid = dijit.byId("servicegrid");
+			var cnt = grid.rowCount;
+			console.log("row count" +cnt);
+			var gid = dijit.byId("groupdetailid");
+			console.log("groupid: "+gid.value);
+			for (var i=0;i&lt;cnt;i++)
+			{
+				var item = grid.getItem(i);
+				var selected = false;
+				if(item){ //in case the row is not loaded 
+					selected = grid.getCell(0).get(i, item);
+					console.log("selected: "+grid.getCell(0).get(i, item)); //The 1st column, the i+1 row 
+				}			
+				if(selected == true){
+					var cid = item.id;
+					dojo.xhrGet({
+						  url: "services/removes?sid="+cid+"&amp;gid="+gid.value,
+						  handleAs: "json",
+						  timeout: 5000,
+						  preventCache: true,
+						  load: function(response, ioArgs) {
+							// response is JSON result
+							console.log(response);
+							loadGridServiceList(gid.value);	
+							return response;
+						  },
+
+						  error: function(response, ioArgs) {
+							console.log("HTTP status code: " + ioArgs.xhr.status);
+							loadGridServiceList(gid.value);
+							window.location.reload();
+							return response;
+						  }
+						});	 
+				}
+			}				 
+	 }
+	 // begin: load first tab 
+	function TraxC(response){
+		var isJSON;
+		var data;
+		try {
+			console.log(response);
+			data = JSON.parse(response);
+			console.log(data);
+			isJSON = true;
+		}
+		catch (e) {
+			isJSON = false;
+		}
+
+		if (isJSON) {
+			// data is already parsed, so just use it
+			// handle response codes
+			// do something with returned data
+			
+			if(data.constructor == Array){
+				
+				var cntr = 0;
+				var myServices=new Array(); // regular array (add an optional integer
+				for(var key in data) {
+					servicedata = new Object();
+					servicedata.id = data[key].id;
+					servicedata.description = data[key].description;
+					servicedata.cost = data[key].cost;
+					
+					myServices[cntr]=servicedata;       						
+					cntr = cntr + 1;
+				}
+				servicestore = new Object();
+				servicestore.items = myServices;
+				servicestore.identifier = 'id';
+				servicestore.label = 'description';
+				return servicestore;
+				
+			}else{
+				console.log(data.id);
+				console.log(data.value);
+				servicedata = new Object();
+				servicedata.id = data.id;
+				servicedata.description = data.description;
+				servicedata.cost = data.cost;
+				
+				
+				var myServices=new Array(); // regular array (add an optional integer
+				myServices[0]=servicedata;       						
+				
+				servicestore = new Object();
+				servicestore.items = myServices;
+				servicestore.identifier = 'id';
+				servicestore.label = 'description';
+				return servicestore;
+				
+				
+			}
+		}
+	 }
+	function TraxDetails(response){
+		var isJSON;
+		var data;
+		try {
+			console.log(response);
+			data = JSON.parse(response);
+			console.log(data);
+			isJSON = true;
+		}
+		catch (e) {
+			isJSON = false;
+		}
+
+		if (isJSON) {
+			// data is already parsed, so just use it
+			// handle response codes
+			// do something with returned data
+			
+			if(data.constructor == Array){
+				
+				var cntr = 0;
+				var myServices=new Array(); // regular array (add an optional integer
+				for(var key in data) {
+					servicedata = new Object();
+					servicedata.id = data[key].id;
+					servicedata.description = data[key].description;
+					servicedata.cost = data[key].cost;
+					
+					dijit.byId("selectedserviceid").set("value", servicedata.id);
+					dijit.byId("description").set("value", servicedata.description);
+					dijit.byId("cost").set("value", servicedata.cost);
+					
+					dijit.byId('processtime').set("value", data[key].processtime);
+					
+					var rawminutes = data[key].finishtime;
+					
+					var hours = Math.floor(rawminutes / (60));
+					var divisor_for_minutes = rawminutes % (60);
+					var minutes = 0;
+					if(rawminutes &lt; 60){
+						minutes = rawminutes; 
+					}else{
+						minutes = divisor_for_minutes;	
+					}
+				    if(hours == 0){
+				    	dijit.byId('finishhour').set("value", "");
+				    }else{
+				    	dijit.byId('finishhour').set("value", hours);	
+				    }
+				    
+				    if(minutes == 0){
+				    	dijit.byId('finishminute').set("value", "");
+				    }else{
+				    	dijit.byId('finishminute').set("value", minutes);	
+				    }
+					
+					
+					dijit.byId('minsetup').set("value", data[key].minsetup);
+					dijit.byId('amounttime').set("value", data[key].amounttime);
+					dijit.byId('length_time').set("value", data[key].length_time);
+					dijit.byId('info_note').set("value", data[key].info_note);
+					
+					myServices[cntr]=servicedata;       						
+					cntr = cntr + 1;
+				}
+				servicestore = new Object();
+				servicestore.items = myServices;
+				servicestore.identifier = 'id';
+				servicestore.label = 'description';
+				return servicestore;
+				
+			}else{
+				console.log(data.id);
+				console.log(data.value);
+				servicedata = new Object();
+				servicedata.id = data.id;
+				servicedata.description = data.description;
+				servicedata.cost = data.cost;
+				
+				
+				var myServices=new Array(); // regular array (add an optional integer
+				myServices[0]=servicedata;       						
+				
+				servicestore = new Object();
+				servicestore.items = myServices;
+				servicestore.identifier = 'id';
+				servicestore.label = 'description';
+				return servicestore;
+				
+				
+			}
+		}
+	 }  	 
+	 function loadFirstTab(){
+		var servicelist;
+		dojo.xhrGet({
+		  url: "services/list",
+		  handleAs: "json",
+		  timeout: 5000,
+		  preventCache: true,
+		  load: function(response, ioArgs) {
+			// response is JSON result
+			console.log("the response: "+response);
+			var tdata = TraxC(JSON.stringify(response));
+			var pstore = new dojo.data.ItemFileWriteStore({
+						   'data':tdata
+					  });
+			
+			console.log(tdata);
+			/*set up layout*/
+			var layout = [
+				[
+					{
+						'name': 'id',
+						'field': 'id',
+						'width': '0px'
+					},
+					{
+						'name': 'Description',
+						'field': 'description',
+						'width': '200px'
+					},
+					{
+						'name': 'Cost',
+						'field': 'cost',
+						'width': '150px'
+					}
+			]];							
+			if (!dijit.byId("servicelist")) {
+				servicelist = new dojox.grid.EnhancedGrid({
+					id: 'servicelist',
+					store: pstore,
+					clientSort:"true",
+					editable: false,
+					structure: layout,
+					autoWidth: "true",
+					autoHeight: "true",
+					selectionMode: "single",
+					autoWidth:true,
+					plugins:{
+								indirectSelection: {
+									name: "Selection",
+									width: "70px",
+									styles: "text-align: center;"
+								}					
+							}
+				},
+				document.createElement('div'));
+				dojo.byId("servicesListDiv").appendChild(servicelist.domNode);
+				servicelist.update();
+				/*Call startup() to render the grid*/
+				servicelist.layout.setColumnVisibility(1, false);							
+				servicelist.startup();
+	
+			}else{
+				servicelist = dijit.byId("servicelist");
+				servicelist.store = pstore;
+				servicelist.layout.setColumnVisibility(1, false);							
+				servicelist._refresh();
+			}		
+			dijit.byId("servicelist").setSortIndex(2, true);
+			
+			dojo.connect(servicelist, "onRowClick", function(e){
+                    console.log("onRowClickConnect "+e.rowIndex);
+					var item = servicelist.getItem(e.rowIndex); 
+					if(item){ //in case the row is not loaded 
+						var serviceid = servicelist.getCell(1).get(e.rowIndex, item);
+						console.log("the service id: "+serviceid);
+						dojo.xhrGet({
+						  url: "services/viewservice?id="+serviceid,
+						  handleAs: "json",
+						  timeout: 5000,
+						  preventCache: true,
+						  load: function(response, ioArgs) {
+							var data = TraxDetails(JSON.stringify(response));
+							enableServiceForm();
+							return response;
+						  },
+
+						  error: function(response, ioArgs) {
+							console.log("HTTP status code: " + ioArgs.xhr.status);
+							window.location.reload();
+							return response;
+						  }
+						});	 							
+					}						
+                }
+			);
+			
+			return tdata;
+		  },
+
+		  error: function(response, ioArgs) {
+			console.log("HTTP status code: " + ioArgs.xhr.status);
+			window.location.reload();
+			return response;
+		  }
+		});			 
+	 }	 
+	 // end: load first tab
+	function addService(){
+		var description = dijit.byId('description_dlg').attr("value");
+		var processtime = dijit.byId('processtime_dlg').attr("value");
+		
+		var finishtime = 0;
+		var finishhour = dijit.byId('finishhour_dlg').attr("value");
+		if(!finishhour){
+			dijit.byId("finishhour_dlg").focus();
+			alert('Please select hour');
+			return false;
+		}
+		var finishminute = dijit.byId('finishminute_dlg').attr("value");
+		if(!finishminute){
+			dijit.byId("finishminute_dlg").focus();
+			alert('Please select minute');
+			return false;
+		}
+
+		var parsedhour = 0;
+		try{
+			parsedhour = parseInt(finishhour);
+			if(isNaN(parsedhour)){
+				parsedhour = 0;
+			}
+		}catch(err){
+			console.log(err);
+		}
+		
+		var parsedminute = 0;
+		try{
+			parsedminute = parseInt(finishminute);
+			if(isNaN(parsedminute)){
+				parsedminute = 0;
+			}
+		}catch(err){
+			console.log(err);
+		}
+
+		finishtime = (parsedhour * 60) + parsedminute;
+		
+		var minsetup = dijit.byId('minsetup_dlg').attr("value"); 
+		var cost = dijit.byId('cost_dlg').attr("value"); 
+		var amounttime = finishtime;//dijit.byId('amounttime_dlg').attr("value"); 
+		var length_time = dijit.byId('length_time_dlg').attr("value"); 
+		var info_note = dijit.byId('info_note_dlg').attr("value"); 
+		dojo.xhrGet({
+		  url: "services/addservice?d="+description+"&amp;p="+processtime+"&amp;f="+finishtime+"&amp;m="+minsetup+"&amp;c="+cost+"&amp;a="+amounttime+"&amp;lt="+length_time+"&amp;n="+info_note,
+		  handleAs: "json",
+		  timeout: 5000,
+		  preventCache: true,
+		  load: function(response, ioArgs) {
+			// response is JSON result
+			console.log(response);
+			loadFirstTab();
+			return response;
+		  },
+		  error: function(response, ioArgs) {
+			console.log("HTTP status code: " + ioArgs.xhr.status);
+			window.location.reload();
+			return response;
+		  }
+		});
+		dijit.byId('addNewServiceDialog').hide();
+		clearServicesForm();
+	}
+	function updateService(){
+		var description = dijit.byId('description').attr("value");
+		description = toTitleCase(description);
+		var processtime = dijit.byId('processtime').attr("value");
+		
+		var finishtime = 0;
+		var finishhour = dijit.byId('finishhour').attr("value");
+		var finishminute = dijit.byId('finishminute').attr("value");
+
+		var parsedhour = 0;
+		try{
+			parsedhour = parseInt(finishhour);
+			if(isNaN(parsedhour)){
+				parsedhour = 0;
+			}
+		}catch(err){
+			console.log(err);
+		}
+		
+		var parsedminute = 0;
+		try{
+			parsedminute = parseInt(finishminute);
+			if(isNaN(parsedminute)){
+				parsedminute = 0;
+			}
+		}catch(err){
+			console.log(err);
+		}
+
+		finishtime = (parsedhour * 60) + parsedminute;
+		
+		
+		var minsetup = dijit.byId('minsetup').attr("value"); 
+		var cost = dijit.byId('cost').attr("value"); 
+		var amounttime = finishtime;//dijit.byId('amounttime').attr("value"); 
+		var length_time = dijit.byId('length_time').attr("value"); 
+		var info_note = dijit.byId('info_note').attr("value"); 
+		var serviceid = dijit.byId("selectedserviceid").attr("value");
+		dojo.xhrGet({
+			  url: "services/updateservice?id="+serviceid+"&amp;d="+description+"&amp;p="+processtime+"&amp;f="+finishtime+"&amp;m="+minsetup+"&amp;c="+cost+"&amp;a="+amounttime+"&amp;lt="+length_time+"&amp;n="+info_note,
+		  handleAs: "json",
+		  timeout: 5000,
+		  preventCache: true,
+		  load: function(response, ioArgs) {
+			// response is JSON result
+			console.log(response);
+			loadFirstTab();
+			return response;
+		  },
+		  error: function(response, ioArgs) {
+			console.log("HTTP status code: " + ioArgs.xhr.status);
+			window.location.reload();
+			return response;
+		  }
+		});	 
+	}
+	function removeService(){
+		var serviceid = dijit.byId("selectedserviceid").attr("value");
+		dojo.xhrGet({
+			  url: "services/deleteservice?id="+serviceid,
+			  handleAs: "json",
+			  timeout: 5000,
+			  preventCache: true,
+			  load: function(response, ioArgs) {
+				// response is JSON result
+				console.log(response);
+				loadFirstTab();
+				return response;
+			  },
+			  error: function(response, ioArgs) {
+				console.log("HTTP status code: " + ioArgs.xhr.status);
+				window.location.reload();
+				return response;
+			  }
+			});	 
+		clearServicesForm();
+	}
+	
+</script>	
+	<jsp:output omit-xml-declaration="yes"/>
+	
+	<script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : '_title_div', widgetType : 'dijit.TitlePane', widgetAttrs : {title: 'Timesheet PO Number'}})); </script>
+	<c:choose>
+		<c:when test="${not empty shopname}">
+			<spring:url value="/public/shop/${shopurl}" var="home" />
+		</c:when>
+		<c:otherwise>
+			<spring:url value="/" var="home" />
+		</c:otherwise>
+	</c:choose>
+
+	<ol class="breadcrumb">
+		<li><a href="${home}"><i class="icon-dashboard"></i>Home</a></li>
+		<li class="active"><i class="icon-file-alt"></i>Services</li>
+	</ol>
+
+	<div dojoType="dijit.Dialog" id="addNewServiceDialog" title="Add service" execute="addService(arguments[0]);" style="height: 200px; display: none">
+		<table border="0">
+			<tr>
+				<td>
+					<div>
+						<label for="_description_dlg">Description:</label>
+					</div>
+				</td>
+				<td>
+					<div>
+						<div dojoType="dijit.form.ValidationTextBox"
+							id="description_dlg" required="true"
+							regExp='^[\\w ]*[^\\W][\\w ]{2,255}$'>
+							<script type="dojo/connect" event="onKeyPress" args="event">
+												var description = dijit.byId('description_dlg').attr("value");
+												dijit.byId('description_dlg').set("value", toTitleCase(description)); 
+											</script>
+						</div>
+					</div> <spring:message code="application_name" var="app_name"
+						htmlEscape="false">(Warning! Service must contain at least three characters.)</spring:message>
+	
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<div>
+						<label for="_finishhour_dlg">Time to:</label>
+					</div>
+				</td>
+				<td>
+					<div>
+						<select dojoType="dijit.form.FilteringSelect"
+							name="finishhour_dlg" id="finishhour_dlg" autocomplete="true"
+							displayedValue="" style="width: 100px" required="true">
+							<option value=""></option>
+							<option value="0">0 hour</option>
+							<option value="1">1 hour</option>
+							<option value="2">2 hours</option>
+							<option value="3">3 hours</option>
+							<option value="4">4 hours</option>
+							<option value="5">5 hours</option>
+							<option value="6">6 hours</option>
+							<option value="7">7 hours</option>
+							<option value="8">8 hours</option>
+							<option value="9">9 hours</option>
+							<option value="10">10 hours</option>
+							<option value="11">11 hours</option>
+							<option value="12">12 hours</option>
+						</select>hours <select dojoType="dijit.form.FilteringSelect"
+							name="finishminute_dlg" id="finishminute_dlg"
+							autocomplete="true" displayedValue="" style="width: 100px"
+							required="true">
+							<option value=""></option>
+							<option value="00">00 minute</option>
+							<option value="15">15 minutes</option>
+							<option value="30">30 minutes</option>
+							<option value="45">45 minutes</option>
+						</select>minutes
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<div>
+						<label for="_cost_dlg">Price:</label>
+					</div>
+				</td>
+				<td>
+					<div>
+						<input dojoType="dijit.form.ValidationTextBox" id="cost_dlg"
+							required="true" value="0.00" />
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<div>
+						<label for="_info_note_dlg">Notes:</label>
+					</div>
+				</td>
+				<td>
+					<div>
+						<input dojoType="dijit.form.ValidationTextBox"
+							id="info_note_dlg" required="false" />
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<button dojoType="dijit.form.Button" type="button"
+						onClick="var isdlgvalid = dijit.byId('addNewServiceDialog').validate();console.log('is dialog valid? '+isdlgvalid);if(isdlgvalid){console.log('trying to add service');addService();}">
+						Save</button>
+				</td>
+			</tr>
+		</table>
+		<div>
+			<label for="_processtime_dlg" style="display: none">Process
+				time:</label>
+		</div>
+		<div>
+			<input dojoType="dijit.form.NumberSpinner" id="processtime_dlg"
+				required="true" value="0" smallDelta="15" style="display: none" />
+		</div>
+		<br /> <br />
+		<div>
+			<label for="_minsetup_dlg" style="display: none">Minimum
+				setup:</label>
+		</div>
+		<div>
+			<input dojoType="dijit.form.NumberSpinner" id="minsetup_dlg"
+				required="true" value="0" smallDelta="15" style="display: none" />
+		</div>
+		<br /> <br />
+		<div>
+			<label for="_amounttime_dlg" style="display: none">Amount
+				time:</label>
+		</div>
+		<div>
+			<input dojoType="dijit.form.NumberSpinner" id="amounttime_dlg"
+				required="true" value="0" smallDelta="15" style="display: none" />
+		</div>
+		<br />
+		<div>
+			<label for="_length_time_dlg" style="display: none">Length
+				time:</label>
+		</div>
+		<div>
+			<input dojoType="dijit.form.NumberSpinner" id="length_time_dlg"
+				required="true" value="0" smallDelta="15" style="display: none" />
+		</div>
+		<br />
+	</div>
+<div id="myTabContainer" style="height: 800px;">
+			 <div id="detailsTab" style="width: 100%">
+		 		<div class="row">
+		 			<div class="col-lg-6" >
+							<spring:message var="app_name" code="application_name" />
+							<spring:message var="title" code="welcome_titlepane" arguments="${app_name}" />
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<h3 class="panel-title">Service list</h3>
+									</div>
+
+									<div class="panel-body">
+
+										<div id="servicesListDiv" style="height: 90%; width: 480px;">
+											<p>
+												<span data-dojo-type="dijit.form.Button"> Add service
+													<script type="dojo/method" data-dojo-event="onClick"
+														data-dojo-args="evt">
+												try{
+													var newdlg = dijit.byId('addNewServiceDialog');
+													clearAddDialog();
+													newdlg.show();
+													dijit.byId('description_dlg').focus();
+													newdlg.tabStart = dojo.byId("description_dlg");
+												}catch(e){
+													console.log(e);
+												}
+											</script>
+												</span> <span data-dojo-type="dijit.form.Button"> Remove
+													service <script type="dojo/method"
+														data-dojo-event="onClick" data-dojo-args="evt">
+												removeService();
+											</script>
+												</span>
+											<div>
+												<input dojoType="dijit.form.TextBox"
+													id="filtergridfirsttext" type="text" value="*" /> <span
+													data-dojo-type="dijit.form.Button"> Filter <script
+														type="dojo/method" data-dojo-event="onClick"
+														data-dojo-args="evt">
+												filterService();
+											</script>
+												</span> <span data-dojo-type="dijit.form.Button"> Show all <script
+														type="dojo/method" data-dojo-event="onClick"
+														data-dojo-args="evt">
+													showAllServices();
+												</script>
+												</span>
+
+											</div>
+
+											</p>
+										</div>
+									</div>
+								</div>
+							</div>
+				 			<div class="col-lg-6" >
+							<div id="service_view" dojoType="dijit.form.Form" jsId="service_view" >
+															<div class="panel panel-default">
+																<div class="panel-heading">
+																	<h3 class="panel-title">Service Details</h3>
+																</div>
+															
+															  <div class="panel-body">
+
+												<input dojoType="dijit.form.TextBox" id="selectedserviceid" name="selectedserviceid" type="hidden"/>
+												<div>
+													<label for="_description">Description:</label>
+												</div>
+												<div>
+													<div dojoType="dijit.form.ValidationTextBox" id="description" name="description" required="true" >
+														<script type="dojo/connect" event="onKeyPress" args="event">
+															var description = dijit.byId('description').attr("value");
+															dijit.byId('description').set("value", toTitleCase(description)); 
+														</script>
+													</div>
+											</div>
+												<br/>
+												<div>
+													<label for="_processtime" style="display: none">Process time:</label>
+												</div>
+												<div>
+													<input dojoType="dijit.form.NumberSpinner" id="processtime" name="processtime" required="true" smallDelta="15" style="display: none"/>														
+												</div>
+												<br/>
+												<div>
+													<label for="_finishhour">Finish time:</label>
+													<select dojoType="dijit.form.FilteringSelect" name="finishhour" id="finishhour" autocomplete="true" value="sel" style="width:100px" required="true" >
+																	<option value="" ></option>
+																	<option value="0" >0 hour</option>
+																	<option value="1" >1 hour</option>
+																	<option value="2" >2 hours</option>
+																	<option value="3" >3 hours</option>
+																	<option value="4" >4 hours</option>
+																	<option value="5" >5 hours</option>
+																	<option value="6" >6 hours</option>
+																	<option value="7" >7 hours</option>
+																	<option value="8" >8 hours</option>
+																	<option value="9" >9 hours</option>
+																	<option value="10" >10 hours</option>
+																	<option value="11" >11 hours</option>
+																	<option value="12" >12 hours</option>
+													</select>						
+													<select dojoType="dijit.form.FilteringSelect" name="finishminute" id="finishminute" autocomplete="true" value="sel" style="width:100px" required="true" >
+																	<option value="" ></option>
+																	<option value="00" >00 minute</option>
+																	<option value="15" >15 minutes</option>
+																	<option value="30" >30 minutes</option>
+																	<option value="45" >45 minutes</option>
+													</select>
+												</div>												
+												<br/>												
+												<div>
+													<label for="_minsetup" style="display: none">Minimum setup:</label>
+												</div>
+												<div>
+													<input dojoType="dijit.form.NumberSpinner" name="minsetup" id="minsetup" required="true" smallDelta="15" style="display: none"/>														
+												</div>
+												<br/>
+												<div>
+													<label for="_cost">Cost:</label>
+												</div>
+												<div>
+													<input dojoType="dijit.form.ValidationTextBox" name="cost" id="cost" required="true" value="0.00"/>														
+												</div>
+												<br/>
+												<div>
+													<label for="_amounttime" style="display: none">Amount time:</label>
+												</div>
+												<div>
+													<input dojoType="dijit.form.NumberSpinner" id="amounttime" required="true" smallDelta="15" style="display: none"/>														
+												</div>
+												<br/>
+												<div>
+													<label for="_length_time" style="display: none">Length time:</label>
+												</div>
+												<div>
+													<input dojoType="dijit.form.NumberSpinner" id="length_time" required="true" smallDelta="15" style="display: none"/>														
+												</div>
+												<br/>
+												<div>
+													<label for="_info_note">Note:</label>
+												</div>
+												<div>
+													<input dojoType="dijit.form.Textarea" id="info_note" required="false" />														
+												</div>
+												<br/>
+												<button dojoType="dijit.form.Button" type="button" onClick="console.log('trying to update client');updateService();">
+													Save
+												</button>
+											</div>
+											</div>
+
+							</div>
+</div>
+</div>
+			 </div>
+
+			 <!-- add the content pane decoration (all tabs must live in content panes) -->
+			 <script type="text/javascript">
+			 Spring.addDecoration(new Spring.ElementDecoration(
+			 {elementId : 'detailsTab',
+			 widgetType : 'dijit.layout.ContentPane',
+			 widgetAttrs : {title: 'Services ', selected: true}
+			 }));
+			 </script> 
+	
+			 <!-- another tab... -->
+			 <div id="groupsTab" >
+				<div dojoType="dijit.Dialog" id="formDialog" title="Add category" execute="addGroup(arguments[0]);" style="display: none">
+					<input dojoType="dijit.form.TextBox" type="hidden" id="dialogservicetype"/>
+					<p>
+						<label for="dialogname">Name:</label>				
+					</p>
+					<p>
+						<input dojoType="dijit.form.TextBox" type="text" name="dialogname" id="dialogname"/>
+					</p>
+					<p>
+						<label for="dialognotes">Notes:</label>				
+					</p>
+					<p>
+						<input dojoType="dijit.form.SimpleTextarea" type="text" name="dialognotes" id="dialognotes"/>
+					</p>
+					<button dojoType="dijit.form.Button" type="button" onClick="addGroup(arguments[0]);dijit.byId('formDialog').hide();">
+						Save
+					</button>
+				</div>		
+				<div dojoType="dijit.Dialog" id="addServicesDialog" title="Add service(s)" execute="updateGroups(arguments[0]);" style="display: none">
+					<p>
+						<label for="dialogservices">Services:</label>				
+					</p>
+					<p>
+					<div style="height: 250px;">
+						<div id="servicesGrid" style="width: auto; height: 100%;">_</div>
+					</div>
+					</p>
+					<button dojoType="dijit.form.Button" type="button" onClick="saveServices();dijit.byId('addServicesDialog').hide();">
+						Save
+					</button>
+				</div>					 
+				<table>
+					<tr>
+						<td valign="top" style="width: 50%; height: 100%;">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title">Categories</h3>
+								</div>
+							
+							  <div class="panel-body">
+
+								<div style="height: 250px;">
+									<p>
+										Add/remove categories
+									</p>
+									<div id="gridDiv" style="height: 150px; width:100%;">
+									</div>
+									<p>
+										<span data-dojo-type="dijit.form.Button">
+											Add category
+											<script type="dojo/method" data-dojo-event="onClick" data-dojo-args="evt">
+												displayAddGroupDialog();
+											</script>
+										</span>
+										<span data-dojo-type="dijit.form.Button">
+											Remove selected category
+											<script type="dojo/method" data-dojo-event="onClick" data-dojo-args="evt">
+												removeGroup();
+											</script>
+										</span>
+									</p>
+								</div>
+
+							</div>
+							</div>
+						</td>
+						<td VALIGN="top" style="width: 100%; height: 100%;">
+															<div class="panel panel-default">
+																<div class="panel-heading">
+																	<h3 class="panel-title">Category Details</h3>
+																</div>
+															
+															  <div class="panel-body">
+
+								<div id="gridContainerGroupsDetails" style="width: 100%; height: 100%;">
+									<input dojoType="dijit.form.TextBox" type="hidden" id="groupdetailid"/>
+									<div>
+										<label for="name">Name:</label>				
+									</div>
+									<br/>
+									<div>
+										<input dojoType="dijit.form.TextBox" type="text" name="name" id="name"/>
+									</div>
+									<div>
+										<label for="notes">Notes:</label>				
+									</div>
+									<br/>
+									<div>
+										<input dojoType="dijit.form.SimpleTextarea" type="text" name="name" id="notes"/>
+									</div>
+									<div>
+										<label for="numservices"># of service:</label>				
+									</div>
+									<br/>
+									<div>
+										<input dojoType="dijit.form.TextBox" type="text" name="numservices" id="numservices"/>
+									</div>
+									<div>
+										<label for="created">Created:</label>				
+									</div>
+									<br/>
+									<div>
+										<input dojoType="dijit.form.TextBox" type="text" name="created" id="created"/>
+									</div>
+									<br/>
+															<div class="panel panel-default">
+																<div class="panel-heading">
+																	<h3 class="panel-title">Services in category</h3>
+																</div>
+															
+															  <div class="panel-body">
+									
+										<div style="width: auto; height: 100%;">
+											<div id="detailserviceGrid" ></div>
+											<p>
+												<span data-dojo-type="dijit.form.Button">
+													Add service
+													<script type="dojo/method" data-dojo-event="onClick" data-dojo-args="evt">
+														addServiceDialog();
+													</script>
+												</span>
+												<span data-dojo-type="dijit.form.Button">
+													Remove service
+													<script type="dojo/method" data-dojo-event="onClick" data-dojo-args="evt">
+												removeServices();
+											</script>
+												</span>
+											</p>
+										</div>
+</div>
+</div>
+								</div>
+							</div>
+							</div>
+						</td>
+					</tr>
+				</table>
+			 </div>
+	
+			 <!-- add the content pane decoration (all tabs must live in content panes) -->
+			 <script type="text/javascript">
+			 Spring.addDecoration(new Spring.ElementDecoration(
+			 {elementId : 'groupsTab',
+			 widgetType : 'dijit.layout.ContentPane',
+			 widgetAttrs : {title: 'Categories', selected: true}
+			 }));
+			 </script> 	
+			<!-- decorate the tab container to create it -->
+			 <script type="text/javascript">
+			 Spring.addDecoration(new Spring.ElementDecoration(
+			 {elementId : 'myTabContainer',
+			 widgetType : 'dijit.layout.TabContainer'}
+			 ));
+			 </script>
+	
+			 <!-- now, find the tab container, and the title pane, (which is the ID with a prefix of '_title'. Add the tab container to the tab pane at the top of it.. Note that the button is at the bottom of the TitlePane. -->
+			 <script type="text/javascript">
+				 dojo.addOnLoad(function(){
+					 
+				 
+				 	var tabs = dijit.byId("myTabContainer");
+				 	tabs.startup();
+				 	tabs.resize();
+				 	loadFirstTab();
+					dojo.parser.parse(); 
+					dojo.connect(dijit.byId("myTabContainer"), "selectChild", function(page){ 
+						if(page.id=='groupsTab'){
+							if(services_already_loaded == 'false'){
+								services_already_loaded = 'true';
+								loadservicesGroup();
+							}
+						} 
+					});
+					//for services detail
+					var procestimewidget = dijit.byId("processtime");
+					//var finishtimewidget = dijit.byId("finishtime");
+					
+					
+					var minsetupwidget = dijit.byId("minsetup");
+					function widgetvalues(){
+						console.log(' onload process :'+procestimewidget.getValue());
+						//console.log(' onload finish :'+finishtimewidget.getValue());
+						console.log(' onload min :'+minsetupwidget.getValue());
+					}
+					function getTotal(){
+						var totaltime = procestimewidget.getValue()  + minsetupwidget.getValue();//+ finishtimewidget.getValue() 
+						return totaltime;
+					}
+					var amounttimewidget = dijit.byId("amounttime");
+					var length_timewidget = dijit.byId("length_time");
+					var totaltime = 0;
+					dojo.connect(procestimewidget, "onChange", function() {
+						widgetvalues('procestimewidget');
+						totaltime = getTotal() 
+						console.log('procestimewidget totaltime: '+totaltime);
+						amounttimewidget.setValue(totaltime);
+						length_timewidget.setValue(totaltime);
+					});
+					
+					//dojo.connect(finishtimewidget, "onChange", function() {
+					//	widgetvalues('finishtimewidget');
+					//	totaltime = getTotal(); 
+					//	console.log('finishtimewidget totaltime: '+totaltime);
+					//	amounttimewidget.setValue(totaltime);
+					//	length_timewidget.setValue(totaltime);
+					//});
+					dojo.connect(minsetupwidget, "onChange", function() {
+						widgetvalues('minsetupwidget');
+						totaltime = getTotal(); 
+						console.log('minsetupwidget totaltime: '+totaltime);
+						amounttimewidget.setValue(totaltime);
+						length_timewidget.setValue(totaltime);
+					});
+					dojo.connect(amounttimewidget, "onChange", function() {
+						widgetvalues('amounttimewidget');
+						totaltime = amounttimewidget.value; 
+						console.log('amounttimewidget totaltime: '+totaltime);
+						length_timewidget.setValue(totaltime);
+					});
+					dojo.connect(length_timewidget, "onChange", function() {
+						widgetvalues('length_timewidget');
+						totaltime = length_timewidget.value; 
+						console.log('length_timewidget totaltime: '+totaltime);
+						amounttimewidget.setValue(totaltime);
+					});
+					//for add services dialog
+					dojo.parser.parse(); 
+					var procestimewidget_dlg = dijit.byId("processtime_dlg");
+					//var finishtimewidget_dlg = dijit.byId("finishtime_dlg");
+					var minsetupwidget_dlg = dijit.byId("minsetup_dlg");
+					function widgetvaluesdlg(){
+						console.log(' onload process :'+procestimewidget_dlg.getValue());
+						//console.log(' onload finish :'+finishtimewidget_dlg.getValue());
+						console.log(' onload min :'+minsetupwidget_dlg.getValue());
+					}
+					function getTotal_dlg(){
+						var ptw = 0;
+						var ftw = 0;
+						var msw = 0;
+						if (procestimewidget_dlg.isValid()) {
+							ptw = procestimewidget_dlg.getValue();
+						}
+						//if (finishtimewidget_dlg.isValid()) {
+						//	ftw = finishtimewidget_dlg.getValue();
+						//}
+						if (minsetupwidget_dlg.isValid()) {
+							msw = minsetupwidget_dlg.getValue();
+						}
+
+						var totaltime =  ptw +  ftw + msw; 
+						return totaltime;
+					}
+					var amounttimewidget_dlg = dijit.byId("amounttime_dlg");
+					var length_timewidget_dlg = dijit.byId("length_time_dlg");
+					var totaltime_dlg = 0;
+					dojo.connect(procestimewidget_dlg, "onChange", function() {
+						widgetvaluesdlg('procestimewidget_dlg');
+						totaltime_dlg = getTotal_dlg(); 
+						console.log('procestimewidget_dlg totaltime_dlg: '+totaltime_dlg);
+						amounttimewidget_dlg.setValue(totaltime_dlg);
+						length_timewidget_dlg.setValue(totaltime_dlg);
+					});
+					//dojo.connect(finishtimewidget_dlg, "onChange", function() {
+					//	widgetvaluesdlg('finishtimewidget_dlg');
+					//	totaltime_dlg = getTotal_dlg(); 
+					//	console.log('finishtimewidget_dlg totaltime_dlg: '+totaltime_dlg);
+					//	amounttimewidget_dlg.setValue(totaltime_dlg);
+					//	length_timewidget_dlg.setValue(totaltime_dlg);
+					//});
+					dojo.connect(minsetupwidget_dlg, "onChange", function() {
+						widgetvaluesdlg('minsetupwidget_dlg');
+						totaltime_dlg = getTotal_dlg(); 
+						console.log('minsetupwidget_dlg totaltime_dlg: '+totaltime_dlg);
+						amounttimewidget_dlg.setValue(totaltime_dlg);
+						length_timewidget_dlg.setValue(totaltime_dlg);
+					});
+					dojo.connect(amounttimewidget_dlg, "onChange", function() {
+						widgetvaluesdlg('amounttimewidget_dlg');
+						totaltime_dlg = amounttimewidget_dlg.value; 
+						console.log('amounttimewidget_dlg totaltime_dlg: '+totaltime_dlg);
+						length_timewidget_dlg.setValue(totaltime_dlg);
+					});
+					dojo.connect(length_timewidget_dlg, "onChange", function() {
+						widgetvaluesdlg('length_timewidget_dlg');
+						totaltime_dlg = length_timewidget_dlg.value; 
+						console.log('length_timewidget_dlg totaltime_dlg: '+totaltime_dlg);
+						amounttimewidget_dlg.setValue(totaltime_dlg);
+					});							
+					dojo.parser.parse();
+					disableServiceForm();
+					setInterval(function() {
+						isAlive();
+					}, 660000); //11 minutes				      
+					
+				 });
+			 </script>
+			 </div>
+		</div>
+	</div>
+</div>

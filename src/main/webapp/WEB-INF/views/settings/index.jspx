@@ -1,0 +1,1792 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:spring="http://www.springframework.org/tags" xmlns:fn="http://java.sun.com/jsp/jstl/functions"  xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+	<div id="wrapper" style="padding-top:40px;">
+		<div id="page-wrapper">
+
+<spring:url value="/resources/ckeditor/ckeditor.js" var="ckeditorjs" />
+<script src="${ckeditorjs}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+<style>
+.container {
+  display: table;
+}
+.row {
+  display: table-row;
+}
+.column {
+  display: table-cell;
+}
+</style>
+<script>
+dojo.provide("dojox.io.xhrPlugins");
+dojo.require("dojo.AdapterRegistry");
+dojo.require("dojo._base.xhr");
+dojo.require("dojo.request.xhr");
+dojo.require("dojo.json");
+
+dojo.require("dojo.parser");
+dojo.require("dojo.string");
+dojo.require("dojo.html");
+
+
+dojo.require("dojo.data.ItemFileReadStore");
+dojo.require("dojo.data.ItemFileWriteStore");
+dojo.require("dojox.grid.DataGrid");
+dojo.require("dojox.grid.EnhancedGrid");
+dojo.require("dijit.form.Form");
+dojo.require("dijit.form.Button");
+dojo.require("dijit.form.FilteringSelect");
+dojo.require("dijit.form.ValidationTextBox");
+dojo.require("dijit.form.TextBox");
+dojo.require("dijit.form.DateTextBox");
+dojo.require("dijit.form.CheckBox");
+dojo.require("dijit.form.SimpleTextarea");
+dojo.require("dijit.form.Textarea");
+dojo.require("dojox.form.Uploader");
+dojo.require("dijit.form.Select");
+dojo.require("dojox.form.uploader.FileList");
+dojo.require("dijit.layout.TabContainer"); 
+
+dojo.require("dijit.layout.ContentPane");
+dojo.require("dijit.layout.TabContainer");
+
+dojo.require("dojox.rpc.Client");
+dojo.require("dojox.grid.enhanced.plugins.IndirectSelection");
+
+dojo.require("dojox.widget.Standby");
+</script>
+<script type="text/javascript">
+	var standby;
+</script>
+
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+	<c:choose>
+		<c:when test="${not empty shopname}">
+			<spring:url value="/public/shop/${shopurl}" var="home" />
+		</c:when>
+		<c:otherwise>
+			<spring:url value="/" var="home" />
+		</c:otherwise>
+	</c:choose>
+
+	<ol class="breadcrumb">
+		<li><a href="${home}"><i class="icon-dashboard"></i>Home</a></li>
+		<li class="active"><i class="icon-file-alt"></i>Settings</li>
+	</ol>
+    
+	<fieldset style="width: 95%;" title="Settings">
+	
+	
+		<!-- create the tab container div -->
+		 <div id="myTabContainer" style="height: 800px; width:100%;">
+	
+			 <!-- Accounts Setup tab -->
+			 <div id="accountSetupTab" style="width: 100%">
+			 	<util:panel id="shopnamepanel" title="Change shop name" openPane="true">
+					<div dojoType="dijit.form.Form" id="shopnameForm" title="Shop name" execute="updateshopname(arguments[0]);">
+						<label class="dijit dijitReset dijitInlineTable dijitLeft " for="_shopname">Shop name:</label>
+						<input dojoType="dijit.form.ValidationTextBox" id="shopname" name="shopname" required="true" value="${shopname}" promptMessage="Enter shop name." invalidMessage="shop name already exists. please select another one." trim="true"/>
+						<button dojoType="dijit.form.Button" type="button" onClick="updateshopname();">
+							Change shop name
+						</button> This is the name you choose to display on correspondence.
+				 	</div>				 	
+					<div dojoType="dijit.form.Form" id="shopurlForm" title="Shop url" execute="updateshopurl(arguments[0]);">
+						<label class="dijit dijitReset dijitInlineTable dijitLeft " for="_shopurl">Shop url:</label>
+						<input dojoType="dijit.form.ValidationTextBox" id="shopurl" name="shopurl" required="true" value="${shopurl}" trim="true"/>
+						<button dojoType="dijit.form.Button" type="button" onClick="updateshopurl();">
+							Change shop url
+						</button> This is appended to this domain : example: https://scheduleem.com/shop/yourshopurl
+				 	</div>		
+					<div dojoType="dijit.form.Form" id="shopTZForm" title="Shop TimeZone" execute="updateshoptz(arguments[0]);">
+						<label class="dijit dijitReset dijitInlineTable dijitLeft " for="_shoptz">Shop timezone:</label>
+						<select dojoType="dijit.form.FilteringSelect" name="shoptz" id="shoptz" autocomplete="true" required="true" promptMessage="Select timezone." invalidMessage="Please select an timezone." value="${shoptimezone}">
+							<option value="EST" >Eastern Time</option>
+							<option value="CST" >Central Time</option>
+							<option value="MST" >Mountain Time</option>
+							<option value="PST" >Pacific Time</option>
+							<option value="AST" >Alaska Time</option>
+							<option value="HST" >Hawaii-Aleutian Time</option>
+						</select>						
+						<button dojoType="dijit.form.Button" type="button" onClick="updateshoptz();">
+							Change shop timezone
+						</button>
+				 	</div>		
+			 	</util:panel>
+			 	<util:panel id="accountpanel" title="Account details" openPane="true">
+			 		<div class="container">
+			 			<div class="row">
+			 				<div class="column">
+								<label for="_username">Username:</label>
+							</div>
+							<div class="column">
+								<div id="username">${username}</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="column">
+								<label for="_accounttype">Account type:</label>
+							</div>
+							<div class="column">
+								<div id="accounttype">${shop.type}</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="column">
+								<label for="_expiration_date">Expiration date:</label>
+							</div>
+							<div class="column">
+								<div id="expiration_date">
+								<c:if test="${empty DoExpressCheckoutPaymentSuccess}">
+									${shop.expiration_date}
+								</c:if>
+								<c:if test="${not empty DoExpressCheckoutPaymentSuccess}">
+									<em style="color: rgb(248, 0, 0);"><font style="color: rgb(248, 0, 0);" size="+1">${shop.expiration_date}</font></em>
+								</c:if>
+								</div>
+							</div>
+						</div>
+					</div>
+				</util:panel>
+			 	<util:panel id="paymentpanel" title="Upgrade your account" openPane="true">
+			 	
+		 			<c:if test="${not empty DoExpressCheckoutPaymentError}">
+		 				<div>
+							<em style="color: rgb(248, 0, 0);"><font style="color: rgb(248, 0, 0);" size="+1">Your payment did not process.  Please try again or contact technical support.</font></em>
+						</div>		
+					</c:if>
+					<c:if test="${not empty DoExpressCheckoutPaymentSuccess}">
+						<div>
+							<em style="color: rgb(248, 0, 0);"><font style="color: rgb(248, 0, 0);" size="+1">Thank you for your payment. Your account has been updated to reflect the payment by your new expiration date.</font></em>
+						</div>
+					</c:if>
+			 	
+					<spring:url value="/settings/paymentwithpaypal" var="form_url2" />
+					<form name="f2" action="${fn:escapeXml(form_url2)}" method="POST">
+						<input type="image" name="submit" src="https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif" />
+						<br/> 
+						<input type="hidden" name="paymentType" value="USD"/>
+						<br/> 1 month ($14.95)
+						<input name="process"  id="proceed1" type="submit" value="Pay 1 Month" />
+						<br/> 12 months ($161.46, save 10%)
+						<input name="process" id="proceed12" type="submit" value="Pay 12 Months" />
+					</form>
+				</util:panel>
+			 	<util:panel id="smspanel" title="Text messaging details and ordering" openPane="true">
+			 			<div class="row">
+			 				<div class="column">
+								<label for="_numsms"># messages sent this month:</label>
+							</div>
+							<div class="column">
+								<div id="numsms">${number_sms_sent}</div>
+							</div>
+						</div>
+			 			<div class="row">
+			 				<div class="column">
+								<label for="_nummsmsavail"># of messages available:</label>
+							</div>
+							<div class="column">
+								<div id="nummsmsavail">${number_of_sms_messages_available}</div>
+							</div>
+						</div>
+			 			<div class="row">
+			 				<div class="column">
+								<label for="_smslasttime">Last time sms purchased:</label>
+							</div>
+							<div class="column">
+								<div id="smslasttime">${sms_last_purchased_date}</div>
+							</div>
+						</div>
+			 			<div class="row">
+			 				<div class="column">
+								<form name="fsms" action="${fn:escapeXml(form_url2)}" method="POST">
+									<input type="image" name="submit" src="https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif" />
+									<br/> 
+									<input type="hidden" name="paymentType" value="USD"/>
+									<br/> 1000 messages ($100.00)
+									<input name="process"  id="smsproceed1" type="submit" value="1000 messages" />
+									<br/> 2000 messages ($200.00)
+									<input name="process" id="smsproceed12" type="submit" value="2000 messages" />
+								</form>
+							</div>
+						</div>
+
+					
+				</util:panel>
+				
+			</div>
+			<!-- Initial Email Template tab... -->
+			<div id="iemailTemplateTab">
+				 	<util:panel id="initialemailpanel" title="Initial email when appointment is made" openPane="true">
+						<div class="container">
+							<div class="row">
+								<div class="column">
+									<div>
+										<label for="_iemail_address">Shop e-mail:</label>
+									</div>
+								</div>
+								<div class="column">
+									<div>
+										<input dojoType="dijit.form.ValidationTextBox" id="iemail_address" required="true" value="${shopsettings.iemail_address}" style="width: 250px"/>														
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="column">
+									<div>
+										<label for="_iemail_subject">Subject:</label>
+									</div>
+								</div>
+								<div class="column">
+									<div>
+										<input dojoType="dijit.form.ValidationTextBox" id="iemail_subject" required="true" value="${shopsettings.iemail_subject}" style="width: 250px"/>														
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="column">
+									<div>
+										<div><label for="_iemail_message" style="width: 140px">Message:</label></div>
+									</div>
+								</div>
+								<div class="column">
+									<div>
+										<input dojoType="dijit.form.Textarea" id="iemail_message" required="true"  value="${fn:escapeXml(shopsettings.iemail_message)}" style="max-width: 250px"/>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="column">
+									<div>
+										<label for="_iemail_signature">Signature:</label>
+									</div>
+								</div>
+								<div class="column">
+									<div>
+										<input dojoType="dijit.form.ValidationTextBox" id="iemail_signature" required="true" value="${shopsettings.iemail_signature}" style="width: 250px"/>														
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="column">
+									<button dojoType="dijit.form.Button" type="button" onClick="updateIMessages();">
+										Update
+									</button>	
+								</div>
+							</div>
+						</div>							
+				 	</util:panel>
+			</div>
+			<!-- Receipt Email Template tab... -->
+			<div id="remailTemplateTab">
+				 	<util:panel id="receiptemailpanel" title="Receipts e-mails" openPane="true">
+				 		<div class="container">
+				 			<div class="row">
+				 				<div class="column">
+									<div>
+										<label for="_remail_address">Shop e-mail:</label>
+									</div>
+								</div>
+								<div class="column">
+									<div>
+										<input dojoType="dijit.form.ValidationTextBox" id="remail_address" required="true" value="${shopsettings.remail_address}" style="width: 250px"/>														
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="column">
+									<div>
+										<label for="_remail_subject">Subject:</label>
+									</div>
+								</div>
+								<div class="column">
+									<div>
+										<input dojoType="dijit.form.ValidationTextBox" id="remail_subject" required="true" value="${shopsettings.remail_subject}" style="width: 250px"/>														
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="column">
+									<div>
+										<label for="_remail_message" style="width: 140px">Message:</label>
+									</div>
+								</div>
+								<div class="column">
+									<div>
+										<input dojoType="dijit.form.Textarea" id="remail_message" required="true"  value="${fn:escapeXml(shopsettings.remail_message)}" style="max-width: 250px"/>														
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="column">
+									<div>
+										<label for="_remail_signature">Signature:</label>
+									</div>
+								</div>
+								<div class="column">
+									<div>
+										<input dojoType="dijit.form.ValidationTextBox" id="remail_signature" required="true" value="${shopsettings.remail_signature}" style="width: 250px"/>														
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="column">
+									<div>
+										<button dojoType="dijit.form.Button" type="button" onClick="updateRMessages();">
+											Update
+										</button>
+							 		</div>
+							 	</div>
+							</div>
+				 		</div>
+				 	</util:panel>
+			</div>
+			 <!-- ReminderEmail Template tab... -->
+			 <div id="emailTemplateTab">
+					<util:panel id="reminderemailpanel" title="Reminder e-mails" openPane="true">
+						<div class="container">
+							<div class="row">
+								<div class="column">
+									<div>
+										<label for="_email_address">Shop e-mail:</label>
+									</div>
+								</div>
+								<div class="column">
+									<div>
+										<input dojoType="dijit.form.ValidationTextBox" id="email_address" required="true" value="${shopsettings.email_address}" style="width: 250px"/>														
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="column">
+									<div>
+										<label for="_email_subject">Subject:</label>
+									</div>
+								</div>
+								<div class="column">
+									<div>
+										<input dojoType="dijit.form.ValidationTextBox" id="email_subject" required="true" value="${shopsettings.email_subject}" style="width: 250px"/>														
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="column">
+									<div>
+										<label for="_email_message" style="width: 140px">Message:</label>
+									</div>
+								</div>
+								<div class="column">
+									<div>
+										<input dojoType="dijit.form.Textarea" id="email_message" required="true"  value="${fn:escapeXml(shopsettings.email_big_message)}" style="max-width: 250px"/>														
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="column">
+									<div>
+										<label for="_email_signature">Signature:</label>
+									</div>
+								</div>
+								<div class="column">
+									<div>
+										<input dojoType="dijit.form.ValidationTextBox" id="email_signature" required="true" value="${shopsettings.email_signature}" style="width: 250px"/>														
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="column">
+									<button dojoType="dijit.form.Button" type="button" onClick="updateMessages();">
+										Update
+									</button>
+								</div>
+							</div>
+						</div>
+					</util:panel>			 
+				 </div>		
+			<!-- Initial sms Template tab... -->
+			<div id="ismsTemplateTab">
+				 	<util:panel id="initialsmspanel" title="Initial sms when appointment is made" openPane="true">
+						<div class="container">
+							<div class="row">
+								<div class="column">
+									<div>
+										<div><label for="_isms_message" style="width: 140px">Message:</label></div>
+									</div>
+								</div>
+								<div class="column">
+									<div>
+										<input dojoType="dijit.form.Textarea" id="isms_message" required="true"  value="${fn:escapeXml(shopsettings.isms_message)}" style="max-width: 250px"/>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="column">
+									<div>
+										<label for="_isms_charcount">Character count (limit 500):</label>
+									</div>
+								</div>
+								<div class="column">
+									<div>
+										<input dojoType="dijit.form.ValidationTextBox" id="isms_charcount" required="false"  style="width: 250px"/>														
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="column">
+									<button dojoType="dijit.form.Button" type="button" onClick="updateIsmsMessages();">
+										Update
+									</button>	
+								</div>
+							</div>
+						</div>							
+				 	</util:panel>
+			</div>		
+			<!-- Receipt sms Template tab... -->
+			<div id="rsmsTemplateTab">
+				 	<util:panel id="receiptsmspanel" title="Receipts sms" openPane="true">
+				 		<div class="container">
+							<div class="row">
+								<div class="column">
+									<div>
+										<label for="_rsms_message" style="width: 140px">Message:</label>
+									</div>
+								</div>
+								<div class="column">
+									<div>
+										<input dojoType="dijit.form.Textarea" id="rsms_message" required="true"  value="${fn:escapeXml(shopsettings.rsms_message)}" style="max-width: 250px"/>														
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="column">
+									<div>
+										<label for="_rsms_charcount">Character count (limit 500):</label>
+									</div>
+								</div>
+								<div class="column">
+									<div>
+										<input dojoType="dijit.form.ValidationTextBox" id="rsms_charcount" required="false"  style="width: 250px"/>														
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="column">
+									<div>
+										<button dojoType="dijit.form.Button" type="button" onClick="updateRsmsMessages();">
+											Update
+										</button>
+							 		</div>
+							 	</div>
+							</div>
+				 		</div>
+				 	</util:panel>
+			</div>		
+			 <!-- ReminderSms Template tab... -->
+			 <div id="smsTemplateTab">
+					<util:panel id="remindersmspanel" title="Reminder sms" openPane="true">
+						<div class="container">
+							<div class="row">
+								<div class="column">
+									<div>
+										<label for="_sms_message" style="width: 140px">Message:</label>
+									</div>
+								</div>
+								<div class="column">
+									<div>
+										<input dojoType="dijit.form.Textarea" id="sms_message" required="true"  value="${fn:escapeXml(shopsettings.sms_message)}" style="max-width: 250px"/>														
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="column">
+									<div>
+										<label for="_sms_charcount">Character count (limit 500):</label>
+									</div>
+								</div>
+								<div class="column">
+									<div>
+										<input dojoType="dijit.form.ValidationTextBox" id="sms_charcount" required="false"  style="width: 250px"/>														
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="column">
+									<button dojoType="dijit.form.Button" type="button" onClick="updatesmsMessages();">
+										Update
+									</button>
+								</div>
+							</div>
+						</div>
+					</util:panel>			 
+				 </div>								 		 
+			 <!-- Change Password tab... -->
+			 <div id="changePasswordTab">
+				 <div dojoType="dijit.form.Form" id="passwordForm" title="Password" execute="updatePassword(arguments[0]);" >
+					<util:panel id="passwordpanel" title="Store owner password" openPane="true">
+						<div class="container">
+							<div class="row">
+								<div class="column">
+									<label>Password:</label>
+								</div>
+								<div class="column">
+						 			<input type="password" dojoType="dijit.form.ValidationTextBox" required="true" name="password" intermediateChanges="false" id="password" invalidMessage="Please type a password"/>
+						 		</div>
+						 	</div>
+						 	<div class="row">
+						 		<div class="column">
+						 			<label>Re-Enter Password:</label>
+						 		</div>
+						 		<div class="column">
+						 			<input type="password" dojoType="dijit.form.ValidationTextBox" required="true" name="userPassword" intermediateChanges="false" id="userPassword" constraints="{'other': 'password'}" validator="confirmPassword" invalidMessage="This password doesn't match your first password"/>
+						 		</div>
+							</div>
+							<div class="row">
+								<div class="column">
+									<button dojoType="dijit.form.Button" type="button" onClick="updatePassword();">
+										Update
+									</button>
+								</div>
+							</div>
+						</div>					
+					</util:panel>			 
+				 </div>				 
+			 </div>
+			 <!-- Change Phone tab... -->
+			 <div id="changePhoneTab">
+				 <div dojoType="dijit.form.Form" id="storePhoneForm" title="Store phone" execute="updateStorePhone(arguments[0]);">
+					<util:panel id="phonepanel" title="Store phone" openPane="true">
+						<div class="container">
+							<div class="row">
+								<div class="column">
+									<label for="_store_phone">Store phone:</label>
+								</div>
+								<div class="column">
+									<input dojoType="dijit.form.ValidationTextBox" id="store_phone" required="true" value="${shopsettings.store_phone}"/>
+								</div>
+							</div>
+							<div class="row">
+								<div class="column">														
+									<button dojoType="dijit.form.Button" type="button" onClick="updateStorePhone();">
+										Update
+									</button>
+								</div>
+							</div>
+						</div>
+					</util:panel>			 
+				 </div>				 
+			 </div>
+			 <!-- Appointment tab... -->
+			 <div id="apptTab">
+				 <div dojoType="dijit.form.Form" id="appointmentForm" title="Appointments template" execute="updateAppointment(arguments[0]);">
+					<util:panel id="appointmentpanel" title="Appointments" openPane="true">
+						<div class="container">
+							<div class="row">
+								<div class="column">
+									<div>
+										<label for="_default_appt_length">Default appointment length:</label>
+									</div>
+								</div>
+								<div class="column">
+									<div>
+										<input dojoType="dijit.form.NumberSpinner" id="default_appt_length" required="true" value="${shopsettings.default_appt_length}"/>														
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="column">
+									<div>
+										<label for="_default_appt_days_prior_notify">Default number of days prior to send notifications:</label>
+									</div>
+								</div>
+								<div class="column">
+									<div>
+										<input dojoType="dijit.form.NumberSpinner" id="default_appt_days_prior_notify" required="true" value="${shopsettings.number_days_notify}"/>														
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="column">
+									<div>
+										<label for="_clientdisplay">Display client:</label>
+									</div>
+								</div>
+								<div class="column">
+									<div>
+										<select id="clientdisplay" name="clientdisplay" dojoType="dijit.form.Select">
+											<c:if test="${shopsettings.clientdisplay == 'FIRSTNAME'}">
+												<option value="FIRSTNAME" selected="selected">First name</option>
+												<option value="LASTNAME" >Last name</option>
+											</c:if>
+											<c:if test="${shopsettings.clientdisplay == 'LASTNAME'}">
+												<option value="FIRSTNAME" >First name</option>
+												<option value="LASTNAME" selected="selected">Last name</option>
+											</c:if>
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="column">
+									<div>
+										<label for="_receiveConfirmations">Receive confirmation:</label>
+									</div>
+								</div>
+								<div class="column">
+									<div>
+										<input data-dojo-type="dijit.form.CheckBox" data-dojo-props="trim: true, id: 'receiveConfirmations', type: 'checkbox', name: 'receiveConfirmations',checked:${shopsettings.receiveConfirmations}"  style="margin-top:4px" required="true"/>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="column">
+									<button dojoType="dijit.form.Button" type="button" onClick="updateAppointment();">
+										Update
+									</button>
+								</div>
+							</div>
+						</div>
+					</util:panel>			 
+				 </div>				 
+			</div>
+			 <!-- Google Calendar tab... -->
+			 <div id="GCalTab">
+					<form id="formgcal" class="form" >
+						<div class="container">
+							<div class="row">
+								<div class="column">
+									<div>
+										Use Google Calendar in shop?:
+									</div>
+								</div>
+								<div class="column">
+									<div>
+										<input data-dojo-type="dijit.form.CheckBox" data-dojo-props="trim: true, id: 'use_gcalendar_for_shop', type: 'checkbox', name: 'use_gcalendar_for_shop',checked:${shopsettings.use_gcalendar_for_shop}"  style="margin-top:4px" required="true"/>
+										This will put ALL STAFF appointments into this Google Calendar
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div id="googlecreds">
+									<div class="container">
+										<div class="row">
+											<div class="column">
+												Google username: 
+											</div>
+											<div class="column">
+												<input dojoType="dijit.form.ValidationTextBox" id="google_username" name="google_username" required="false" value="${google_username}" promptMessage="Enter username." trim="true" />
+											</div>
+										</div>
+										<div class="row">
+											<div class="column">
+												Google password:
+											</div>
+											<div class="column"> 
+												<input dojoType="dijit.form.TextBox" id="google_password" type="password" name="google_password" required="false" />
+											</div>
+										</div>
+										<div class="row">
+											<div class="column">
+												<button dojoType="dijit.form.Button" type="button" onClick="getGoogleCals();">
+													Get your Google Calendars
+												</button>
+											</div>
+										</div>
+										<div class="row">
+											<div class="column">
+												Calendar select:
+											</div>
+											<div class="column"> 
+												<select dojoType="dijit.form.FilteringSelect" name="google_cals" id="google_cals" autocomplete="true" required="false" promptMessage="Select your calendar." >
+																	<option value="${google_cals.gcal_id}" >${google_cals.gcal_title}</option>
+																</select>
+											</div>
+										</div>
+									</div>						
+								</div>
+							</div>
+							<div class="row">
+								<div class="column">
+									<div>
+										Allow staff to use Google Calendar in shop?:
+									</div>
+								</div>
+								<div class="column">
+									<div>
+										<input data-dojo-type="dijit.form.CheckBox" data-dojo-props="trim: true, id: 'allow_staff_gcalendar', type: 'checkbox', name: 'allow_staff_gcalendar',checked:${shopsettings.allow_staff_gcalendar}"  style="margin-top:4px" required="true"/>
+										This will put just the appointments for each staff into their own Google Calendar
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="column">
+									<button dojoType="dijit.form.Button" type="button" onClick="updateGoogle();">
+										Update
+									</button>
+								</div>
+							</div>
+						</div>
+					</form>	
+			 </div>
+	
+			 <!-- now, find the tab container, and the title pane, (which is the ID with a prefix of '_title'. Add the tab container to the tab pane at the top of it.. Note that the button is at the bottom of the TitlePane. -->
+			 <script type="text/javascript">
+			 dojo.addOnLoad(function(){
+				 Spring.addDecoration(new Spring.ElementDecoration(
+						 {elementId : 'accountSetupTab',
+						 widgetType : 'dijit.layout.ContentPane',
+						 widgetAttrs : {title: 'Account setup', selected: true}
+						 }));
+				 Spring.addDecoration(new Spring.ElementDecoration(
+						 {elementId : 'iemailTemplateTab',
+						 widgetType : 'dijit.layout.ContentPane',
+						 widgetAttrs : {title: 'Initial Appointment Email Template', selected: true}
+						 }));
+				 Spring.addDecoration(new Spring.ElementDecoration(
+						 {elementId : 'remailTemplateTab',
+						 widgetType : 'dijit.layout.ContentPane',
+						 widgetAttrs : {title: 'Receipt Email Template', selected: true}
+						 }));
+				 Spring.addDecoration(new Spring.ElementDecoration(
+						 {elementId : 'emailTemplateTab',
+						 widgetType : 'dijit.layout.ContentPane',
+						 widgetAttrs : {title: 'Reminder Email Template', selected: true}
+						 }));
+				 Spring.addDecoration(new Spring.ElementDecoration(
+						 {elementId : 'ismsTemplateTab',
+						 widgetType : 'dijit.layout.ContentPane',
+						 widgetAttrs : {title: 'Initial Appointment sms Template', selected: true}
+						 }));
+				 Spring.addDecoration(new Spring.ElementDecoration(
+						 {elementId : 'rsmsTemplateTab',
+						 widgetType : 'dijit.layout.ContentPane',
+						 widgetAttrs : {title: 'Receipt sms Template', selected: true}
+						 }));
+				 Spring.addDecoration(new Spring.ElementDecoration(
+						 {elementId : 'smsTemplateTab',
+						 widgetType : 'dijit.layout.ContentPane',
+						 widgetAttrs : {title: 'Reminder sms Template', selected: true}
+						 }));
+				 Spring.addDecoration(new Spring.ElementDecoration(
+						 {elementId : 'changePasswordTab',
+						 widgetType : 'dijit.layout.ContentPane',
+						 widgetAttrs : {title: 'Change password', selected: true}
+						 }));
+				 Spring.addDecoration(new Spring.ElementDecoration(
+						 {elementId : 'changePhoneTab',
+						 widgetType : 'dijit.layout.ContentPane',
+						 widgetAttrs : {title: 'Change phone', selected: true}
+						 }));
+				 Spring.addDecoration(new Spring.ElementDecoration(
+						 {elementId : 'apptTab',
+						 widgetType : 'dijit.layout.ContentPane',
+						 widgetAttrs : {title: 'Appt settings', selected: true}
+						 }));
+				 Spring.addDecoration(new Spring.ElementDecoration(
+						 {elementId : 'GCalTab',
+						 widgetType : 'dijit.layout.ContentPane',
+						 widgetAttrs : {title: 'Google Calendar', selected: true}
+						 }));
+
+				 Spring.addDecoration(new Spring.ElementDecoration(
+						 {elementId : 'myTabContainer',
+						 widgetType : 'dijit.layout.TabContainer'}
+						 ));
+
+				 dojo.parser.parse();
+ 				 var tabs = dijit.byId("myTabContainer");
+				 var pane = dijit.byId("_title_fc_org_rooina_ria_ajax_coursemanager_model_ Course_id");
+				 //tabs.placeAt(pane.containerNode, "first");
+				 tabs.startup();
+				 tabs.resize();
+				 
+				 var fileMask = [
+				                 ["Jpeg File",     "*.jpg;*.jpeg"],
+				                 ["GIF File",     "*.gif"],
+				                 ["PNG File",     "*.png"],
+				                 ["All Images",     "*.jpg;*.jpeg;*.gif;*.png"]
+				             ];
+				 
+				
+				
+					setInterval(function() {
+						isAlive();
+					}, 660000); //11 minutes				      
+					var ieditor = CKEDITOR.replace( 'iemail_message',
+							{
+								extraPlugins : 's_fullname,s_firstname,s_lastname,s_stafffullname,s_stafffirstname,s_stafflastname,s_apptdate,s_appttime,s_apptservicename,s_apptserviceprice',
+								removePlugins : 'about',
+								toolbar : 		 
+									[
+										['Source','Cut','Copy','Paste','PasteText','PasteFromWord','-','SpellChecker','-','Undo','Redo','-','Find','Replace','-','SelectAll','RemoveFormat'],
+							           	['Bold','Italic','Underline','Strike','-','Subscript','Superscript','-','NumberedList','BulletedList','-','Outdent','Indent','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','Link','Unlink','Anchor'],
+							           	['ExamenLink','Bold'],
+							           	['Smiley','Table','Tabletools'],
+							           	['Styles','Format','Font','FontSize','-','TextColor','BGColor','-','Maximize'],
+						     			['s_fullname','s_firstname','s_lastname','s_stafffullname','s_stafffirstname','s_stafflastname','s_apptdate','s_appttime','s_apptservicename','s_apptserviceprice']
+									]
+							});					
+					var ismseditor = CKEDITOR.replace( 'isms_message',
+							{
+								extraPlugins : 's_fullname,s_firstname,s_lastname,s_stafffullname,s_stafffirstname,s_stafflastname,s_apptdate,s_appttime,s_apptservicename,s_apptserviceprice,s_shopname,s_shopphone',
+								removePlugins : 'about',
+								toolbar : 		 
+									[
+						     			['s_fullname','s_firstname','s_lastname','s_stafffullname','s_stafffirstname','s_stafflastname','s_apptdate','s_appttime','s_apptservicename','s_apptserviceprice','s_shopname','s_shopphone']
+									]
+							});					
+					var reditor = CKEDITOR.replace( 'remail_message',
+							{
+						extraPlugins : 's_fullname,s_firstname,s_lastname,s_stafffullname,s_stafffirstname,s_stafflastname,s_apptdate,s_appttime,s_apptservicename,s_apptserviceprice',
+						removePlugins : 'about',
+						toolbar : 		 
+							[
+								['Source','Cut','Copy','Paste','PasteText','PasteFromWord','-','SpellChecker','-','Undo','Redo','-','Find','Replace','-','SelectAll','RemoveFormat'],
+					           	['Bold','Italic','Underline','Strike','-','Subscript','Superscript','-','NumberedList','BulletedList','-','Outdent','Indent','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','Link','Unlink','Anchor'],
+					           	['ExamenLink','Bold'],
+					           	['Smiley','Table','Tabletools'],
+					           	['Styles','Format','Font','FontSize','-','TextColor','BGColor','-','Maximize'],
+				     			['s_fullname','s_firstname','s_lastname','s_stafffullname','s_stafffirstname','s_stafflastname','s_apptdate','s_appttime','s_apptservicename','s_apptserviceprice']
+							]
+					});
+					var rsmseditor = CKEDITOR.replace( 'rsms_message',
+							{
+						extraPlugins : 's_fullname,s_firstname,s_lastname,s_stafffullname,s_stafffirstname,s_stafflastname,s_apptdate,s_appttime,s_apptservicename,s_apptserviceprice,s_shopname,s_shopphone',
+						removePlugins : 'about',
+						toolbar : 		 
+							[
+				     			['s_fullname','s_firstname','s_lastname','s_stafffullname','s_stafffirstname','s_stafflastname','s_apptdate','s_appttime','s_apptservicename','s_apptserviceprice','s_shopname','s_shopphone']
+							]
+					});
+
+					var editor = CKEDITOR.replace( 'email_message',
+							{
+						extraPlugins : 's_fullname,s_firstname,s_lastname,s_stafffullname,s_stafffirstname,s_stafflastname,s_apptdate,s_appttime,s_apptservicename,s_apptserviceprice',
+						removePlugins : 'about',
+						toolbar : 		 
+							[
+								['Source','Cut','Copy','Paste','PasteText','PasteFromWord','-','SpellChecker','-','Undo','Redo','-','Find','Replace','-','SelectAll','RemoveFormat'],
+					           	['Bold','Italic','Underline','Strike','-','Subscript','Superscript','-','NumberedList','BulletedList','-','Outdent','Indent','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','Link','Unlink','Anchor'],
+					           	['ExamenLink','Bold'],
+					           	['Smiley','Table','Tabletools'],
+					           	['Styles','Format','Font','FontSize','-','TextColor','BGColor','-','Maximize'],
+				     			['s_fullname','s_firstname','s_lastname','s_stafffullname','s_stafffirstname','s_stafflastname','s_apptdate','s_appttime','s_apptservicename','s_apptserviceprice']
+							]
+					});
+					var smseditor = CKEDITOR.replace( 'sms_message',
+							{
+						extraPlugins : 's_fullname,s_firstname,s_lastname,s_stafffullname,s_stafffirstname,s_stafflastname,s_apptdate,s_appttime,s_apptservicename,s_apptserviceprice,s_shopname,s_shopphone',
+						removePlugins : 'about',
+						toolbar : 		 
+							[
+				     			['s_fullname','s_firstname','s_lastname','s_stafffullname','s_stafffirstname','s_stafflastname','s_apptdate','s_appttime','s_apptservicename','s_apptserviceprice','s_shopname','s_shopphone']
+							]
+					});
+			 });
+			 <![CDATA[
+						function addFieldTo(form_id) { 
+							try{
+								var placeholder = dojo.create("div", {id: "test2"});
+								var myTextBox = new dijit.form.TextBox({
+									id: "test",
+									name: "test",
+									value: "reggae" /* no or empty value! */,
+									placeHolder: "type in your name"
+								}, "test2");
+								
+							
+								var le=dijit.byId('mystery');
+								dojo.place(placeholder, le.domNode, 'last');
+								dojo.place(myTextBox.domNode, placeholder, 'before');
+								var hidval = dijit.byId('test');
+								window.console && console.log('test '+ hidval+ ' here');
+								// hide a widget with id="test"
+								dojo.style(myTextBox.domNode, "display", "none");						
+							}catch(err){
+								window.console && console.log(err);
+							}
+						}				          
+						function confirmPassword(value, constraints)
+						{
+							var isValid = false;
+							if(constraints && constraints.other)  {
+								var otherInput =  dijit.byId(constraints.other);
+								if(otherInput) {
+										var otherValue = otherInput.value;
+										isValid = (value == otherValue);
+								}
+							}
+							return isValid;
+						}
+						function onsubmit()
+						{
+							var p1 = dijit.byId('password').value;
+							var p2 = dijit.byId('userPassword').value;
+							return p1 == p2;
+						}
+						function init() {
+						      standby = new dojox.widget.Standby({target: "myTabContainer"});
+						      document.body.appendChild(standby.domNode);
+						}
+					 ]]>	
+			 
+			 </script>		 
+			<script type="text/javascript">
+			<![CDATA[
+			var uploader;
+			var calendar_Array = [];
+			
+			CKEDITOR.on( 'instanceReady', function( ev )
+					{
+						// Show the editor name and description in the browser status bar.
+						document.getElementById( 'iemail_message' ).innerHTML = '<p>Instance <code>' + ev.editor.name + '<\/code> loaded.<\/p>';
+						document.getElementById( 'remail_message' ).innerHTML = '<p>Instance <code>' + ev.editor.name + '<\/code> loaded.<\/p>';
+						document.getElementById( 'email_message' ).innerHTML = '<p>Instance <code>' + ev.editor.name + '<\/code> loaded.<\/p>';
+			
+						document.getElementById( 'isms_message' ).innerHTML = '<p>Instance <code>' + ev.editor.name + '<\/code> loaded.<\/p>';
+						document.getElementById( 'rsms_message' ).innerHTML = '<p>Instance <code>' + ev.editor.name + '<\/code> loaded.<\/p>';
+						document.getElementById( 'sms_message' ).innerHTML = '<p>Instance <code>' + ev.editor.name + '<\/code> loaded.<\/p>';
+						// Whether content has exceeded the maximum characters.
+						 CKEDITOR.instances.sms_message.on("key", function (event)
+								 {
+							         var count = CKEDITOR.instances.sms_message.document.getBody().getText().length;
+							         console.log("the number of text: "+count );
+							         var charcount = document.getElementById('sms_charcount');
+							         charcount.value = count;
+						               // Rollback the illegal one.  
+						               if( count > 500 ){
+						            	   console.log("undo");
+						            	   CKEDITOR.instances.sms_message.execCommand( 'undo' );
+						            	   event.cancel();
+						               }else{
+						               }
+								 });							
+						 CKEDITOR.instances.isms_message.on("key", function (event)
+								 {
+								         //charCount.innerHTML = CKEDITOR.instances.editor1.getData().length;
+								         var count = CKEDITOR.instances.isms_message.document.getBody().getText().length;
+								         console.log("the number of text: "+count );
+								         var charcount = document.getElementById('isms_charcount');
+								         charcount.value = count;
+							               // Rollback the illegal one.  
+							               if( count > 500 ){
+							            	   console.log("undo");
+							            	   CKEDITOR.instances.isms_message.execCommand( 'undo' );
+							            	   event.cancel();
+							               }else{
+							               }
+								            
+								 });							
+						 CKEDITOR.instances.rsms_message.on("key", function (event)
+								 {
+								         var count = CKEDITOR.instances.rsms_message.document.getBody().getText().length;
+								         console.log("the number of text: "+count );
+								         var charcount = document.getElementById('rsms_charcount');
+								         charcount.value = count;
+							               // Rollback the illegal one.  
+							               if( count > 500 ){
+							            	   console.log("undo");
+							            	   CKEDITOR.instances.rsms_message.execCommand( 'undo' );
+							            	   event.cancel();
+							               }else{
+							               }
+								 });							
+					});
+			CKEDITOR.ajaxSAVEReminder = function ( editor ) {
+				var standbydlg = new dojox.widget.Standby({
+					  target: "emailTemplateTab"
+				  });
+				document.body.appendChild(standbydlg.domNode);
+				standbydlg.show();
+				var shopemail = dijit.byId("email_address").attr("value");
+				var subject = dijit.byId("email_subject").attr("value");
+				
+				var signature = dijit.byId("email_signature").attr("value");
+			
+				var editor = CKEDITOR.instances.email_message;
+			    editor.updateElement();
+			    var htm = editor.getData();
+			    // ?s="+subject+"&amp;m="+message+"&amp;sig="+signature+"&amp;se="+shopemail
+			    if (htm){ 
+					dojo.xhrPost(
+							{
+								url: "settings/messages",
+								content: {
+									s: subject,
+									m: htm,
+									sig: signature,
+									se: shopemail						
+								  },
+								handleAs: "json",
+								load: function(data) {
+									window.console && console.log("SUCCESS FROM CHECKING alive");
+									window.console && console.log("IS THERE AN APPOINTMENT CONFLICT? "+data);
+									if(data == "true"){
+										window.console && console.log("still alive");
+									}
+									standbydlg.hide();
+									
+								},
+								error: function(error) {
+									window.console && console.log("NOT alive");
+									window.console && console.log("error: "+error);
+									standbydlg.hide();
+								}
+							}	            		
+					
+					);		
+			    	
+			    }else{ 
+			      alert('EMPTY HTM. NOT SAVED');
+			    }
+			 };		
+			CKEDITOR.ajaxSAVE = function ( editor ) {
+				var standbydlg = new dojox.widget.Standby({
+					  target: "remailTemplateTab"
+				  });
+				document.body.appendChild(standbydlg.domNode);
+				standbydlg.show();
+				
+				var shopemail = dijit.byId("remail_address").attr("value");
+				var subject = dijit.byId("remail_subject").attr("value");
+				
+				var signature = dijit.byId("remail_signature").attr("value");
+			
+				var reditor = CKEDITOR.instances.remail_message;
+			    reditor.updateElement();
+			    var htm = reditor.getData();
+			    // ?s="+subject+"&amp;m="+message+"&amp;sig="+signature+"&amp;se="+shopemail
+			    if (htm){ 
+					dojo.xhrPost(
+							{
+								url: "settings/rmessages",
+								content: {
+									s: subject,
+									m: htm,
+									sig: signature,
+									se: shopemail						
+								  },
+								handleAs: "json",
+								load: function(data) {
+									window.console && console.log("SUCCESS FROM CHECKING alive");
+									window.console && console.log("IS THERE AN APPOINTMENT CONFLICT? "+data);
+									if(data == "true"){
+										window.console && console.log("still alive");
+									}
+									standbydlg.hide();
+								},
+								error: function(error) {
+									window.console && console.log("NOT alive");
+									window.console && console.log("error: "+error);
+									standbydlg.hide();
+								}
+							}	            		
+					
+					);		
+			    	
+			    }else{ 
+			      alert('EMPTY HTM. NOT SAVED');
+			    }
+			 };
+			 CKEDITOR.ajaxSAVEInitial = function ( editor ) {
+					var standbydlg = new dojox.widget.Standby({
+						  target: "iemailTemplateTab"
+					  });
+					document.body.appendChild(standbydlg.domNode);
+					standbydlg.show();
+
+				 var shopemail = dijit.byId("iemail_address").attr("value");
+					var subject = dijit.byId("iemail_subject").attr("value");
+					
+					var signature = dijit.byId("iemail_signature").attr("value");
+			
+					var ieditor = CKEDITOR.instances.iemail_message;
+				    ieditor.updateElement();
+				    var htm = ieditor.getData();
+				    if (htm){ 
+						dojo.xhrPost(
+								{
+									url: "settings/imessages",
+									content: {
+										s: subject,
+										m: htm,
+										sig: signature,
+										se: shopemail						
+									  },
+									handleAs: "json",
+									load: function(data) {
+										window.console && console.log("SUCCESS FROM CHECKING alive");
+										window.console && console.log("IS THERE AN APPOINTMENT CONFLICT? "+data);
+										if(data == "true"){
+											window.console && console.log("still alive");
+										}
+										standbydlg.hide();
+									},
+									error: function(error) {
+										window.console && console.log("NOT alive");
+										window.console && console.log("error: "+error);
+										standbydlg.hide();
+									}
+								}	            		
+						
+						);		
+				    	
+				    }else{ 
+				      alert('EMPTY HTM. NOT SAVED');
+				    }
+				 };		
+				 
+				 
+			 
+				 CKEDITOR.ajaxSAVEReminderSMS = function ( editor ) {
+						var standbydlg = new dojox.widget.Standby({
+							  target: "smsTemplateTab"
+						  });
+						document.body.appendChild(standbydlg.domNode);
+						standbydlg.show();
+
+					 var editor = CKEDITOR.instances.sms_message;
+					    editor.updateElement();
+					    var htm = CKEDITOR.instances.sms_message.document.getBody().getText();					    
+					    // ?s="+subject+"&amp;m="+message+"&amp;sig="+signature+"&amp;se="+shopemail
+					    if (htm){ 
+							dojo.xhrPost(
+									{
+										url: "settings/smsmessages",
+										content: {
+											m: htm						
+										  },
+										handleAs: "json",
+										load: function(data) {
+											window.console && console.log("SUCCESS FROM CHECKING alive");
+											window.console && console.log("IS THERE AN APPOINTMENT CONFLICT? "+data);
+											if(data == "true"){
+												window.console && console.log("still alive");
+											}
+											standbydlg.hide();
+										},
+										error: function(error) {
+											window.console && console.log("NOT alive");
+											window.console && console.log("error: "+error);
+											standbydlg.hide();
+										}
+									}	            		
+							
+							);		
+					    	
+					    }else{ 
+					      alert('EMPTY HTM. NOT SAVED');
+					    }
+					 };				 
+				CKEDITOR.ajaxSAVESMS = function ( editor ) {
+					var standbydlg = new dojox.widget.Standby({
+						  target: "rsmsTemplateTab"
+					  });
+					document.body.appendChild(standbydlg.domNode);
+					standbydlg.show();
+					
+					var reditor = CKEDITOR.instances.rsms_message;
+				    reditor.updateElement();
+				    var htm = CKEDITOR.instances.rsms_message.document.getBody().getText();
+				    // ?s="+subject+"&amp;m="+message+"&amp;sig="+signature+"&amp;se="+shopemail
+				    if (htm){ 
+						dojo.xhrPost(
+								{
+									url: "settings/rsmsmessages",
+									content: {
+										m: htm						
+									  },
+									handleAs: "json",
+									load: function(data) {
+										window.console && console.log("SUCCESS FROM CHECKING alive");
+										window.console && console.log("IS THERE AN APPOINTMENT CONFLICT? "+data);
+										if(data == "true"){
+											window.console && console.log("still alive");
+										}
+										standbydlg.hide();
+									},
+									error: function(error) {
+										window.console && console.log("NOT alive");
+										window.console && console.log("error: "+error);
+										standbydlg.hide();
+									}
+								}	            		
+						
+						);		
+				    	
+				    }else{ 
+				      alert('EMPTY HTM. NOT SAVED');
+				    }
+				 };				 
+				 CKEDITOR.ajaxSAVEInitialSMS = function ( editor ) {
+						var standbydlg = new dojox.widget.Standby({
+							  target: "ismsTemplateTab"
+						  });
+						document.body.appendChild(standbydlg.domNode);
+						standbydlg.show();
+					 
+						var ieditor = CKEDITOR.instances.isms_message;
+					    ieditor.updateElement();
+					    var htm = CKEDITOR.instances.isms_message.document.getBody().getText();
+					    if (htm){ 
+							dojo.xhrPost(
+									{
+										url: "settings/ismsmessages",
+										content: {
+											m: htm						
+										  },
+										handleAs: "json",
+										load: function(data) {
+											window.console && console.log("SUCCESS FROM CHECKING alive");
+											window.console && console.log("IS THERE AN APPOINTMENT CONFLICT? "+data);
+											if(data == "true"){
+												window.console && console.log("still alive");
+											}
+											standbydlg.hide();
+										},
+										error: function(error) {
+											window.console && console.log("NOT alive");
+											window.console && console.log("error: "+error);
+											standbydlg.hide();
+										}
+									}	            		
+							
+							);		
+					    	
+					    }else{ 
+					      alert('EMPTY HTM. NOT SAVED');
+					    }
+					 };		
+				 			
+			function calendarobject(calendarid,calendartitle){
+				this.calendarid = calendarid;
+				this.calendartitle = calendartitle;
+			}
+			
+			function isAlive() {
+				dojo.xhrPost(
+						{
+							url: "myschedule/isalive",
+							content: {
+							  },
+							handleAs: "json",
+							load: function(data) {
+								window.console && console.log("SUCCESS FROM CHECKING alive");
+								window.console && console.log("IS THERE AN APPOINTMENT CONFLICT? "+data);
+								if(data == "true"){
+									window.console && console.log("still alive");
+								}
+							},
+							error: function(error) {
+								window.console && console.log("NOT alive");
+								window.location.reload();
+							}
+						}	            		
+				
+				);		
+			 }			
+			
+			// Actually upload the data
+			function doUpload(){
+			    window.console && console.log("doUpload");
+			    uploader.upload();
+			}
+			function Trax(response){
+				var isJSON;
+				var data;
+				try {
+					//window.console && console.log(response);
+					data = JSON.parse(response);
+					window.console && console.log(data);
+					isJSON = true;
+				}
+				catch (e) {
+					isJSON = false;
+				}
+			
+				if (isJSON) {
+					// data is already parsed, so just use it
+					// handle response codes
+					// do something with returned data
+					
+					if(data.constructor == Array){
+						
+						var cntr = 0;
+						var myCars=new Array(); // regular array (add an optional integer
+						calendar_Array = [];
+						for(var key in data) {
+							
+							bigdata = new Object();
+							bigdata.id = data[key].gcal_id;
+							bigdata.name = data[key].gcal_title;
+			
+							var cal = new calendarobject(bigdata.id,bigdata.name);
+							calendar_Array.push(cal);
+							
+							myCars[cntr]=bigdata;       						
+							cntr = cntr + 1;
+						}
+						
+						
+						
+						person = new Object();
+						person.items = myCars;
+						person.identifier = 'id';
+						person.label = 'description';
+						return person;
+						
+					}else{
+						window.console && console.log(data.id);
+						window.console && console.log(data.value);
+						bigdata = new Object();
+						bigdata.id = data;
+						bigdata.description = data;
+						
+						
+						var myCars=new Array(); // regular array (add an optional integer
+						myCars[0]=bigdata;       						
+						
+						person = new Object();
+						person.items = myCars;
+						person.identifier = 'id';
+						person.label = 'description';
+						return person;
+						
+						
+					}
+				}
+			 }
+			function getGoogleCals(){
+				var standbydlg = new dojox.widget.Standby({
+					  target: "GCalTab"
+				  });
+				document.body.appendChild(standbydlg.domNode);
+				standbydlg.show();
+				
+				window.console && console.log("entered getGoogleCals");
+				var gusername = dijit.byId("google_username").attr("value");
+				var gpassword = dijit.byId("google_password").attr("value");
+				dojo.xhrGet({
+					  url: "settings/gcallist?u="+gusername+"&amp;p="+gpassword,
+					  handleAs: "json",
+					  timeout: 5000,
+					  load: function(response, ioArgs) {
+						// response is JSON result
+						window.console && console.log("response from trying getGoogleCals: "+response);
+						var tdata = Trax(JSON.stringify(response));
+						
+						if(response == ""){
+							
+						}else{
+							 var filteringSelect = dijit.byId("google_cals");
+							 var serviceStore = new dojo.data.ItemFileWriteStore({ data: tdata });
+							 filteringSelect.attr("store", serviceStore);
+						}
+						standbydlg.hide();
+						return response;
+					  },
+			
+					  error: function(response, ioArgs) {
+						window.console && console.log("HTTP status code: " + ioArgs.xhr.status);
+						alert("Please try again. Your input was not successful. HTTP status code: " + ioArgs.xhr.status);
+						return response;
+					  }
+					});	 	 
+				
+				
+			}
+			function updateGoogle(){
+				var standbydlg = new dojox.widget.Standby({
+					  target: "GCalTab"
+				  });
+				document.body.appendChild(standbydlg.domNode);
+				standbydlg.show();
+				
+				window.console && console.log("entered updateGoogle");
+				var gcal_selected = dijit.byId("google_cals").attr("value");
+				var gcal_title;
+				// search calendar_Array for title
+				for (var i = 0; i < calendar_Array.length; i++) {
+			    	var cal = calendar_Array[i];
+			    	if(cal.calendarid == gcal_selected){
+			    		gcal_title = cal.calendartitle;	
+			    	}
+				}
+				
+				var gusername = dijit.byId("google_username").attr("value");
+				var gpassword = dijit.byId("google_password").attr("value");
+				var gcalbool = dijit.byId("use_gcalendar_for_shop").attr("value");
+				if(gcalbool == 'on'){
+					gcalbool = true;
+				}else{
+					gcalbool = false;
+				}
+				var allowgcalbool = dijit.byId("allow_staff_gcalendar").attr("value");
+				if(allowgcalbool == 'on'){
+					allowgcalbool = true;
+				}else{
+					allowgcalbool = false;
+				}
+				window.console && console.log("gcalbool "+gcalbool);
+				dojo.xhrGet({
+					  url: "settings/gcal?u="+gcalbool+"&amp;a="+allowgcalbool+"&amp;c="+gcal_selected+"&amp;ur="+gusername+"&amp;p="+gpassword+"&amp;t="+gcal_title,
+					  handleAs: "json",
+					  timeout: 5000,
+					  load: function(response, ioArgs) {
+						// response is JSON result
+						window.console && console.log("response from trying updateGoogle: "+response);
+						
+						if(response == ""){
+							
+						}else{
+							
+						}
+						standbydlg.hide();
+						return response;
+					  },
+			
+					  error: function(response, ioArgs) {
+						window.console && console.log("HTTP status code: " + ioArgs.xhr.status);
+						alert("Please try again. Your input was not successful. HTTP status code: " + ioArgs.xhr.status);
+						return response;
+					  }
+					});	 	 
+				
+			}
+			function updateMessages(){
+				window.console && console.log("entered updateMessages");
+				var iEditor = CKEDITOR.instances.email_message;
+				 CKEDITOR.ajaxSAVEReminder(iEditor);  
+			
+			}
+			function updateRMessages(){
+				window.console && console.log("entered updateRMessages");
+				var rEditor = CKEDITOR.instances.remail_message;
+				 CKEDITOR.ajaxSAVE(rEditor);  
+				 
+			}
+			function updateIMessages(){
+				window.console && console.log("entered updateIMessages");
+				var iEditor = CKEDITOR.instances.iemail_message;
+				 CKEDITOR.ajaxSAVEInitial(iEditor);  
+			 
+			}
+			function updatesmsMessages(){
+				window.console && console.log("entered updatesmsMessages");
+				var iEditor = CKEDITOR.instances.sms_message;
+				 CKEDITOR.ajaxSAVEReminderSMS(iEditor);  
+			
+			}
+			function updateRsmsMessages(){
+				window.console && console.log("entered updateRsmsMessages");
+				var rEditor = CKEDITOR.instances.rsms_message;
+				 CKEDITOR.ajaxSAVESMS(rEditor);  
+				 
+			}
+			function updateIsmsMessages(){
+				window.console && console.log("entered updateIsmsMessages");
+				var iEditor = CKEDITOR.instances.isms_message;
+				 CKEDITOR.ajaxSAVEInitialSMS(iEditor);  
+			 
+			}
+			
+			function updatePassword(){
+				window.console && console.log("entered updatePassword");
+				var standbydlg = new dojox.widget.Standby({
+					  target: "changePasswordTab"
+				  });
+				document.body.appendChild(standbydlg.domNode);
+				standbydlg.show();
+			
+				
+				var pass = dijit.byId("userPassword").attr("value");
+				
+				dojo.xhrGet({
+					  url: "settings/password?p="+pass,
+					  handleAs: "json",
+					  timeout: 5000,
+					  load: function(response, ioArgs) {
+						// response is JSON result
+						window.console && console.log("response from trying updatePassword: "+response);
+						
+						if(response == ""){
+							
+						}else{
+							
+						}
+						standbydlg.hide();
+						return response;
+					  },
+			
+					  error: function(response, ioArgs) {
+						window.console && console.log("HTTP status code: " + ioArgs.xhr.status);
+						window.location.reload();
+						return response;
+					  }
+					});	 	 
+			
+			}
+			
+			function updateStorePhone(){
+				window.console && console.log("entered updateStorePhone");
+				var phone = dijit.byId("store_phone").attr("value");
+				var standbydlg = new dojox.widget.Standby({
+					  target: "changePhoneTab"
+				  });
+				document.body.appendChild(standbydlg.domNode);
+				standbydlg.show();
+				
+				dojo.xhrGet({
+					  url: "settings/storephone?p="+phone,
+					  handleAs: "json",
+					  timeout: 5000,
+					  load: function(response, ioArgs) {
+						// response is JSON result
+						window.console && console.log("response from trying updateStorePhone: "+response);
+						
+						if(response == ""){
+							
+						}else{
+							
+						}
+						standbydlg.hide();
+						return response;
+					  },
+			
+					  error: function(response, ioArgs) {
+						window.console && console.log("HTTP status code: " + ioArgs.xhr.status);
+						window.location.reload();
+						return response;
+					  }
+					});	 	 
+			}
+			function updateshopname(){
+				window.console && console.log("entered updateshopname");
+				var standbydlg = new dojox.widget.Standby({
+					  target: "shopnameForm"
+				  });
+				document.body.appendChild(standbydlg.domNode);
+				standbydlg.show();
+				
+				var shopname = dijit.byId("shopname");
+				var isavailable = true;
+				var value = dijit.byId("shopname").attr("value");
+				window.console && console.log("shopname "+shopname);
+				var deferred2 = dojo.xhrGet( {
+							url : "settings/isnamedavailable?name="+value,
+							handleAs: "json",
+							preventCache: true,
+							load : function(data, newValue) {
+									window.console && console.log("the data: "+data);
+									isavailable = data;
+									if(isavailable == false){
+										shopname.isValid();
+										dijit.hideTooltip(shopname);
+										isavailable = true;
+										return isavailable;
+									}else{
+										dijit.showTooltip(
+											shopname.get("invalidMessage"), 
+											shopname.domNode, 
+											shopname.get("tooltipPosition"),
+											!shopname.isLeftToRight()
+										);											
+										shopname.focus();
+										isavailable = false;
+										return isavailable;
+									}
+										
+								},
+							error: function(error) {
+										window.console && console.log("An unexpected error occurred: " + error);
+										window.location.reload();
+									}													
+								}	            		
+						
+						);		
+				var shopname2 = dijit.byId("shopname").attr("value");
+				
+				var nextdeferred = deferred2.then(function(res){
+					if(res == true){
+						dojo.xhrGet({
+							  url: "settings/shopname?n="+shopname2,
+							  handleAs: "json",
+							  timeout: 5000,
+							  load: function(response, ioArgs) {
+								window.console && console.log("response from trying updateshopname: "+response);
+								standbydlg.hide();
+								return response;
+							  },
+			
+							  error: function(response, ioArgs) {
+								window.console && console.log("HTTP status code: " + ioArgs.xhr.status);
+								standbydlg.hide();
+								window.location.reload();
+								return response;
+							  }
+							});	 	
+					}else{
+						alert("Shop name already exists.");
+						standbydlg.hide();
+					}
+				});
+			}
+			function updateshopurl(){
+				window.console && console.log("entered updateshopurl");
+				var standbydlg = new dojox.widget.Standby({
+					  target: "shopurlForm"
+				  });
+				document.body.appendChild(standbydlg.domNode);
+				standbydlg.show();
+				
+				var shopurl = dijit.byId("shopurl");
+				var isavailable = true;
+				var value = dijit.byId("shopurl").attr("value");
+				window.console && console.log("shopurl "+value);
+				var deferred2 = dojo.xhrGet( {
+							url : "settings/isurlavailable?url="+value,
+							handleAs: "json",
+							preventCache: true,
+							load : function(data, newValue) {
+									window.console && console.log("the data: "+data);
+									isavailable = data;
+									if(isavailable == false){
+										shopurl.isValid();
+										dijit.hideTooltip(shopurl);
+										return isavailable;
+									}else{
+										dijit.showTooltip(
+											shopurl.get("invalidMessage"), 
+											shopurl.domNode, 
+											shopurl.get("tooltipPosition"),
+											!shopurl.isLeftToRight()
+										);											
+										shopurl.focus();
+										return isavailable;
+									}
+										
+								},
+							error: function(error) {
+										window.console && console.log("An unexpected error occurred: " + error);
+										window.location.reload();
+									}													
+								}	            		
+						
+						);		
+				var shopurl2 = dijit.byId("shopurl").attr("value");
+				
+				var nextdeferred = deferred2.then(function(res){
+					if(res == true){
+						dojo.xhrGet({
+							  url: "settings/updateshopurl?n="+shopurl2,
+							  handleAs: "json",
+							  timeout: 5000,
+							  load: function(response, ioArgs) {
+								window.console && console.log("response from trying updateshopurl: "+response);
+								standbydlg.hide();
+								return response;
+							  },
+			
+							  error: function(response, ioArgs) {
+								window.console && console.log("HTTP status code: " + ioArgs.xhr.status);
+								standbydlg.hide();
+								window.location.reload();
+								return response;
+							  }
+							});	 	
+					}else{
+						alert("Shop url already exists.");
+						standbydlg.hide();
+					}
+				});
+			}
+			function updateshoptz(){
+				window.console && console.log("entered updateshoptz");
+				var standbydlg = new dojox.widget.Standby({
+					  target: "shopTZForm"
+				  });
+				document.body.appendChild(standbydlg.domNode);
+				standbydlg.show();
+				
+				var shoptz = dijit.byId("shoptz");
+				var isavailable = true;
+				var value = dijit.byId("shoptz").attr("value");
+				window.console && console.log("shoptz "+value);
+				var deferred2 = dojo.xhrGet( {
+							url : "settings/updatetz?tz="+value,
+							handleAs: "json",
+							preventCache: true,
+							load : function(data, newValue) {
+									window.console && console.log("the data: "+data);
+									successful = data;
+									if(successful == false){
+										shoptz.isValid();
+										dijit.hideTooltip(shoptz);
+										return successful;
+									}else{
+										dijit.showTooltip(
+											shoptz.get("invalidMessage"), 
+											shoptz.domNode, 
+											shoptz.get("tooltipPosition"),
+											!shoptz.isLeftToRight()
+										);											
+										shoptz.focus();
+										standbydlg.hide();
+										return successful;
+									}
+										
+								},
+							error: function(error) {
+										window.console && console.log("An unexpected error occurred: " + error);
+										window.location.reload();
+									}													
+								}	            		
+						
+						);		
+			}
+			function updateAppointment(){
+				window.console && console.log("entered updateAppointment");
+				var appt_length = dijit.byId("default_appt_length").attr("value");
+				var appt_days_notify = dijit.byId("default_appt_days_prior_notify").attr("value");
+				window.console && console.log("appt_length "+appt_length);
+				var clientdisplay = dijit.byId("clientdisplay").attr("value");
+				window.console && console.log("clientdisplay "+clientdisplay);
+				var receiveConfirmations = dijit.byId("receiveConfirmations").attr("value");
+				window.console && console.log("receiveConfirmations "+receiveConfirmations);
+				var standbydlg = new dojox.widget.Standby({
+					  target: "apptTab"
+				  });
+				document.body.appendChild(standbydlg.domNode);
+				standbydlg.show();
+				
+				dojo.xhrGet({
+					  url: "settings/appointment?al="+appt_length+"&amp;cd="+clientdisplay+"&amp;rc="+receiveConfirmations+"&amp;dn="+appt_days_notify,
+					  handleAs: "json",
+					  timeout: 5000,
+					  load: function(response, ioArgs) {
+						// response is JSON result
+						window.console && console.log("response from trying updateAppointment: "+response);
+						
+						if(response == ""){
+							
+						}else{
+							
+						}
+						standbydlg.hide();
+						return response;
+					  },
+			
+					  error: function(response, ioArgs) {
+						window.console && console.log("HTTP status code: " + ioArgs.xhr.status);
+						window.location.reload();
+						return response;
+					  }
+					});	 	 
+			}
+
+			]]>
+			</script>
+		 </div>
+		
+			</fieldset>
+		</div>
+	</div>
+</div>

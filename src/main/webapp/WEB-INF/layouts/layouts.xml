@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+
+<tiles-definitions>
+
+  <definition name="default" templateExpression="/WEB-INF/layouts/default.jspx">
+    <put-attribute name="header" expression="/WEB-INF/layouts/standard/header.jspx" />
+    <put-attribute name="menu" expression="/WEB-INF/layouts/standard/s_menu.jspx" />
+    <put-attribute name="footer" expression="/WEB-INF/layouts/standard/footer.jspx" />
+  </definition>
+
+  <definition name="report" templateExpression="/WEB-INF/layouts/report.jspx">
+  </definition>
+  
+  <definition name="public" template="/WEB-INF/layouts/default.jspx">
+    <put-attribute name="header" value="/WEB-INF/views/header.jspx" />
+    <put-attribute name="footer" value="/WEB-INF/views/footer.jspx" />
+  </definition>
+
+  <definition name="mobile" template="/WEB-INF/layouts/mobile.jspx">
+    <put-attribute name="header" value="/WEB-INF/layouts/mobile/header.jspx" />
+    <put-attribute name="footer" value="/WEB-INF/layouts/mobile/footer.jspx" />
+  </definition>
+
+  <definition name="htmleditor" template="/WEB-INF/layouts/htmleditor.jspx">
+    <put-attribute name="header" value="/WEB-INF/layouts/htmleditor/header.jspx" />
+    <put-attribute name="footer" value="/WEB-INF/layouts/htmleditor/footer.jspx" />
+  </definition>
+
+</tiles-definitions>

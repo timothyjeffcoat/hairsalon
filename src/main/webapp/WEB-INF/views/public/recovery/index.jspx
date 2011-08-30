@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" version="2.0">
+  <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+  <jsp:output omit-xml-declaration="yes"/>
+  <spring:message code="label_recovery_index" htmlEscape="false" var="title"/>
+<script type="text/javascript">
+	dojo.require("dojo.request.xhr");
+	dojo.require("dojo.json");
+
+	dojo.require("dojo.parser");
+	dojo.require("dojo.string");
+	dojo.require("dojo.html");
+
+	dojo.require("dojo.data.ItemFileReadStore");
+	dojo.require("dojo.data.ItemFileWriteStore");
+	dojo.require("dojox.grid.DataGrid");
+	dojo.require("dojox.grid.EnhancedGrid");
+	dojo.require("dijit.form.Form");
+	dojo.require("dijit.form.Button");
+	dojo.require("dijit.form.FilteringSelect");
+	dojo.require("dijit.form.ValidationTextBox");
+	dojo.require("dijit.form.TextBox");
+	dojo.require("dijit.form.DateTextBox");
+	dojo.require("dijit.form.CheckBox");
+	dojo.require("dijit.form.SimpleTextarea");
+
+	dojo.require("dijit.layout.ContentPane");
+	dojo.require("dijit.layout.TabContainer");
+
+	dojo.require("dojox.rpc.Client");
+	dojo.require("dojox.grid.enhanced.plugins.IndirectSelection");
+	
+	dojo.require("dojox/widget/Standby");
+	</script>
+  <util:panel id="title" title="Select your recovery choice">
+	Forgot password? 
+     <spring:url value="./forgotpw" var="forgotpw"/>
+      <a href="${forgotpw}">
+        Click here.
+      </a>
+      <br/>
+	Forgot username? 
+     <spring:url value="./username" var="username"/>
+      <a href="${username}">
+        Click here.
+      </a>
+      
+  </util:panel>
+</div>

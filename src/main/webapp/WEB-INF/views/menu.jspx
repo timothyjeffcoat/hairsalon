@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:menu="urn:jsptagdir:/WEB-INF/tags/menu" xmlns:sec="http://www.springframework.org/security/tags" id="menu" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <menu:menu id="_menu" z="nZaf43BjUg1iM0v70HJVEsXDopc=">
+        <sec:authorize ifAllGranted="ROLE_SUPERUSERS">
+            <menu:category id="c_addresses" z="FElDAJnmeL04vflVECBBO/Qkz/E=">
+                <menu:item id="i_addresses_new" messageCode="global_menu_new" url="/addresseses?form" z="GYuS7+YoEVg6SjC+j17pp5sxKWU="/>
+                <menu:item id="i_addresses_list" messageCode="global_menu_list" url="/addresseses?page=1&amp;size=${empty param.size ? 10 : param.size}" z="fhYaec2kWlT3pWQJdot76IEZYvw="/>
+                <menu:item id="fi_addresses_person" messageCode="global_menu_find" url="/addresseses?find=ByPerson&amp;form" z="KERigFreW2r+k8bM0aYLPmlDawg="/>
+            </menu:category>
+            <menu:category id="c_shop" z="HpZ0ZqTGldB1VlxbLaWMmPawwtk=">
+                <menu:item id="i_shop_new" messageCode="global_menu_new" url="/shops?form" z="QNE3Dj0ahvKd1mm4E9JXCQI4EIQ="/>
+                <menu:item id="i_shop_list" messageCode="global_menu_list" url="/shops?page=1&amp;size=${empty param.size ? 10 : param.size}" z="YjgGRHqCpU2wx4+/ZphlPkDTnUg="/>
+                <menu:item id="fi_shop_id" messageCode="global_menu_find" url="/shops?find=ById&amp;form" z="mkRXT1nQSYTtXEcwlIxxBve0PuA="/>
+                <menu:item id="fi_shop_shop_name" messageCode="global_menu_find" url="/shops?find=ByShop_name&amp;form" z="qRlF0O0Hq35/bIDQzQWJmV/EheY="/>
+                <menu:item id="fi_shop_shop_nameequals" messageCode="global_menu_find" url="/shops?find=ByShop_nameEquals&amp;form" z="3V0SxnPf/gCqMM1H22j2BRNjPsM="/>
+                <menu:item id="fi_shop_shop_nameisnotnull" messageCode="global_menu_find" url="/shops?find=ByShop_nameIsNotNull&amp;form" z="mVfGbZN4hUyX4dJXfdI3d/62+UU="/>
+                <menu:item id="fi_shop_shop_nameisnull" messageCode="global_menu_find" url="/shops?find=ByShop_nameIsNull&amp;form" z="mYPvcOqHS969gVzhxrAiaq4+eg4="/>
+                <menu:item id="fi_shop_shop_namelike" messageCode="global_menu_find" url="/shops?find=ByShop_nameLike&amp;form" z="k2rAx2JE65aBSrU+fDKoVCKxJX4="/>
+                <menu:item id="fi_shop_shop_namenotequals" messageCode="global_menu_find" url="/shops?find=ByShop_nameNotEquals&amp;form" z="6zOvD4CEGTkdStrURVuBDapnsAU="/>
+                <menu:item id="fi_shop_shopuuid" messageCode="global_menu_find" url="/shops?find=ByShopuuid&amp;form" z="MIdKuPFrM2XPfhYv+nRpM6JoaAs="/>
+                <menu:item id="fi_shop_shop_urlequals" messageCode="global_menu_find" url="/shops?find=ByShop_urlEquals&amp;form" z="lvrAT9RNHpRgPAbHspCde7p7Krs="/>
+            </menu:category>
+            <menu:category id="c_shopsettings" z="xbe4v23WIdjJZLgqg9eVvBAoZkM=">
+                <menu:item id="i_shopsettings_new" messageCode="global_menu_new" url="/shopsettingses?form" z="BN7JcWDkUzRYVnYz5EGpn5MLhHQ="/>
+                <menu:item id="i_shopsettings_list" messageCode="global_menu_list" url="/shopsettingses?page=1&amp;size=${empty param.size ? 10 : param.size}" z="lnAv+9dxtYCRS0NWqXQWx8aNiXo="/>
+                <menu:item id="fi_shopsettings_shop" messageCode="global_menu_find" url="/shopsettingses?find=ByShop&amp;form" z="sbHVHk7cFgY5j3uX9NTYkptoWzE="/>
+                <menu:item id="fi_shopsettings_id" messageCode="global_menu_find" url="/shopsettingses?find=ById&amp;form" z="QWmsQpD+FWjOV5MC8rcpWYQPuhw="/>
+                <menu:item id="fi_shopsettings_email_address" messageCode="global_menu_find" url="/shopsettingses?find=ByEmail_address&amp;form" z="qCMTL9IUydpHq9b5G5z9EL5Pw20="/>
+            </menu:category>
+            <menu:category id="c_staff" z="WEqNUFcSQYoW/mQULTlPjM/nWNU=">
+                <menu:item id="i_staff_new" messageCode="global_menu_new" url="/staffs?form" z="H2VWxcFT9MZjwJqkdaMj688QtI4="/>
+                <menu:item id="i_staff_list" messageCode="global_menu_list" url="/staffs?page=1&amp;size=${empty param.size ? 10 : param.size}" z="s2koFiEuMF5CA25e3iXOXnGz8CQ="/>
+                <menu:item id="fi_staff_id" messageCode="global_menu_find" url="/staffs?find=ById&amp;form" z="0chivxaFb8E4k2ZzOMAuyjevNQo="/>
+                <menu:item id="fi_staff_shop" messageCode="global_menu_find" url="/staffs?find=ByShop&amp;form" z="I6pS4QcrNGBo4B26xwRNm9o2oV4="/>
+                <menu:item id="fi_staff_shopandfirstnameequalsandlastnameequals" messageCode="global_menu_find" url="/staffs?find=ByShopAndFirstNameEqualsAndLastNameEquals&amp;form" z="2bUR89C+mKVRQl45+FThdd9IpE4="/>
+                <menu:item id="fi_staff_username" messageCode="global_menu_find" url="/staffs?find=ByUsername&amp;form" z="F7s4406Jjd0P4f1FFR44DkTMlPE="/>
+                <menu:item id="fi_staff_usernameequals" messageCode="global_menu_find" url="/staffs?find=ByUsernameEquals&amp;form" z="IJT8LJ+qIvyqe6fJTn/YLMB9s5I="/>
+            </menu:category>
+            <menu:category id="c_clientgroup" z="36pPVDI9YIrKx81D58IsGUSOqA4=">
+                <menu:item id="i_clientgroup_new" messageCode="global_menu_new" url="/clientgroups?form" z="a7CvL0m92cGViVIXiXdtsTUdhVA="/>
+                <menu:item id="i_clientgroup_list" messageCode="global_menu_list" url="/clientgroups?page=1&amp;size=${empty param.size ? 10 : param.size}" z="bOY3ZDZrb5M++j9Qr8E4Z+k/gwE="/>
+                <menu:item id="fi_clientgroup_shop" messageCode="global_menu_find" url="/clientgroups?find=ByShop&amp;form" z="2kSuDxpZgxIHcCkKs+Yj67lKqYQ="/>
+            </menu:category>
+            <menu:category id="c_clients" z="NIXGCtTBjf128VWRqEVY0smTYSo=">
+                <menu:item id="i_clients_new" messageCode="global_menu_new" url="/clientses?form" z="1uFVUg+SsdYhwojNPnpXJ1+P3fc="/>
+                <menu:item id="i_clients_list" messageCode="global_menu_list" url="/clientses?page=1&amp;size=${empty param.size ? 10 : param.size}" z="pQsGepF0dkdOlk0AVqBxg7HbOMs="/>
+                <menu:item id="fi_clients_id" messageCode="global_menu_find" url="/clientses?find=ById&amp;form" z="SmlBwT21tL/O5fcUaB9wzKiU0Vc="/>
+                <menu:item id="fi_clients_shop" messageCode="global_menu_find" url="/clientses?find=ByShop&amp;form" z="YTBp/o9EwqEV4ftTV2tys8gACdM="/>
+                <menu:item id="fi_clients_usernameequals" messageCode="global_menu_find" url="/clientses?find=ByUsernameEquals&amp;form" z="lbamM8n3Kn7Bceb9H8a0dgLI4t4="/>
+                <menu:item id="fi_clients_shopandfirstnameequalsandlastnameequals" messageCode="global_menu_find" url="/clientses?find=ByShopAndFirstNameEqualsAndLastNameEquals&amp;form" z="rs0KdEVExOLf8Jfom/xdy/BOCZc="/>
+            </menu:category>
+            <menu:category id="c_email" z="OdKbOQLS7JRJZVljWOm/EonlMPw=">
+                <menu:item id="i_email_new" messageCode="global_menu_new" url="/emails?form" z="9kwhlOd3LziCK8fO9/lkg1/LUd4="/>
+                <menu:item id="i_email_list" messageCode="global_menu_list" url="/emails?page=1&amp;size=${empty param.size ? 10 : param.size}" z="nZriADzkEHyX1WPtgN4ZE2zlMDc="/>
+            </menu:category>
+            <menu:category id="c_payments" z="RbD730Q/S0nGlwsT7AGqN//E+rY=">
+                <menu:item id="i_payments_new" messageCode="global_menu_new" url="/paymentses?form" z="Czi2zTZEhnoYzeFBCFKhB3PynyY="/>
+                <menu:item id="i_payments_list" messageCode="global_menu_list" url="/paymentses?page=1&amp;size=${empty param.size ? 10 : param.size}" z="AkXx2lGURas/+oRXLDaslfVqFg4="/>
+                <menu:item id="fi_payments_id" messageCode="global_menu_find" url="/paymentses?find=ById&amp;form" z="xP0EatgdFrTguHs5sYm4JMwfqX4="/>
+                <menu:item id="fi_payments_shopanddatecreatedbetween" messageCode="global_menu_find" url="/paymentses?find=ByShopAndDatecreatedBetween&amp;form" z="bDgro7+gIaoNrz+t7Fo7GTQy6tc="/>
+                <menu:item id="fi_payments_shopanddatecreatedbetweenandstaffequals" messageCode="global_menu_find" url="/paymentses?find=ByShopAndDatecreatedBetweenAndStaffEquals&amp;form" z="fWI2E7osN8d2M0dKVTwiDVNPnHc="/>
+            </menu:category>
+            <menu:category id="c_servicegroup" z="oQH72PwWgQI0Ssh2ykNq1o1zM8k=">
+                <menu:item id="i_servicegroup_new" messageCode="global_menu_new" url="/servicegroups?form" z="RPqwFnhyojMxNqXjjtGT2gWYKB8="/>
+                <menu:item id="i_servicegroup_list" messageCode="global_menu_list" url="/servicegroups?page=1&amp;size=${empty param.size ? 10 : param.size}" z="jpyqKsUJpkZCf2Vxb4jxqiO3A1I="/>
+                <menu:item id="fi_servicegroup_id" messageCode="global_menu_find" url="/servicegroups?find=ById&amp;form" z="0RMJPUYPL4o2VU9fenOsOINMwPU="/>
+                <menu:item id="fi_servicegroup_shop" messageCode="global_menu_find" url="/servicegroups?find=ByShop&amp;form" z="5yuvuku9y3DTKUtY4QpKB/OA95w="/>
+                <menu:item id="fi_servicegroup_services" messageCode="global_menu_find" url="/servicegroups?find=ByServices&amp;form" z="1dDpCO4lCYa4Cc54C3/EFz3nNwA="/>
+            </menu:category>
+            <menu:category id="c_baseservice" z="Hvxah3VguNbamMP1JytDKhmyWU0=">
+                <menu:item id="i_baseservice_new" messageCode="global_menu_new" url="/baseservices?form" z="ZhEaJ1z4/2cC3+aQ/aNjxAOaAng="/>
+                <menu:item id="i_baseservice_list" messageCode="global_menu_list" url="/baseservices?page=1&amp;size=${empty param.size ? 10 : param.size}" z="gKQxxGoLzD4IsopnGe2KoW1IS/0="/>
+                <menu:item id="fi_baseservice_shop" messageCode="global_menu_find" url="/baseservices?find=ByShop&amp;form" z="2/9Fch+DfFH32UElvJrxo4+SlY8="/>
+            </menu:category>
+            <menu:category id="c_shopschedule" z="NhPGqgPYpBx5xEP2Thvkf92O6yg=">
+                <menu:item id="i_shopschedule_new" messageCode="global_menu_new" url="/shopschedules?form" z="gRIMcorwkgCze9lYF2//U2kAX74="/>
+                <menu:item id="i_shopschedule_list" messageCode="global_menu_list" url="/shopschedules?page=1&amp;size=${empty param.size ? 10 : param.size}" z="X0A1vEFFdmCPfDWS2natoxZuF9Y="/>
+                <menu:item id="fi_shopschedule_id" messageCode="global_menu_find" url="/shopschedules?find=ById&amp;form" z="5GqlWz4tJB1Uk1QrOfmxhRvW+nk="/>
+                <menu:item id="fi_shopschedule_shop" messageCode="global_menu_find" url="/shopschedules?find=ByShop&amp;form" z="4iT3nqjCZ89p465kfOoNE6WW7So="/>
+            </menu:category>
+            <menu:category id="c_staffschedule" z="R3ry0nFdgwMHn6Ns+AbIxYzh9mE=">
+                <menu:item id="i_staffschedule_new" messageCode="global_menu_new" url="/staffschedules?form" z="5PtED+dlzqN6c7xmk4Wsca3uRCc="/>
+                <menu:item id="i_staffschedule_list" messageCode="global_menu_list" url="/staffschedules?page=1&amp;size=${empty param.size ? 10 : param.size}" z="IQRE3ZyeBDboNSPwLl+HxhTHi18="/>
+                <menu:item id="fi_staffschedule_id" messageCode="global_menu_find" url="/staffschedules?find=ById&amp;form" z="fPvPVoG/C+TGMwGRJ9rFula7YGQ="/>
+                <menu:item id="fi_staffschedule_shop" messageCode="global_menu_find" url="/staffschedules?find=ByShop&amp;form" z="5MZ19WcBND6COrblYFpU/mIzx2Y="/>
+            </menu:category>
+            <menu:category id="c_customservice" z="bs94YREuuX12HQgOsflQDJzx2dI=">
+                <menu:item id="i_customservice_new" messageCode="global_menu_new" url="/customservices?form" z="akJGDrNQL9ZZBfob3tUebzIwSPc="/>
+                <menu:item id="i_customservice_list" messageCode="global_menu_list" url="/customservices?page=1&amp;size=${empty param.size ? 10 : param.size}" z="BJ0r6oKLAB6fDm2AhxwH33M4uKY="/>
+                <menu:item id="fi_customservice_shopandclient" messageCode="global_menu_find" url="/customservices?find=ByShopAndClient&amp;form" z="eHSwJJv92kAG9bV/1C4BsT4Er6s="/>
+                <menu:item id="fi_customservice_shopandclientandoriginalid" messageCode="global_menu_find" url="/customservices?find=ByShopAndClientAndOriginalid&amp;form" z="la+Hd7+s4kTo5YWK16E/mj+ZYxY="/>
+                <menu:item id="fi_customservice_client" messageCode="global_menu_find" url="/customservices?find=ByClient&amp;form" z="rXx24IkGiv2/siEY6STh1C3SdJ4="/>
+                <menu:item id="fi_customservice_shop" messageCode="global_menu_find" url="/customservices?find=ByShop&amp;form" z="ll8tcgLMQl2OtHFrJukvPa+b0Vk="/>
+            </menu:category>
+            <menu:category id="c_communications" z="YnaE0ObVb6vlmjsGSsf1E8CDtsU=">
+                <menu:item id="i_communications_new" messageCode="global_menu_new" url="/communicationses?form" z="qCUiplgJqJVRYCZrN1y9l+DwdU0="/>
+                <menu:item id="i_communications_list" messageCode="global_menu_list" url="/communicationses?page=1&amp;size=${empty param.size ? 10 : param.size}" z="5rr1nhtdCnj/5R2zdIHAdj5Rxuk="/>
+                <menu:item id="fi_communications_person" messageCode="global_menu_find" url="/communicationses?find=ByPerson&amp;form" z="gbfpqCyU2lgLyameOTXA0xTb9tc="/>
+                <menu:item id="fi_communications_shop" messageCode="global_menu_find" url="/communicationses?find=ByShop&amp;form" z="EnAczptpuqgAXtrnIBWrk+HTkDI="/>
+                <menu:item id="fi_communications_communication_valueequals" messageCode="global_menu_find" url="/communicationses?find=ByCommunication_valueEquals&amp;form" z="VVpKD42ornAZHZ/0mQ1wDdha560="/>
+            </menu:category>
+            <menu:category id="c_reports" z="EKjU7oPDakGZYfpgZCs8xkOEqak=">
+                <menu:item id="i_reports_new" messageCode="global_menu_new" url="/reportses?form" z="HoZ23XdthWe/OeDaDHzWwVsZBtA="/>
+                <menu:item id="i_reports_list" messageCode="global_menu_list" url="/reportses?page=1&amp;size=${empty param.size ? 10 : param.size}" z="NPIC9Rp75TMjJV0S2+mTKL234CA="/>
+            </menu:category>
+            <menu:category id="c_appointment" z="iuGzo5gABhrfaq/MdaNriVcevDM=">
+                <menu:item id="i_appointment_new" messageCode="global_menu_new" url="/appointments?form" z="+r2NZNAsN7VnAaba+oHMSM/xYho="/>
+                <menu:item id="i_appointment_list" messageCode="global_menu_list" url="/appointments?page=1&amp;size=${empty param.size ? 10 : param.size}" z="4wRKtVuEuIgcWTeITdXaZUVwhVY="/>
+                <menu:item id="fi_appointment_shopandappointmentdateequals" messageCode="global_menu_find" url="/appointments?find=ByShopAndAppointmentDateEquals&amp;form" z="PnkZmu66llATWsBeKyKN1EW71t4="/>
+                <menu:item id="fi_appointment_shopandappointmentdatebetween" messageCode="global_menu_find" url="/appointments?find=ByShopAndAppointmentDateBetween&amp;form" z="2tazqXQ0Fsp+eoj6Qw067VAg6O0="/>
+                <menu:item id="fi_appointment_shopandcancellednot" messageCode="global_menu_find" url="/appointments?find=ByShopAndCancelledNot&amp;form" z="GIdALZCRYZJEJiFuWLukeZkUiFs="/>
+                <menu:item id="fi_appointment_shopandclient" messageCode="global_menu_find" url="/appointments?find=ByShopAndClient&amp;form" z="fHMlIpdHpVSxCWDGUgHrT2bZO0g="/>
+                <menu:item id="fi_appointment_shopandcancellednotandappointmentdatebetween" messageCode="global_menu_find" url="/appointments?find=ByShopAndCancelledNotAndAppointmentDateBetween&amp;form" z="TJ+nXG/2nyDa3j+ll4vKOtNI/Gw="/>
+                <menu:item id="fi_appointment_shopandstatusnotandappointmentdatebetween" messageCode="global_menu_find" url="/appointments?find=ByShopAndStatusNotAndAppointmentDateBetween&amp;form" z="QfasQNGfn7miTzl+77SLUpmEbq4="/>
+                <menu:item id="fi_appointment_shopandstatusnotandcancellednotandappointmentdatebetween" messageCode="global_menu_find" url="/appointments?find=ByShopAndStatusNotAndCancelledNotAndAppointmentDateBetween&amp;form" z="nWEGr6U2gGijZBTttTK/v37RgM0="/>
+                <menu:item id="fi_appointment_appointmentdatebetween" messageCode="global_menu_find" url="/appointments?find=ByAppointmentDateBetween&amp;form" z="i0h1G3tw0Y8KMP95MEEN0zPwfcg="/>
+                <menu:item id="fi_appointment_begindatetimegreaterthanandenddatetimelessthan" messageCode="global_menu_find" url="/appointments?find=ByBeginDateTimeGreaterThanAndEndDateTimeLessThan&amp;form" z="1wLrIdgEADuIvfOvkonP+Nu9fjY="/>
+                <menu:item id="fi_appointment_shopandbegindatetimegreaterthanandenddatetimelessthan" messageCode="global_menu_find" url="/appointments?find=ByShopAndBeginDateTimeGreaterThanAndEndDateTimeLessThan&amp;form" z="Z3wz+DdgizcCZKoxGYSP8nSVKMs="/>
+                <menu:item id="fi_appointment_shopandappointmentdateequalsandbegindatetimegreaterthanandenddatetimelessthan" messageCode="global_menu_find" url="/appointments?find=ByShopAndAppointmentDateEqualsAndBeginDateTimeGreaterThanAndEndDateTimeLessThan&amp;form" z="476mLHVd19QH7bV+PXk3HGq7dJo="/>
+                <menu:item id="fi_appointment_shopandappointmentdateequalsandbegindatetimegreaterthanequalsandenddatetimelessthanequals" messageCode="global_menu_find" url="/appointments?find=ByShopAndAppointmentDateEqualsAndBeginDateTimeGreaterThanEqualsAndEndDateTimeLessThanEquals&amp;form" z="JWvEIx/RGxUZbEnlz0G/A/GNsu8="/>
+                <menu:item id="fi_appointment_shopandstatusandappointmentdatebetween" messageCode="global_menu_find" url="/appointments?find=ByShopAndStatusAndAppointmentDateBetween&amp;form" z="+jIaB6At64TETIVa2khb4f5/sZY="/>
+                <menu:item id="fi_appointment_shopandstatusandappointmentdategreaterthanequals" messageCode="global_menu_find" url="/appointments?find=ByShopAndStatusAndAppointmentDateGreaterThanEquals&amp;form" z="EUMrB5KgaIU/UahpUhFYS0JmdPI="/>
+                <menu:item id="fi_appointment_shopandstatus" messageCode="global_menu_find" url="/appointments?find=ByShopAndStatus&amp;form" z="CYaGVOg86VMNKXR6hlkA2f9vmlY="/>
+                <menu:item id="fi_appointment_shopandstatusandclientnotandappointmentdatebetween" messageCode="global_menu_find" url="/appointments?find=ByShopAndStatusAndClientNotAndAppointmentDateBetween&amp;form" z="xu7ICQQekniZDbs/PvBt6pbSIS8="/>
+                <menu:item id="fi_appointment_shopandstatusandclientisnotnullandappointmentdatebetween" messageCode="global_menu_find" url="/appointments?find=ByShopAndStatusAndClientIsNotNullAndAppointmentDateBetween&amp;form" z="pVvSg7Lp7ZXN1nyAIbZ8DyiSu9g="/>
+                <menu:item id="fi_appointment_shopandstaff" messageCode="global_menu_find" url="/appointments?find=ByShopAndStaff&amp;form" z="7SKD6KmieX4GJQdBEhNfC0Kf+tk="/>
+                <menu:item id="fi_appointment_shopandstaffequals" messageCode="global_menu_find" url="/appointments?find=ByShopAndStaffEquals&amp;form" z="Dad4uT0kJcmUjcnfOk53c49iLmY="/>
+                <menu:item id="fi_appointment_shopandstatusnotandappointmentdatebetweenandstaffequals" messageCode="global_menu_find" url="/appointments?find=ByShopAndStatusNotAndAppointmentDateBetweenAndStaffEquals&amp;form" z="oBkduzuPKSA51vkFlaDK6w+64o4="/>
+                <menu:item id="fi_appointment_shopandappointmentdategreaterthanandrecur_parentequals" messageCode="global_menu_find" url="/appointments?find=ByShopAndAppointmentDateGreaterThanAndRecur_parentEquals&amp;form" z="gdRSyHlcza+3R2DnvHnrSR/ugkw="/>
+                <menu:item id="fi_appointment_shopandstatusandclientisnotnullandappointmentdatebetweenandstaffequals" messageCode="global_menu_find" url="/appointments?find=ByShopAndStatusAndClientIsNotNullAndAppointmentDateBetweenAndStaffEquals&amp;form" z="swidrArxD5ySbz9Yj3FhWpgIJpk="/>
+            </menu:category>
+            <menu:category id="c_paymentstype" z="MacFgSv1QKUwPQek5SctiSVhTok=">
+                <menu:item id="i_paymentstype_new" messageCode="global_menu_new" url="/paymentstypes?form" z="+wi2U59AldEfJHssZJrKtMduHak="/>
+                <menu:item id="i_paymentstype_list" messageCode="global_menu_list" url="/paymentstypes?page=1&amp;size=${empty param.size ? 10 : param.size}" z="M0FbBZrOsryKkwhrTxhsuaXlp44="/>
+            </menu:category>
+            <menu:category id="c_schedule" z="OVZfNuLZqPLu5Cbgn0FVuQj+lw0=">
+                <menu:item id="i_schedule_new" messageCode="global_menu_new" url="/schedules?form" z="fEbB1TLoAMHgihJiyLpD/K1mMI0="/>
+                <menu:item id="i_schedule_list" messageCode="global_menu_list" url="/schedules?page=1&amp;size=${empty param.size ? 10 : param.size}" z="a/r1d6sKwcNadI1IqZ37gsZ4WRs="/>
+            </menu:category>
+        </sec:authorize>
+        <sec:authorize ifNotGranted="ROLE_SUPERUSERS">
+            <menu:category id="c_publicschedule" z="oxy95N/2FO847LjHAG/mkx+g7bY=">
+                <menu:item id="i_publicschedule_new" messageCode="global_menu_new" url="/publicschedules?form" z="NrwrugoQqNLYXOb08G2nPWGnc6M="/>
+                <menu:item id="i_publicschedule_list" messageCode="global_menu_list" url="/publicschedules?page=1&amp;size=${empty param.size ? 10 : param.size}" z="k9PxiCZ5F/7MkGFHJHb9Jh5W++Q="/>
+            </menu:category>
+        </sec:authorize>
+        <menu:category id="c_controller" z="nj8Dm3hojIyIEyPkwE1UMDIs+K8=">
+            <menu:item id="i_controller__public_signupindex_id" messageCode="global_generic" url="/public/signup/index" z="3KqAqVcQtZ5XGOUcwElXxPYhuiI="/>
+            <menu:item id="i_controller__publicindex_id" messageCode="global_generic" url="/public/index" z="pQ1/bCC9eSkj/R1yUF3Xo1GqmUk="/>
+            <menu:item id="i_controller__resetpwindex_id" messageCode="global_generic" url="/resetpw/index" z="YZyYDT4HlEoDkrW3+zAKcQSwE+I="/>
+            <menu:item id="i_controller__forgotpwindex_id" messageCode="global_generic" url="/forgotpw/index" z="lh6/jl3g77u8B0Kt/KjowjKvfvE="/>
+            <menu:item id="i_controller__usernameindex_id" messageCode="global_generic" url="/username/index" z="uaAj6UVrwWBmG9YLaOiU2enUXjQ="/>
+            <menu:item id="i_controller__recoveryindex_id" messageCode="global_generic" url="/recovery/index" z="/tXNzp3gOrFQPTn/GBi94OekLFk="/>
+            <menu:item id="i_controller__publicshopindex_id" messageCode="global_generic" url="/publicshop/index" z="6nT3ZqKIuXLEyVo4wwEdEtReh7U="/>
+            <menu:item id="i_controller__publicshopregisterindex_id" messageCode="global_generic" url="/publicshopregister/index" z="gXYj2qdw26P0daMW38WiD7hds0U="/>
+            <menu:item id="i_controller__publicshopforgotpwindex_id" messageCode="global_generic" url="/publicshopforgotpw/index" z="vH37EiQqzPwuOWzUlu+jxzMKaa4="/>
+            <menu:item id="i_controller__publicshoprecoverusernameindex_id" messageCode="global_generic" url="/publicshoprecoverusername/index" z="zAZA8fEF4KmqIQQ5xNdCHnGt4qE="/>
+            <menu:item id="i_controller__publicshopresetpwindex_id" messageCode="global_generic" url="/publicshopresetpw/index" z="9ICTloJxca6bj8fgMihkoVuQ0Wc="/>
+            <menu:item id="i_controller__publicshoprequestappointmentindex_id" messageCode="global_generic" url="/publicshoprequestappointment/index" z="BmkpGFydBE87XhG4T4xZtJi3fCU="/>
+            <menu:item id="i_controller__auditindex_id" messageCode="global_generic" url="/audit/index" z="I4K1yWUAbb/UHF3za4vdXq+nlEg="/>
+            <menu:item id="i_controller__staffindex_id" messageCode="global_generic" url="/staff/index" z="qDFbhji6ABhuQNnm5VwYYRSlErI="/>
+            <menu:item id="i_controller__mystaff_lonestaffindex_id" messageCode="global_generic" url="/mystaff/lonestaff/index" z="+zPkunGORhPN0zHhHO/0ZjIrrN0="/>
+        </menu:category>
+    </menu:menu>
+</div>

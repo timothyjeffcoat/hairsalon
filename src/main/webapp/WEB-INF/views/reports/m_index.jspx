@@ -1,0 +1,166 @@
+<div id="header" xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:formd="http://www.springframework.org/tags/form"
+	xmlns:spring="http://www.springframework.org/tags" version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-40547165-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByID('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<script type="text/javascript">		
+function filterByStaffToReport(url){
+	
+	var staff = $("#staffgeneral");
+	
+	if(staff.attr('value') !=''){
+		window.location = url+'?staff='+staff.attr('value');
+	}else{
+		window.location = url;	
+	}
+	
+}
+</script>	
+			<spring:url value="paymentsShop/todaysactivereport" var="todaysactive" />
+			<spring:url value="paymentsShop/thisweeksactivereport" var="thisweekactive" />
+			<spring:url value="paymentsShop/lastweeksactivereport" var="lastweekactive" />
+			<spring:url value="paymentsShop/thismonthsactivereport" var="thismonthactive" />
+			<spring:url value="paymentsShop/lastmonthsactivereport" var="lastmonthactive" />
+			<spring:url value="paymentsShop/thisyearactivereport" var="thisyearactive" />
+			<spring:url value="paymentsShop/lastyearactivereport" var="lastyearactive" />
+			<spring:url value="paymentsShop/daterange/" var="selecteddaterange" />
+			<spring:url value="paymentsShop/mthisweekreport/" var="thisweekurl" />
+			<spring:url value="paymentsShop/mtodaysreport/" var="thistodayurl" />
+			<spring:url value="paymentsShop/mlastweekreport/" var="lastweekurl" />
+			<spring:url value="paymentsShop/mthismonthreport/" var="thismonthurl" />
+			<spring:url value="paymentsShop/mlastmonthreport/" var="lastmonthurl" />
+			<spring:url value="paymentsShop/mthisyearreport/" var="thisyearurl" />
+			<spring:url value="paymentsShop/mlastyearreport/" var="lastyearurl" />
+			<spring:url value="paymentsShop/mclientlistreport/" var="clientlist" />
+
+	<div data-role="page" class="type-home">
+		<span>
+			<spring:url value="/resources/j_spring_security_logout" var="logout"/>
+			<div class="ui-grid-a">
+				<div class="ui-block-a">
+				  <a href="${logout}">
+					<spring:message code="security_logout"/>
+				  </a>
+				</div>
+				<div class="ui-block-b">
+				<a href="/" data-icon="back" data-rel="back">Back</a>
+				</div>
+			</div><!-- /grid-a -->
+		</span>
+
+		<div data-role="header">
+			<h1>Scheduleem.com</h1>
+		</div>
+		<div data-role="header" data-theme="f">
+			<spring:url value="/" var="home"/>
+			<a rel="external" href="${home}" data-icon="home" data-iconpos="notext" data-direction="reverse" class="ui-btn-right jqm-home">Schedule</a>
+		</div><!-- /header -->
+		
+		<div data-role="content">	
+			<div data-role="content">	
+				<div class="content-primary">
+					<h2>Reports</h2>
+					<p>At a glance here.</p>
+			<table id="at_a_glance">
+					<tbody>
+					<tr>
+						<td>Today's Date</td><td style="text-align:right;">${todaysdate}</td>
+					</tr>
+					<tr>
+						<td># of Clients</td><td style="text-align:right;">${numberofclients}</td>
+					</tr>
+					<tr>
+						<td># of appointments today</td><td style="text-align:right;">${activeappointments}</td>
+					</tr>
+					<tr>
+						<td>No shows today</td><td style="text-align:right;">${noshowstoday}</td>
+					</tr>
+					<tr>
+						<td>Checked out today</td><td style="text-align:right;">${chedkedoutappointments}</td>
+					</tr>
+					<tr>
+						<td>Number of todays payments</td><td style="text-align:right;">${todayspayments}</td>
+					</tr>
+					<fmt:setLocale value="en_US"/>
+					<tr>
+						<td>Today's payments</td><td style="text-align:right;"><fmt:formatNumber type="currency" currencySymbol="$"  value="${todaysdollars}" /></td>
+					</tr>
+				</tbody>
+			</table>
+					
+				</div><!--/content-primary -->		
+				<div class="content-secondary">
+			<p>
+				<label class="dijit dijitReset dijitInlineTable dijitLeft " for="_staffgeneral">Select staff then click on report: </label>
+				<formd:select dojoType="dijit.form.FilteringSelect" path="staffs" name="staffgeneral" id="staffgeneral" items="${staffs}"  value="${staffs}" fetchProperties="{sort:[{attribute:'description', ascending:true}]}" required="false"/>
+			</p>
+					
+					<div data-role="collapsible" data-collapsed="false" data-theme="b" data-content-theme="d">
+							<h3>View reports</h3>
+							<ul data-role="listview"  data-theme="c" data-dividertheme="d">
+								<li data-role="list-divider">Overview</li>
+					<c:if test="${fn:length(staffs) &gt; 1}">
+				 				<li><a rel="external" href="#" onclick="filterByStaffToReport('${thistodayurl}');">Today's</a></li>
+				 				<li><a rel="external" href="#" onclick="filterByStaffToReport('${thisweekurl}');">This Week</a></li>
+				 				<li><a rel="external" href="#" onclick="filterByStaffToReport('${lastweekurl}');">Last Week</a></li>
+				 				<li><a rel="external" href="#" onclick="filterByStaffToReport('${thismonthurl}');">This Month</a></li>
+				 				<li><a rel="external" href="#" onclick="filterByStaffToReport('${lastmonthurl}');">Last Month</a></li>
+				 				<li><a rel="external" href="#" onclick="filterByStaffToReport('${thisyearurl}');">This Year</a></li>
+				 				<li><a rel="external" href="#" onclick="filterByStaffToReport('${lastyearurl}');">Last Year</a></li>
+					</c:if>
+					<c:if test="${fn:length(staffs) == 1}">
+				 				<li><a rel="external" href="${thistodayurl}" >Today's</a></li>
+				 				<li><a rel="external" href="${thisweekurl}" >This Week</a></li>
+				 				<li><a rel="external" href="${lastweekurl}" >Last Week</a></li>
+				 				<li><a rel="external" href="${thismonthurl}" >This Month</a></li>
+				 				<li><a rel="external" href="${lastmonthurl}" >Last Month</a></li>
+				 				<li><a rel="external" href="${thisyearurl}" >This Year</a></li>
+				 				<li><a rel="external" href="${lastyearurl}" >Last Year</a></li>		
+				 	</c:if>								
+							</ul>
+							<ul data-role="listview"  data-theme="c" data-dividertheme="d">
+								<li data-role="list-divider">Overview of active or not checked out</li>
+							<c:if test="${fn:length(staffs) &gt; 1}">
+										<li><a rel="external" href="#" onclick="filterByStaffToReport('${todaysactive}');">Today</a></li>
+						 				<li><a rel="external" href="#" onclick="filterByStaffToReport('${thisweekactive}');">This Week</a></li>
+						 				<li><a rel="external" href="#" onclick="filterByStaffToReport('${lastweekactive}');">Last Week</a></li>
+						 				<li><a rel="external" href="#" onclick="filterByStaffToReport('${thismonthactive}');">This Month</a></li>
+						 				<li><a rel="external" href="#" onclick="filterByStaffToReport('${lastmonthactive}');">Last Month</a></li>
+						 				<li><a rel="external" href="#" onclick="filterByStaffToReport('${thisyearactive}');">This Year</a></li>
+						 				<li><a rel="external" href="#" onclick="filterByStaffToReport('${lastyearactive}');">Last Year</a></li>
+							</c:if>
+							<c:if test="${fn:length(staffs) == 1}">
+										<li><a rel="external" href="${todaysactive}" >Today</a></li>
+						 				<li><a rel="external" href="${thisweekactive}" >This Week</a></li>
+						 				<li><a rel="external" href="${lastweekactive}" >Last Week</a></li>
+						 				<li><a rel="external" href="${thismonthactive}" >This Month</a></li>
+						 				<li><a rel="external" href="${lastmonthactive}" >Last Month</a></li>
+						 				<li><a rel="external" href="${thisyearactive}" >This Year</a></li>
+						 				<li><a rel="external" href="${lastyearactive}" >Last Year</a></li>
+							</c:if>
+							</ul>
+					</div>
+				</div>			
+			</div>
+		</div>
+		<div data-role="footer" class="footer-docs" data-theme="c">
+				<p>  copy 2013 Scheduleem.com</p>
+		</div>	
+	</div>
+</div>

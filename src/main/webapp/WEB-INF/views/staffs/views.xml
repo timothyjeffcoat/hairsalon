@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+    <definition extends="default" name="staffs/list">
+        <put-attribute name="body" value="/WEB-INF/views/staffs/list.jspx"/>
+    </definition>
+<definition extends="default" name="staffs/show">
+        <put-attribute name="body" value="/WEB-INF/views/staffs/show.jspx"/>
+    </definition>
+<definition extends="default" name="staffs/create">
+        <put-attribute name="body" value="/WEB-INF/views/staffs/create.jspx"/>
+    </definition>
+<definition extends="default" name="staffs/update">
+        <put-attribute name="body" value="/WEB-INF/views/staffs/update.jspx"/>
+    </definition>
+<definition extends="default" name="staffs/findStaffsByShop">
+        <put-attribute name="body" value="/WEB-INF/views/staffs/findStaffsByShop.jspx"/>
+    </definition>
+<definition extends="default" name="staffs/findStaffsById">
+        <put-attribute name="body" value="/WEB-INF/views/staffs/findStaffsById.jspx"/>
+    </definition>
+<definition extends="default" name="staffs/findStaffsByShopAndFirstNameEqualsAndLastNameEquals">
+        <put-attribute name="body" value="/WEB-INF/views/staffs/findStaffsByShopAndFirstNameEqualsAndLastNameEquals.jspx"/>
+    </definition>
+<definition extends="default" name="staffs/findStaffsByUsername">
+        <put-attribute name="body" value="/WEB-INF/views/staffs/findStaffsByUsername.jspx"/>
+    </definition>
+<definition extends="default" name="staffs/findStaffsByUsernameEquals">
+        <put-attribute name="body" value="/WEB-INF/views/staffs/findStaffsByUsernameEquals.jspx"/>
+    </definition>
+</tiles-definitions>

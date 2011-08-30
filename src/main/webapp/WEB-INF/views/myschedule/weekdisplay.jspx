@@ -1,0 +1,137 @@
+<div id="header" xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" 
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags" version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-40547165-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+	<div data-role="page" class="type-home">
+		<span>
+			<spring:url value="/resources/j_spring_security_logout" var="logout"/>
+			<div class="ui-grid-a">
+				<div class="ui-block-a">
+				  <a href="${logout}">
+					<spring:message code="security_logout"/>
+				  </a>
+				</div>
+				<div class="ui-block-b">
+				<spring:url value="/myschedule/mmyschedule" var="back"/>
+				<a rel="external" href="${back}" data-icon="back" data-rel="back">Back</a>
+				</div>
+			</div><!-- /grid-a -->
+		</span>
+		<div data-role="header">
+			<h1>Scheduleem.com</h1>
+		</div>
+		<div data-role="header" data-theme="f">
+			<spring:url value="/" var="home"/>
+			<a rel="external" href="${home}" data-icon="home" data-iconpos="notext" data-direction="reverse" class="ui-btn-right jqm-home">Schedule</a>
+		</div><!-- /header -->
+			<script type="text/javascript">			
+				function getBaseURL() {
+					console.log("entered getBaseURL");
+					var url = location.href;  // entire url including querystring - also: window.location.href;
+					console.log(""+url);
+					var firstslash = url.indexOf('/', 14);
+					var baseURL = url.substring(0, firstslash);
+					console.log("baseurl: " +baseURL);
+					var restofurl = url.substring(firstslash+1, url.length);
+					console.log("restofurl: " +restofurl);
+					var secondslash = restofurl.indexOf('/');
+					var webapp =  restofurl.substring(0, secondslash);
+					console.log("webapp: " +webapp);
+					if (baseURL.indexOf('http://localhost') != -1) {
+						// Base Url for localhost
+						var url = location.href;  // window.location.href;
+						var pathname = location.pathname;  // window.location.pathname;
+						var index1 = url.indexOf(pathname);
+						var index2 = url.indexOf("/", index1 + 1);
+						var baseLocalUrl = url.substr(0, index2);
+						console.log("exiting getBaseURL");
+						return baseLocalUrl + "/"+ webapp;
+					}
+					else {
+						// Root Url for domain name
+						console.log("exiting getBaseURL");
+						return baseURL + "/" + webapp;
+					}
+
+				}
+				function changepage(page){
+					console.log("entered changepage");
+					console.log("baseurl: "+getBaseURL());
+					window.location.href = getBaseURL() + page;
+				}			
+				$(document).ready(function() {
+					$("#next").click(function(){
+						changepage('/myschedule/m-week-display?goto=${nextweek}');
+					});
+					$("#prev").click(function(){
+						changepage('/myschedule/m-week-display?goto=${previousweek}');
+					});
+					$("#defandroid").change(function(){
+						changepage('/myschedule/m-week-display?goto='+$("#defandroid").val());
+					});
+					
+				});				
+			</script>		
+		<div data-role="content">	
+			<div class="content-primary">
+				<h2>Week's agenda ${begindate} to ${enddate}</h2>
+				<input id="next" type="button" value="Next Week ${nextweek}" />
+				<input id="prev" type="button" value="Previous Week ${previousweek}" /> 
+				<input name="defandroid" type="date" data-role="datebox" id="defandroid" value="Jump to Week" data-options="{'mode': 'datebox', 'dateFormat': 'YYYY-mm-dd'}"/>
+			</div><!--/content-primary -->		
+			<div class="div-widget">		
+				<spring:url value="/myschedule/m-create-appt" var="mcreateappt"/>
+				<a rel="external" data-role="button" onClick="location.href='${mcreateappt}'"  >Create appointment</a>		
+			</div>
+			
+			<div class="content-secondary">
+				<div data-role="collapsible" data-collapsed="false" data-theme="b" data-content-theme="d">
+					<h3>Agenda</h3>
+					<p>List of apppointments for week. Select one to edit</p>
+					<ul data-role="listview"  data-theme="c" data-dividertheme="d">
+						<c:forEach var="appointment" items="${todaysagenda}">
+							<fmt:formatNumber var="formattedValue1" value='${appointment.service1cost}' currencySymbol='$' type='currency'/>
+							<fmt:formatDate var="formattedDate" pattern="yyyy-MM-dd " value='${appointment.appointmentDate}'/>
+							<fmt:formatDate var="dayofweek" pattern="E " value='${appointment.appointmentDate}'/>
+							<fmt:formatDate var="begintime" pattern="hh:mm a " value='${appointment.beginDateTimeDate}'/>
+							<fmt:formatDate var="endtime" pattern="hh:mm a" value='${appointment.endDateTimeDate}'/>
+							<c:if test="${formattedDate != previousdate}">
+								<li data-role="list-divider">${formattedDate} ${dayofweek}</li>
+							</c:if>
+							<c:choose>
+								<c:when test='${appointment.client != null}'>
+									<li><a rel="external" href="../myschedule/m-edit-appt?id=${appointment.id}"><c:out value="STATUS: ${appointment.status} ${appointment.client.firstName} ${appointment.client.lastName} Begin ${begintime} End ${endtime} ${appointment.servicename1} ${formattedValue1}"/></a></li>
+								</c:when>
+								<c:otherwise>
+									<li><a rel="external" href="../myschedule/m-edit-appt?id=${appointment.id}"><c:out value="STATUS: ${appointment.status} PERSONAL TIME ${appointment.personallabel} Begin ${begintime} End ${endtime}"/></a></li>
+								</c:otherwise>
+							</c:choose>
+							<fmt:formatDate var="prevformattedDate" pattern="yyyy-MM-dd " value='${appointment.appointmentDate}'/>
+							<c:set var="previousdate" value="${prevformattedDate}"/>									
+						</c:forEach>
+					</ul>
+				</div>
+			</div>			
+		</div>
+		<div data-role="footer" class="footer-docs" data-theme="c">
+				<p>  copy 2013 Scheduleem.com</p>
+		</div>	
+	</div>
+</div>

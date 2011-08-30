@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE HTML SYSTEM "about:legacy-compat">
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+<meta content="IE=8" http-equiv="X-UA-Compatible" />
+<link href="/shop/resources/styles/standard.css" media="screen"
+	type="text/css" rel="stylesheet"></link>
+<link href="/shop/resources/dijit/themes/tundra/tundra.css"
+	type="text/css" rel="stylesheet"></link>
+<link href="/shop/resources/images/favicon.ico" rel="SHORTCUT ICON" />
+<script type="text/javascript">
+	var djConfig = {
+		parseOnLoad : false,
+		isDebug : false,
+		locale : 'en_us'
+	};
+</script>
+<script type="text/javascript" src="/shop/resources/dojo/dojo.js"></script>
+<script type="text/javascript" src="/shop/resources/spring/Spring.js"></script>
+<script type="text/javascript"
+	src="/shop/resources/spring/Spring-Dojo.js"></script>
+<script type="text/javascript" language="JavaScript">
+	dojo.require("dojo.parser");
+</script>
+<title>Welcome to Scheduleem shop</title>
+</head>
+<body class="tundra spring">
+	<div id="wrapper">
+		<div version="2.0" id="header">
+			<a title="Home" name="Home" href="/shop/"><img
+				src="/shop/resources/images/banner_75b.png" />
+			</a>
+		</div>
+		<div version="2.0" id="menu">
+			<ul id="_s_menu">
+				<li id="c_shop"><h2>Shop</h2>
+					<ul>
+						<li id="i_shop_schedule"><a title="Schedule"
+							href="/shop/myschedule">Schedule</a>
+						</li>
+						<li id="i_shop_clients"><a title="Clients"
+							href="/shop/clients">Clients</a>
+						</li>
+						<li id="i_shop_services"><a title="Services"
+							href="/shop/services">Services</a>
+						</li>
+						<li id="i_shop_settings"><a title="Settings"
+							href="/shop/settings">Settings</a>
+						</li>
+						<li id="i_shop_reports"><a title="Reports"
+							href="/shop/reports">Reports</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+		<div id="main">
+			<div version="2.0">
+				<script type="text/javascript">
+					dojo.require('dijit.TitlePane');
+				</script>
+				<div id="_title_pl_com_scheduleem_shop_domain_Shop_id">
+					<script type="text/javascript">
+						Spring
+								.addDecoration(new Spring.ElementDecoration(
+										{
+											elementId : '_title_pl_com_scheduleem_shop_domain_Shop_id',
+											widgetType : 'dijit.TitlePane',
+											widgetAttrs : {
+												title : 'List all Shops',
+												open : true
+											}
+										}));
+					</script>
+					<table>
+						<thead>
+							<tr>
+								<th>Shop_name</th>
+								<th>Shopuuid</th>
+								<th />
+								<th />
+								<th />
+							</tr>
+						</thead>
+						<tr>
+							<td>Shop For k</td>
+							<td>knaylor</td>
+							<td><a title="Show Shop" alt="Show Shop"
+								href="/shop/shops/1"><img title="Show Shop"
+									src="/shop/resources/images/show.png" class="image"
+									alt="Show Shop" />
+							</a>
+							</td>
+							<td><a title="Update Shop" alt="Update Shop"
+								href="/shop/shops/1?form"><img title="Update Shop"
+									src="/shop/resources/images/update.png" class="image"
+									alt="Update Shop" />
+							</a>
+							</td>
+							<td><form id="command" action="/shop/shops/1" method="post">
+									<input type="hidden" name="_method" value="DELETE" /><input
+										onclick="return confirm('Are you sure want to delete this item?');"
+										value="Delete Shop" type="image" title="Delete Shop"
+										src="/shop/resources/images/delete.png" class="image"
+										alt="Delete Shop" />
+								</form>
+							</td>
+						</tr>
+						<tr class="footer">
+							<td colspan="10"><span class="new"><a
+									href="/shop//shops?form"><img title="Create new Shop"
+										src="/shop/resources/images/add.png" alt="Create new Shop" />
+								</a>
+							</span></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div version="2.0" id="footer">
+				<span><a href="/shop/">Home</a>
+				</span> | <span><a href="/shop/resources/j_spring_security_logout">Logout</a>
+				</span><span id="language"> | Language: <a
+					title="Switch language to English" href="?lang=en"><img
+						alt="Switch language to English"
+						src="/shop/resources/images/en.png" class="flag" />
+				</a> <a title="Switch language to Deutsch" href="?lang=de"><img
+						alt="Switch language to Deutsch"
+						src="/shop/resources/images/de.png" class="flag" />
+				</a> <a title="Switch language to Espanol" href="?lang=es"><img
+						alt="Switch language to Espanol"
+						src="/shop/resources/images/es.png" class="flag" />
+				</a> <a title="Switch language to Italiano" href="?lang=it"><img
+						alt="Switch language to Italiano"
+						src="/shop/resources/images/it.png" class="flag" />
+				</a> <a title="Switch language to Dutch" href="?lang=nl"><img
+						alt="Switch language to Dutch" src="/shop/resources/images/nl.png"
+						class="flag" />
+				</a> <a title="Switch language to Svenska" href="?lang=sv"><img
+						alt="Switch language to Svenska"
+						src="/shop/resources/images/sv.png" class="flag" />
+				</a> </span><span> | Theme: <a title="standard" href="?theme=standard">standard</a>
+					| <a title="alt" href="?theme=alt">alt</a> | <a title="rebel"
+					href="?theme=rebel">rebel</a>
+				</span><span><a title="Sponsored by {0}"
+					href="http://springsource.com"><img
+						src="/shop/resources/images/springsource-logo.png"
+						alt="Sponsored by {0}" align="right" />
+				</a>
+				</span>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

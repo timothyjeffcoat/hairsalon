@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_com_yourhairsalon_booking_domain_CustomService" object="${customservice}" path="/customservices" z="c5pVZ1w+9IH8AMDBKht5M7VP6ac=">
+        <field:display field="sendReminders" id="s_com_yourhairsalon_booking_domain_CustomService_sendReminders" object="${customservice}" z="eKkufvrus5ujshI+BMiIuqy/Adg="/>
+        <field:display field="description" id="s_com_yourhairsalon_booking_domain_CustomService_description" object="${customservice}" z="4ySGX8aIpiim7E7BQieZoGZU8nQ="/>
+        <field:display field="processtime" id="s_com_yourhairsalon_booking_domain_CustomService_processtime" object="${customservice}" z="zGfY/zPDzdWoGZ/Plg6apf4oDqE="/>
+        <field:display field="finishtime" id="s_com_yourhairsalon_booking_domain_CustomService_finishtime" object="${customservice}" z="iuNCB3rmUln3mYYXRYQxJUqzUKw="/>
+        <field:display field="minsetup" id="s_com_yourhairsalon_booking_domain_CustomService_minsetup" object="${customservice}" z="fW4B5wlPS2syLSp7T2mlJYYy/r0="/>
+        <field:display field="cost" id="s_com_yourhairsalon_booking_domain_CustomService_cost" object="${customservice}" z="ORjhJE9E0twz9pSwvgfrd0CaLp4="/>
+        <field:display field="amounttime" id="s_com_yourhairsalon_booking_domain_CustomService_amounttime" object="${customservice}" z="SKh+8bthkQ/oQ4FV+sYbcWZBv6s="/>
+        <field:display field="length_time" id="s_com_yourhairsalon_booking_domain_CustomService_length_time" object="${customservice}" z="3XabtaCJtNA07MRc8COX13No2ts="/>
+        <field:display field="info_note" id="s_com_yourhairsalon_booking_domain_CustomService_info_note" object="${customservice}" z="Dk0jlyNfAGkRj4FWPXtbMoQci2Q="/>
+        <field:display field="shop" id="s_com_yourhairsalon_booking_domain_CustomService_shop" object="${customservice}" z="ybSdHREG1BWItlcIvYNCOpHCN50="/>
+        <field:display field="client" id="s_com_yourhairsalon_booking_domain_CustomService_client" object="${customservice}" z="5vWua38J+jjzcuHE/dgoSKjWW60="/>
+        <field:display field="originalid" id="s_com_yourhairsalon_booking_domain_CustomService_originalid" object="${customservice}" z="4bOkuvGpqvCvoFOktP4yRrTFPx4="/>
+    </page:show>
+</div>

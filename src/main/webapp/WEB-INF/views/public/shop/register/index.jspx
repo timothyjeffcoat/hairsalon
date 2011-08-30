@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" version="2.0">
+  <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+  <jsp:output omit-xml-declaration="yes"/>
+  <spring:message code="label_public_signup_index" htmlEscape="false" var="title"/>
+  	<script type="text/javascript">
+	dojo.require("dojo.request.xhr");
+	dojo.require("dojo.json");
+
+	dojo.require("dojo.parser");
+	dojo.require("dojo.string");
+	dojo.require("dojo.html");
+
+	dojo.require("dojo.data.ItemFileReadStore");
+	dojo.require("dojo.data.ItemFileWriteStore");
+	dojo.require("dojox.grid.DataGrid");
+	dojo.require("dojox.grid.EnhancedGrid");
+	dojo.require("dijit.form.Form");
+	dojo.require("dijit.form.Button");
+	dojo.require("dijit.form.FilteringSelect");
+	dojo.require("dijit.form.ValidationTextBox");
+	dojo.require("dijit.form.TextBox");
+	dojo.require("dijit.form.DateTextBox");
+	dojo.require("dijit.form.CheckBox");
+	dojo.require("dijit.form.SimpleTextarea");
+
+	dojo.require("dijit.layout.ContentPane");
+	dojo.require("dijit.layout.TabContainer");
+
+	dojo.require("dojox.rpc.Client");
+	dojo.require("dojox.grid.enhanced.plugins.IndirectSelection");
+	
+	dojo.require("dojox/widget/Standby");
+	</script>
+	
+  <util:panel id="title" title="Register">
+  		Welcome to the ${shopname} secure sign up form. Fill out the form below to begin your free account. All information is securely encrypted before being sent to our servers.
+		<div id="register_view" name="register_view" dojoType="dijit.form.Form" jsId="register_view" action="" method="POST"  modelAttribute="register" >
+			<script type="dojo/method" data-dojo-event="onSubmit">
+				if (this.validate()) {
+					console.log('Form is valid, submitting!');
+				} else {
+					console.log('Form contains invalid.  Please complete all required fields.');
+					return false;
+				}
+				try{
+					var hidval = dijit.byId('test').value;
+					if(hidval != 'reggae'){
+						return false;
+					}
+					console.log('test '+ hidval+ ' here');
+				}catch(err){
+					console.log(err);
+				}
+				return true;
+
+			</script>		
+			<table>
+				<tr>
+					<td>
+							<br />
+							<br />
+							<div>
+								<label for="_firstname">First name:</label>
+							</div>
+							
+							<div>
+								<div dojoType="dijit.form.ValidationTextBox" id="firstname" name="firstname" required="true" />
+							</div>
+							<br />
+							<br />
+							<div>
+								<label for="_lastname">Last name:</label>
+							</div>
+							
+							<div>
+								<div dojoType="dijit.form.ValidationTextBox" id="lastname" name="lastname"
+									required="true" />
+							</div>
+							<br />
+							<br />
+							<div>
+								<label for="_username">Username:</label>
+							</div>
+							<div>
+								<div dojoType="dijit.form.ValidationTextBox" id="username" name="username"
+									required="true" invalidMessage="user name already exists. please select another one."/>
+							</div>
+							<br />
+							<br />
+							<div>
+								<label for="_email">E-mail:</label>
+							</div>
+							<div>
+								<div dojoType="dijit.form.ValidationTextBox" id="email" name="email" regExp="[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}"   promptMessage="Enter email address." invalidMessage="Invalid Email Address."  trim="true" required="true" />
+							</div>
+							<br/>
+							<br />
+							<div>
+							<label>Password:</label>
+							 <input type="password" dojoType="dijit.form.ValidationTextBox" required="true" name="password" intermediateChanges="false" id="password" invalidMessage="Please type a password"/>
+							 <br />
+							 <br />
+							 <label>Re-Enter Password:</label>
+							 <input type="password" dojoType="dijit.form.ValidationTextBox" required="true" name="userPassword" intermediateChanges="false" id="userPassword" constraints="{'other': 'password'}" validator="confirmPassword" invalidMessage="This password doesn't match your first password"/>
+							 
+							</div>
+							<br />
+							
+							<br />
+							<div class="submit">
+								<script type="text/javascript">Spring.addDecoration(new Spring.ValidateAllDecoration({elementId:'proceed', event:'onclick'}));</script>
+								<spring:message code="button_submit" var="submit_label" />
+								<input id="proceed" type="submit" value="Register"/>
+							</div>
+							<br />
+							<br />
+							
+					</td>
+				</tr>
+			</table>
+			<div id="mystery" dojoType="dijit.form.ValidationTextBox" style="display: none"/>
+		</div>
+	</util:panel>
+	<script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"> tst</script>
+	<script type="text/javascript">
+				 dojo.addOnLoad(function(){
+					 	
+						dojo.parser.parse();
+						addFieldTo("register_view");
+						var username = dijit.byId("username");
+						var isavailable = true;
+						username.validator = function(value, constraints){
+							
+							dojo.xhrGet( {
+								url : "register/isnamedavailable?name="+value,
+								handleAs: "json",
+								preventCache: true,
+								load : function(data, newValue) {
+										console.log("the data: "+data);
+										isavailable = data;
+										if(isavailable == true){
+										}else{
+											dijit.showTooltip(
+												username.get("invalidMessage"), 
+												username.domNode, 
+												username.get("tooltipPosition"),
+												!username.isLeftToRight()
+											);											
+											username.focus();
+										}
+											
+									},
+								error: function(error) {
+											console.log("An unexpected error occurred: " + error);
+										}													
+							});		
+							
+							return isavailable;
+						}	
+						
+						dojo.connect(username, "onChange", function(){
+								console.log("changed "+username.value);
+								console.log("the value of username.validator: "+username.validator);
+							});						
+					 });
+				 <![CDATA[
+					function addFieldTo(form_id) { 
+						try{
+							var placeholder = dojo.create("div", {id: "test2"});
+							var myTextBox = new dijit.form.TextBox({
+								id: "test",
+								name: "test",
+								value: "reggae" /* no or empty value! */,
+								placeHolder: "type in your name"
+							}, "test2");
+							
+						
+							var le=dijit.byId('mystery');
+							dojo.place(placeholder, le.domNode, 'last');
+							dojo.place(myTextBox.domNode, placeholder, 'before');
+							var hidval = dijit.byId('test');
+							console.log('test '+ hidval+ ' here');
+							// hide a widget with id="test"
+							dojo.style(myTextBox.domNode, "display", "none");						
+						}catch(err){
+							console.log(err);
+						}
+					}				          
+					function confirmPassword(value, constraints)
+					{
+						var isValid = false;
+						if(constraints && constraints.other)  {
+							var otherInput =  dijit.byId(constraints.other);
+							if(otherInput) {
+									var otherValue = otherInput.value;
+									console.log("%s == %s ?", value, otherValue);
+									isValid = (value == otherValue);
+							}
+						}
+						return isValid;
+					}
+					function onsubmit()
+					{
+						var p1 = dijit.byId('password').value;
+						var p2 = dijit.byId('userPassword').value;
+						return p1 == p2;
+					}
+				 ]]>
+	 </script>		 
+			 
+</div>
