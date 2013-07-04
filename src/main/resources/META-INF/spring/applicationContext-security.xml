@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+    xmlns:beans="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+	<!-- HTTP security configurations -->
+	
+	<!-- second security realm. used by clients to login to shop to request an appointment 
+	<http auto-config="false" use-expressions="true" pattern="/public/**">
+    	<form-login login-processing-url="/resources/j_spring_security_check" default-target-url="/" login-page="/public/shop/login" 
+    	authentication-failure-url="/public/shop/login?login_error=t"
+    	authentication-success-handler-ref="successHandler" 
+    	always-use-default-target="false"/>
+        <logout  invalidate-session="true" logout-url="/static/j_spring_security_logout" success-handler-ref="myLogoutSuccessHandler"/>
+       <intercept-url pattern="/public/signup/*" access="permitAll" />
+       <intercept-url pattern="/public/signup/msignup/msignup-submit" access="permitAll" />
+       <intercept-url pattern="/public/signup/*.*" access="permitAll" />
+       <intercept-url pattern="/public/forgotpw/*" access="permitAll" />
+       <intercept-url pattern="/public/forgotpw/*.*" access="permitAll" />
+       <intercept-url pattern="/public/resetpw/*" access="permitAll" />
+       <intercept-url pattern="/public/resetpw/*.*" access="permitAll" />
+       <intercept-url pattern="/public/username/*" access="permitAll" />
+       <intercept-url pattern="/public/username/*.*" access="permitAll" />
+       <intercept-url pattern="/public/recovery/*" access="permitAll" />
+       <intercept-url pattern="/public/recovery/*.*" access="permitAll" />
+	   <intercept-url pattern="/public/shop/\b\w*\b*" access="permitAll" />
+	   <intercept-url pattern="/public/shop/\b\w*\b/*" access="permitAll" />
+       <intercept-url pattern="/public/shop/\b\w*\b/index" access="permitAll" />
+	   <intercept-url pattern="/public/shop/\b\w*\b/m_index" access="permitAll" />
+	   <intercept-url pattern="/public/shop/\b\w*\b/login" access="permitAll" />
+	   <intercept-url pattern="/public/shop/\b\w*\b/m_login" access="permitAll" />
+       <intercept-url pattern="/public/shop/\b\w*\b/forgotpw/*" access="permitAll" />
+       <intercept-url pattern="/public/shop/\b\w*\b/forgotpw/*.*" access="permitAll" />
+	   <intercept-url pattern="/public/shop/\b\w*\b/register/*" access="permitAll" />
+	   <intercept-url pattern="/public/shop/\b\w*\b/register/*.*" access="permitAll" />
+	   <intercept-url pattern="/public/shop/\b\w*\b/resetpw/*" access="permitAll" />
+	   <intercept-url pattern="/public/shop/\b\w*\b/resetpw/*.*" access="permitAll" />
+	   <intercept-url pattern="/public/shop/\b\w*\b/username/*" access="permitAll" />
+	   <intercept-url pattern="/public/shop/\b\w*\b/username/*.*" access="permitAll" />
+       <intercept-url pattern="/public/shop/\b\w*\b/requestappointment/*" access="isAuthenticated()" />
+       <intercept-url pattern="/public/shop/\b\w*\b/requestappointment/*.*" access="isAuthenticated()" />
+       <intercept-url pattern="/public/shop/index" access="isAuthenticated()" />
+	   <intercept-url pattern="/public/shop*" access="isAuthenticated()" />
+	   <intercept-url pattern="/public/shop/*" access="isAuthenticated()" />        	
+	</http>	
+	--> 
+	
+	<!-- first security realm.  Used by shop owners to login -->
+    <http auto-config="false" use-expressions="true" path-type="regex"  >
+    	<form-login login-processing-url="/resources/j_spring_security_check" default-target-url="/" login-page="/login" 
+    	authentication-failure-url="/login?login_error=t"
+    	authentication-success-handler-ref="successHandler" 
+    	always-use-default-target="false"/>
+        <logout  invalidate-session="true" logout-url="/static/j_spring_security_logout" success-handler-ref="myLogoutSuccessHandler"/>
+<!--         <logout logout-success-url="/" success-handler-ref="myLogoutSuccessHandler"/> -->
+        
+        <!-- Configure these elements to secure URIs in your application -->
+        <!-- <intercept-url pattern="/doChangeLocale*" access="permitAll"/> -->
+        <intercept-url pattern="/choices/*" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/member/*" access="isAuthenticated()" />
+       <intercept-url pattern="/resources/.*$" access="permitAll" />
+       <intercept-url pattern="/web-resources/dojo-1.9.3" access="permitAll" />
+       <intercept-url pattern="/web-resources/dojo-1.9.3.*$" access="permitAll" />
+       <intercept-url pattern="/web-resources/dojo-1.9.3/*" access="permitAll" />
+       <intercept-url pattern="/web-resources/dojo-1.9.3/.*$" access="permitAll" />
+       <intercept-url pattern="/web-resources/roostrap/.*$" access="permitAll" />
+       <intercept-url pattern="/web-resources/jquery-1.7-min/.*$" access="permitAll" />
+       <intercept-url pattern="/web-resources/jquerymobile/.*$" access="permitAll" />
+		<intercept-url pattern="/styles" access="permitAll" />
+       <intercept-url pattern="/styles.*$" access="permitAll" />
+       <intercept-url pattern="/styles/*" access="permitAll" />
+       <intercept-url pattern="/styles/.*$" access="permitAll" />
+       <intercept-url pattern="/images/.*$" access="permitAll"/>
+       <intercept-url pattern="/static/.*$" access="permitAll" />
+       <intercept-url pattern="/login" access="permitAll" />
+       <intercept-url pattern="/login.*$" access="permitAll" />
+       <intercept-url pattern="/login/*" access="permitAll" />
+       <intercept-url pattern="/login/.*$" access="permitAll" />
+       <intercept-url pattern="/public/signup/*" access="permitAll" />
+       <intercept-url pattern="/public/signup/msignup/msignup-submit" access="permitAll" />
+       <intercept-url pattern="/public/signup/*.*" access="permitAll" />
+       <intercept-url pattern="/public/forgotpw/*" access="permitAll" />
+       <intercept-url pattern="/public/forgotpw/*.*" access="permitAll" />
+       <intercept-url pattern="/public/resetpw/*" access="permitAll" />
+       <intercept-url pattern="/public/resetpw/*.*" access="permitAll" />
+       <intercept-url pattern="/public/username/*" access="permitAll" />
+       <intercept-url pattern="/public/username/*.*" access="permitAll" />
+       <intercept-url pattern="/public/recovery/*" access="permitAll" />
+       <intercept-url pattern="/public/recovery/*.*" access="permitAll" />
+	   <intercept-url pattern="/public/shop/\b\w*\b*" access="permitAll" />
+	   <intercept-url pattern="/public/shop/\b\w*\b/*" access="permitAll" />
+       <intercept-url pattern="/public/shop/\b\w*\b/index" access="permitAll" />
+	   <intercept-url pattern="/public/shop/\b\w*\b/m_index" access="permitAll" />
+	   <intercept-url pattern="/public/shop/\b\w*\b/login" access="permitAll" />
+	   <intercept-url pattern="/public/shop/\b\w*\b/m_login" access="permitAll" />
+       <intercept-url pattern="/public/shop/\b\w*\b/forgotpw/*" access="permitAll" />
+       <intercept-url pattern="/public/shop/\b\w*\b/forgotpw/*.*" access="permitAll" />
+	   <intercept-url pattern="/public/shop/\b\w*\b/register/*" access="permitAll" />
+	   <intercept-url pattern="/public/shop/\b\w*\b/register/*.*" access="permitAll" />
+	   <intercept-url pattern="/public/shop/\b\w*\b/resetpw/*" access="permitAll" />
+	   <intercept-url pattern="/public/shop/\b\w*\b/resetpw/*.*" access="permitAll" />
+	   <intercept-url pattern="/public/shop/\b\w*\b/username/*" access="permitAll" />
+	   <intercept-url pattern="/public/shop/\b\w*\b/username/*.*" access="permitAll" />
+       <intercept-url pattern="/public/shop/\b\w*\b/requestappointment/*" access="isAuthenticated()" />
+       <intercept-url pattern="/public/shop/\b\w*\b/requestappointment/*.*" access="isAuthenticated()" />
+       <intercept-url pattern="/public/shop/index" access="isAuthenticated()" />
+	   <intercept-url pattern="/public/shop*" access="isAuthenticated()" />
+	   <intercept-url pattern="/public/shop/*" access="isAuthenticated()" />
+<!-- 		<intercept-url pattern="/doChangeLocale.*$" access="permitAll" /> -->	   
+       <intercept-url pattern="/**" access="isAuthenticated()" />
+       
+	   
+		<!-- following is to make sure only 5 login per session. Also, to make sure login creates a new session and migrates
+		attributes to new session. This prevents session hijacking.
+        <session-management session-fixation-protection="migrateSession" invalid-session-url="/login">
+            <concurrency-control max-sessions="5"
+                error-if-maximum-exceeded="true" />
+        </session-management>       
+          -->
+    </http>
+    <beans:bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <beans:property name="basenames">
+            <beans:value>messages</beans:value>
+        </beans:property>
+    </beans:bean>    
+    <beans:bean id="myLogoutSuccessHandler" class="com.scheduleem.shop.authenticaton.MyLogoutSuccessHandler" />
+	<beans:bean id="successHandler" class="com.scheduleem.shop.authenticaton.LoginSuccessHandler">
+		<beans:property name="defaultTargetUrl" value="/index" />
+	</beans:bean>
+    
+    <beans:bean id="servletApiFilter" class="org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter" />
+<!--
+	local testing:
+	<ldap-server id="ldapServer" url="ldap://192.168.2.3:389/" />
+		
+	eapps: 
+ 	scheduleem
+		<ldap-server id="ldapServer" url="ldap://127.0.0.1:389/" manager-dn="cn=Manager,dc=scheduleem,dc=com" manager-password="server1.scheduleem.com" />
+   
+   <authentication-manager>
+    <ldap-authentication-provider server-ref="ldapServer"  
+       user-search-base="ou=users,dc=scheduleem,dc=com" 
+       user-search-filter="(uid={0})"
+       group-role-attribute="cn"
+       group-search-base="ou=Groups,dc=scheduleem,dc=com"
+       group-search-filter="(uniqueMember={0})"
+       role-prefix="ROLE_" />
+   </authentication-manager>
+   
+   <ldap-server ldif="classpath:scheduleem.ldif"  root="ou=users,dc=scheduleem,dc=com"/>
+
+	local on iMac
+   <ldap-server id="ldapServer" url="ldap://127.0.0.1:1389/" manager-dn="cn=Directory Manager" manager-password="server1.scheduleem.com" />
+   
+   
+   eapps
+   <ldap-server id="ldapServer" url="ldap://127.0.0.1:389/" manager-dn="cn=Manager,dc=scheduleem,dc=com" manager-password="server1.scheduleem.com" />
+-->   
+      
+	<ldap-server id="ldapServer" url="${ldap.url}" manager-dn="${ldap.userDn}" manager-password="${ldap.password}" />
+   <authentication-manager>
+    <ldap-authentication-provider server-ref="ldapServer"  
+       user-search-base="ou=users,dc=scheduleem,dc=com" 
+       user-search-filter="(uid:caseExactMatch:={0})"
+       group-role-attribute="cn"
+       group-search-base="ou=Groups,dc=scheduleem,dc=com"
+       group-search-filter="(uniqueMember={0})"
+       role-prefix="ROLE_"
+       user-details-class="inetOrgPerson" 
+       />
+   </authentication-manager>
+
+
+</beans:beans>
